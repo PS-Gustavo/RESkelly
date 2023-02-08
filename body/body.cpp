@@ -13,7 +13,7 @@ int main() {
     Skelly::SkellyApi* skelly_api = skelly_dl._dl_class_creators["skelly"]();
     
     skelly_api->print();
-
+    skelly_api->print();
     // fetch standalone function and validate
     if (!DLApi::dl_fetch(skelly_dl, "test")) {
         return -1;
