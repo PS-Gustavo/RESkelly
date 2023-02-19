@@ -1,35 +1,28 @@
 #include "skelly.h"
 
 
-namespace Skelly {
+namespace skelly {
     
     Application::Application() {}
     Application::~Application() {}
 
-    // void Application::run() {
-    //     while (true) {}
-    // }
-
     void Application::print() {
-        printf("Reached xxxxxx Skelly!\n");
+        printf("Reached Skelly - lvl1!\n");
     }
 
-    void test() {
-        printf("This is THE test\n");
+    void Application::run() {
+        char i = 32;
+        while (i < 62) {
+            i++;
+            std::cout << i << "\n";
+        }
     }
 
-
-    // Application interface factory functions
-
-    SkellyApi* create()
-    {
-        return new Application;
+    extern "C" {
+    std::unique_ptr<Application> make_Application() {
+        return std::make_unique<Application>();
     }
-
-    void destroy(SkellyApi* instance) {
-        delete instance;
-    };
-
+    }
 }
 
 // int main () {
