@@ -1,6 +1,5 @@
 #include "skelly.h"
 
-
 namespace skelly {
     
     Application::Application() {}
@@ -11,10 +10,11 @@ namespace skelly {
     }
 
     void Application::run() {
-        char i = 32;
-        while (i < 62) {
+        char i = 64;
+        while (true) {
             i++;
             std::cout << i << "\n";
+            if (!(i%90)) i = 64;
         }
     }
 
@@ -24,7 +24,3 @@ namespace skelly {
     }
     }
 }
-
-// int main () {
-//     return 0;
-// }

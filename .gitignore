@@ -31,4 +31,9 @@
 *.out
 *.app
 
+# Windows Files
+bin/
+bin-int/
+
+.vs/
 output/

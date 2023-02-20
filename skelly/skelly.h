@@ -7,7 +7,7 @@
 
 namespace skelly {
 
-    class Application {
+    class SKELLY_API Application {
         public:
             Application();
             virtual ~Application();

@@ -17,9 +17,6 @@
 
 using dynlib_error = std::runtime_error;
 
-// function pointer for the skelly application - to be updated
-typedef void (*funcPtr)();
-
 namespace dl_api {
 
     class dllink {
