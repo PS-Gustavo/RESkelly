@@ -1,22 +1,19 @@
 #include <defs.h>
 #include <stdio.h>
-#include <skellyapi.h>
+#include <memory>
+#include <iostream>
 
-namespace Skelly {
+namespace skelly {
 
-    class Application : public SkellyApi {
-    public:
-        Application();
-        virtual ~Application();
-
-        // void run();
-        void print();
+    class SKELLY_API Application {
+        public:
+            Application();
+            virtual ~Application();
+            virtual void run();
+            virtual void print();
     };
 
-    extern "C" void test();
-
-    // Application interface factory functions
-
-    extern "C" SkellyApi* create();
-    extern "C" void destroy(SkellyApi* instance);
+    extern "C" {
+    std::unique_ptr<Application> make_Application();
+    }
 }
