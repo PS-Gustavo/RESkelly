@@ -1,0 +1,3 @@
+[submodule "skelly/vendors/spdlog"]
+	path = skelly/vendors/spdlog
+	url = https://github.com/gabime/spdlog

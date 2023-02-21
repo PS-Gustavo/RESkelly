@@ -10,12 +10,18 @@ namespace skelly {
     }
 
     void Application::run() {
+        
+        skelly::logger::init();
+
         char i = 64;
-        while (true) {
+        while (i!=90) {
             i++;
             std::cout << i << "\n";
-            if (!(i%90)) i = 64;
+            if (!(i%91)) i = 64;
         }
+
+        SKELLY_LOG_ERROR("Error! i={0} delly", i);
+        
     }
 
     extern "C" {
