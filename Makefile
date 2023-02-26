@@ -70,3 +70,12 @@ clean:
 #	Clean all outputs and logs
 clean_all:
 	rm -rf output/*
+
+manual:
+	g++ -Wall -g -fPIC -Iskelly/ -Iskelly/utils/logger/ -Iskelly/vendors/spdlog/include/ -c -o output/skelly.o skelly/skelly.cpp
+	g++ -Wall -g -shared -o output/skelly.so output/skelly.o
+	g++ -Wall -g -Iskelly/ -Iskelly/utils/logger/ -Iskelly/vendors/spdlog/include/ -c -o output/logger.o skelly/utils/logger/logger.cpp
+	g++ -Wall -g -Ibody/utils/dlapi/ -c -o output/dlapi.o body/utils/dlapi/dlapi.cpp
+	g++ -Wall -g -Iskelly/ -Iskelly/utils/logger/ -Iskelly/vendors/spdlog/include/ -Ibody/utils/dlapi/ -Ibody/utils/skellyloader/ -c -o output/skellyloader.o body/utils/skellyloader/skellyloader.cpp
+	g++ -Wall -g  -Iskelly/vendors/spdlog/include/  -Iskelly/  -Iskelly/utils/logger/  -Ibody/utils/dlapi/  -Ibody/utils/skellyloader/  -Ibody/ -c -o output/body.o body/body.cpp
+	g++ -Wall -g -rdynamic -o output/executable  output/skelly.so  output/logger.o  output/dlapi.o output/skellyloader.o output/body.o -ldl

@@ -20,7 +20,7 @@ namespace skelly {
             if (!(i%91)) i = 64;
         }
 
-        SKELLY_LOG_ERROR("Error! i={0} delly", i);
+        SKELLY_LOG_WARN("CHEESIUM");
         
     }
 
