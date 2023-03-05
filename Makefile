@@ -79,3 +79,6 @@ manual:
 	g++ -Wall -g -Iskelly/ -Iskelly/utils/logger/ -Iskelly/vendors/spdlog/include/ -Ibody/utils/dlapi/ -Ibody/utils/skellyloader/ -c -o output/skellyloader.o body/utils/skellyloader/skellyloader.cpp
 	g++ -Wall -g  -Iskelly/vendors/spdlog/include/  -Iskelly/  -Iskelly/utils/logger/  -Ibody/utils/dlapi/  -Ibody/utils/skellyloader/  -Ibody/ -c -o output/body.o body/body.cpp
 	g++ -Wall -g -rdynamic -o output/executable  output/skelly.so  output/logger.o  output/dlapi.o output/skellyloader.o output/body.o -ldl
+
+cmake:
+	cmake -S .
