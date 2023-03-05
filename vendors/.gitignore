@@ -1,0 +1,3 @@
+# Ignore everything in this directory besides this file. Libs already covered in root .gitmodules
+*
+!.gitignore
