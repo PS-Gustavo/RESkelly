@@ -4,12 +4,13 @@ if(${CMAKE_VERSION} VERSION_LESS 3.1)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 
-project(Skelly 
+project(RESkelly
             VERSION 0.1
             DESCRIPTION "Rendering Engine Skelly - Modular and barebones solution for modern visual applications."
             LANGUAGES CXX
 )
 
+# Skelly libraries
 add_library(
     skelly_dyn SHARED 
         skelly/skelly.cpp
@@ -21,7 +22,7 @@ target_include_directories(
     skelly_dyn PUBLIC
         skelly/
         skelly/utils/logger/
-        skelly/vendors/spdlog/include/
+        vendors/spdlog/include/
 )
 set_property(
     TARGET skelly_dyn 
@@ -37,39 +38,14 @@ target_include_directories(
     _s_logger PUBLIC
         skelly/
         skelly/utils/logger/
-        skelly/vendors/spdlog/include
+        vendors/spdlog/include
 )
 
-add_library(
-    _b_dlapi STATIC
-        body/utils/dlapi/dlapi.cpp
-        body/utils/dlapi/dlapi.h
-)
-target_include_directories(
-    _b_dlapi PUBLIC
-        body/utils/dlapi/
-)
+# Reads available projects
+file(STRINGS project.list PROJECT_LIST)
 
-add_library(
-    _b_skellyloader STATIC
-        body/utils/skellyloader/skellyloader.cpp
-        body/utils/skellyloader/skellyloader.h
-)
-target_include_directories(
-    _b_skellyloader PUBLIC
-        skelly/
-        skelly/utils/logger/
-        skelly/vendors/spdlog/include/
-        body/utils/dlapi/
-        body/utils/skellyloader/
-)
-
-add_executable(initial body/body.cpp body/body.h)
-target_include_directories(
-    initial PUBLIC
-        body/
-)
-
-target_link_libraries(
-    initial PUBLIC skelly_dyn _s_logger _b_dlapi _b_skellyloader
-)
+# For each project, create structures using the project-specific CMakeLists file
+while(PROJECT_LIST)
+    list(POP_FRONT PROJECT_LIST PROJECT)
+    include(${PROJECT}/CMakeLists.txt)
+endwhile()
