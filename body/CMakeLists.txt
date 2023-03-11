@@ -1,35 +1,60 @@
-message("Reading Body Project libraries.")
+set(ENV{PROJECT_NAME} body)
+set(PROJECT_PATH $ENV{ROOT_PATH}/$ENV{PROJECT_NAME})
+
+message("Reading $ENV{PROJECT_NAME} Project libraries.")
+
+project($ENV{PROJECT_NAME}
+            VERSION 0.1
+            DESCRIPTION "Template Body Application using RES - Rendering Engine Skelly."
+            LANGUAGES CXX
+)
 
 add_library(
-    _b_dlapi STATIC
-        body/utils/dlapi/dlapi.cpp
-        body/utils/dlapi/dlapi.h
+    _$ENV{PROJECT_NAME}_dlapi STATIC
+        ${PROJECT_PATH}/utils/dlapi/dlapi.cpp
+        ${PROJECT_PATH}/utils/dlapi/dlapi.h
 )
 target_include_directories(
-    _b_dlapi PUBLIC
-        body/utils/dlapi/
+    _$ENV{PROJECT_NAME}_dlapi PUBLIC
+        ${PROJECT_PATH}/utils/dlapi/
 )
 
 add_library(
-    _b_skellyloader STATIC
-        body/utils/skellyloader/skellyloader.cpp
-        body/utils/skellyloader/skellyloader.h
+    _$ENV{PROJECT_NAME}_skellyloader STATIC
+        ${PROJECT_PATH}/utils/skellyloader/skellyloader.cpp
+        ${PROJECT_PATH}/utils/skellyloader/skellyloader.h
 )
 target_include_directories(
-    _b_skellyloader PUBLIC
-        skelly/
-        skelly/utils/logger/
-        vendors/spdlog/include/
-        body/utils/dlapi/
-        body/utils/skellyloader/
+    _$ENV{PROJECT_NAME}_skellyloader PUBLIC
+        $ENV{ROOT_PATH}/skelly/
+        $ENV{ROOT_PATH}/skelly/utils/logger/
+        $ENV{ROOT_PATH}/vendors/spdlog/include/
+        ${PROJECT_PATH}/utils/dlapi/
+        ${PROJECT_PATH}/utils/skellyloader/
 )
 
-add_executable(initial body/body.cpp body/body.h)
+add_library($ENV{PROJECT_NAME}_skelly_dyn SHARED IMPORTED)
+set_target_properties(
+    $ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
+        IMPORTED_LOCATION $ENV{OUTPUT_PATH}/libskelly_dyn.so
+)
+
+add_library($ENV{PROJECT_NAME}_s_logger STATIC IMPORTED)
+set_target_properties(
+    $ENV{PROJECT_NAME}_s_logger PROPERTIES
+        IMPORTED_LOCATION $ENV{OUTPUT_PATH}/lib_s_logger.a
+)
+
+add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp ${PROJECT_PATH}/body.h)
 target_include_directories(
-    initial PUBLIC
-        body/
+    $ENV{PROJECT_NAME}_exec PUBLIC
+        ${PROJECT_PATH}/
 )
 
 target_link_libraries(
-    initial PUBLIC skelly_dyn _s_logger _b_dlapi _b_skellyloader
+    $ENV{PROJECT_NAME}_exec PUBLIC 
+        $ENV{PROJECT_NAME}_skelly_dyn 
+        $ENV{PROJECT_NAME}_s_logger 
+        _$ENV{PROJECT_NAME}_dlapi 
+        _$ENV{PROJECT_NAME}_skellyloader
 )

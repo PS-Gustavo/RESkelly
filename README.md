@@ -4,31 +4,36 @@ Rendering Engine Skelly - A barebones and modular graphics engine solution for d
 
 ## Introduction
 
-RESkelly, or Skelly for short, uses mainly C++ and C to provide a very basic solution for rendering panels, objects and other features into an application, called the body.
+RESkelly, or Skelly for short, uses mainly C++ and C to provide a very basic solution for rendering panels, objects and other features into applications, called the bodies.
 
-The body is able to call upon different plugins of Skelly to implement different functionalities to the application.
+Each body is able to call upon different plugins of Skelly to implement different functionalities to the application.
 
-Currently, the only supported OS are linux-based systems. Windows support is planned in future stages.
+Currently, the only supported OS are linux-based systems. Windows and MacOS support is planned in future stages.
 
 ## Installation and Setup
 
 This project requires a C/C++ compiler in order to build and link the code. GCC has been used as the main compiler for development.
-Makefiles are also used to automate building, linking and running the project. It can be installed in Linux through the following command:
+CMake and Makefiles are also used to automate building, linking and running the project. Those can be installed in Linux through the following command:
 
 ```sh
-sudo apt-install Makefile
+sudo apt install gcc
+sudo apt install Makefile
+sudo apt install cmake
 ```
 
-After cloning the repository, building and running can be done through calling the following Make recipes in the project root folder:
+After cloning the repository, generate CMake outputs and run the appropriate project files within the output/ folder:
 
 ```sh
-# Builds the project
-make
-# Runs the resulting build
-make run
-# Builds and then runs the output
-make brun 
+# Creates the cmake structure for all projects
+cmake -S . -O output/
+# Builds and links all projects
+cd output/; make
+# Run the linked executable
+./body/body_exec
+
 ```
+
+It is possible to have multiple, independent body projects by using the same template basis (obtained in the cloning process) and adding the project to the project.list file in root folder. We advise maintaining the main body template for sanity purposes and adding your own application to the list.
 
 ## Development
 

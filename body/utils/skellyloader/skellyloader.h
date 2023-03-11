@@ -2,6 +2,8 @@
 
 #include <dlapi.h>
 #include <skelly.h>
+#include <iostream>
+#include <string>
 #include <memory>
 
 namespace skelly_loader {
@@ -10,7 +12,6 @@ namespace skelly_loader {
     public:
         using application_t = std::unique_ptr<skelly::Application> (*)();
         const application_t make_Application;
-
         skellyloader();
     };
 }
