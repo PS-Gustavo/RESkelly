@@ -30,7 +30,6 @@ make structure
 cd output/; make
 # Run the linked executable
 ./body/body_exec
-
 ```
 
 It is possible to have multiple, independent body projects by using the same template basis (obtained in the cloning process) and adding the project to the project.list file in root folder. We advise maintaining the main body template for sanity purposes and adding your own application to the list.
@@ -40,6 +39,8 @@ The creation of multiple projects is automated via the Makefile in the root fold
 ```sh
 make project NAME=<YOUR_PROJECT_NAME>
 ```
+
+It is possible to have multiple, independent body projects by using the same template basis (obtained in the cloning process) and adding the project to the project.list file in root folder. We advise maintaining the main body template for sanity purposes and adding your own application to the list.
 
 ## Development
 
