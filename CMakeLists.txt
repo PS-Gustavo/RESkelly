@@ -10,36 +10,14 @@ project(RESkelly
             LANGUAGES CXX
 )
 
-# Skelly libraries
-add_library(
-    skelly_dyn SHARED 
-        skelly/skelly.cpp
-        skelly/skelly.h
-        skelly/utils/logger/logger.cpp
-        skelly/utils/logger/logger.h
-)
-target_include_directories(
-    skelly_dyn PUBLIC
-        skelly/
-        skelly/utils/logger/
-        vendors/spdlog/include/
-)
-set_property(
-    TARGET skelly_dyn 
-    PROPERTY POSITION_INDEPENDENT_CODE ON
-)
+# Instantiate project variables
+set(ENV{ROOT_PATH} $ENV{PWD})
+set(ENV{OUTPUT_PATH} ${CMAKE_CURRENT_BINARY_DIR})
+set(VENDOR_PATH $ENV{PWD}/vendors)
+set(SKELLY_PATH $ENV{ROOT_PATH}/skelly)
 
-add_library(
-    _s_logger STATIC
-        skelly/utils/logger/logger.cpp
-        skelly/utils/logger/logger.h
-)
-target_include_directories(
-    _s_logger PUBLIC
-        skelly/
-        skelly/utils/logger/
-        vendors/spdlog/include
-)
+message("Importing Skelly libraries")
+include($ENV{ROOT_PATH}/skelly/CMakeLists.txt OPTIONAL RESULT_VARIABLE SKELLY_INCLUDED)
 
 # Reads available projects
 file(STRINGS project.list PROJECT_LIST)
@@ -47,5 +25,5 @@ file(STRINGS project.list PROJECT_LIST)
 # For each project, create structures using the project-specific CMakeLists file
 while(PROJECT_LIST)
     list(POP_FRONT PROJECT_LIST PROJECT)
-    include(${PROJECT}/CMakeLists.txt)
+    add_subdirectory(${PROJECT})
 endwhile()
