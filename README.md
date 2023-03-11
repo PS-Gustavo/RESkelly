@@ -25,7 +25,7 @@ After cloning the repository, generate CMake outputs and run the appropriate pro
 
 ```sh
 # Creates the cmake structure for all projects
-cmake -S . -O output/
+make structure
 # Builds and links all projects
 cd output/; make
 # Run the linked executable
@@ -35,9 +35,15 @@ cd output/; make
 
 It is possible to have multiple, independent body projects by using the same template basis (obtained in the cloning process) and adding the project to the project.list file in root folder. We advise maintaining the main body template for sanity purposes and adding your own application to the list.
 
+The creation of multiple projects is automated via the Makefile in the root folder:
+
+```sh
+make project NAME=<YOUR_PROJECT_NAME>
+```
+
 ## Development
 
-The project is currently at its early stages, and thus several implementations are still undergoing planning:
+The project is currently at its early stages, and thus several functionalities are undergoing planning, development and integration:
 
  - Logging and Debugging
  - Initial entry state
@@ -47,3 +53,5 @@ The project is currently at its early stages, and thus several implementations a
 ### Style Guide
 
 This project is heavily guided by the CppCoreGuidelines convention of rules for modern C++.
+
+This project uses absolute pathing for system build files via the CMake application.
