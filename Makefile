@@ -5,3 +5,7 @@ project:
 
 structure:
 	cmake -S . -O output/
+
+help:
+	echo "make project NAME=<PROJECT_NAME> : creates new project"
+	echo "make structure : creates cmake build structure"
