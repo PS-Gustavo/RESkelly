@@ -36,4 +36,5 @@ bin/
 bin-int/
 
 .vs/
+.vscode/
 output/

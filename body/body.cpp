@@ -4,9 +4,9 @@ int main() {
 
     try
     {
-        skelly_loader::skellyloader sl;
+        sl::SkellyLoader sl;
 
-        auto app = sl.make_Application();
+        auto app = sl.makeApplication();
 
         app->run();
     }

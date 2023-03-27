@@ -1,21 +1,21 @@
 #include <dlapi.h>
 
-namespace dl_api {
+namespace dlapi {
 
-    dllink::dllink(const char* filename) : handle(dlopen(filename, RTLD_NOW | RTLD_LOCAL)) {
-        if(handle == nullptr) throw dynlib_error(std::string(dlerror()));
+    DLLink::DLLink(const char* filename) : m_handle(dlopen(filename, RTLD_NOW | RTLD_LOCAL)) {
+        if(m_handle == nullptr) throw dynlib_error(std::string(dlerror()));
     }
 
-    dllink::dllink(dllink&& o) : handle(std::exchange(o.handle, nullptr)) {}
+    DLLink::DLLink(DLLink&& o) : m_handle(std::exchange(o.m_handle, nullptr)) {}
 
-    dllink& dllink::operator=(dllink&& o) {
-        if(handle) dlclose(handle);
-        handle = std::exchange(o.handle, nullptr);
+    DLLink& DLLink::operator=(DLLink&& o) {
+        if(m_handle) dlclose(m_handle);
+        m_handle = std::exchange(o.m_handle, nullptr);
         return *this;
     }
 
-    dllink::~dllink() {
-        if (handle) dlclose(handle);
+    DLLink::~DLLink() {
+        if (m_handle) dlclose(m_handle);
     }
 
 }
