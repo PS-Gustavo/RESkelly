@@ -6,14 +6,14 @@ namespace skelly {
 
     class SKELLY_API MouseMovedEvent : public Event {
         public:
-            MouseMovedEvent(float x, float y) : m_mouseX(x), m_mouseY(y) {}
+            MouseMovedEvent(float x, float y) : _m_mouseX(x), _m_mouseY(y) {}
 
-            inline float getX() const { return m_mouseX; }
-            inline float getY() const { return m_mouseY; }
+            inline float getX() const { return _m_mouseX; }
+            inline float getY() const { return _m_mouseY; }
 
             std::string toString() const override {
                 std::stringstream ss;
-                ss << "MouseMovedEvent: " << m_mouseX << ", " << m_mouseY;
+                ss << "MouseMovedEvent: " << _m_mouseX << ", " << _m_mouseY;
                 return ss.str();
             }
 
@@ -21,16 +21,16 @@ namespace skelly {
             EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
         
         private:
-            float m_mouseX, m_mouseY;
+            float _m_mouseX, _m_mouseY;
     };
 
     class SKELLY_API MouseScrolledEvent : public Event {
         public:
             MouseScrolledEvent(float x_offset, float y_offset) :
-                m_xOffset(x_offset), m_yOffset(y_offset) {}
+                _m_xOffset(x_offset), _m_yOffset(y_offset) {}
 
-            inline float getXOffset() const { return m_xOffset; }
-            inline float getYOffset() const { return m_yOffset; }
+            inline float getXOffset() const { return _m_xOffset; }
+            inline float getYOffset() const { return _m_yOffset; }
 
             std::string toString() const override {
                 std::stringstream ss;
@@ -42,7 +42,7 @@ namespace skelly {
             EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
         private:
-            float m_xOffset, m_yOffset;
+            float _m_xOffset, _m_yOffset;
     };
 
     class SKELLY_API MouseButtonEvent : public Event {

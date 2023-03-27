@@ -25,11 +25,11 @@ namespace dlapi {
             template<typename T>
             T load(const char* symbol) const {
                 static_cast<void>(dlerror());
-                return reinterpret_cast<T>(dlsym(m_handle,symbol));
+                return reinterpret_cast<T>(dlsym(_m_handle,symbol));
             }
 
         private:
-            void* m_handle;
+            void* _m_handle;
     };
 }
 

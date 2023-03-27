@@ -20,20 +20,20 @@ namespace skelly {
     class SKELLY_API KeyPressedEvent : public KeyEvent {
         public:
             KeyPressedEvent(int key_code, int repeat_count)
-                : KeyEvent(key_code), m_repeatCount(repeat_count) {} 
+                : KeyEvent(key_code), _m_repeatCount(repeat_count) {} 
 
-            inline int GetRepeatCount() const { return m_repeatCount; }
+            inline int GetRepeatCount() const { return _m_repeatCount; }
 
             std::string toString() const override {
                 std::stringstream ss;
-                ss << "KeyPressedEvent: " << m_keyCode << " (" << m_repeatCount << " repeats)";
+                ss << "KeyPressedEvent: " << m_keyCode << " (" << _m_repeatCount << " repeats)";
                 return ss.str();
             }
 
             EVENT_CLASS_TYPE(KeyPressed)
 
         private:
-            int m_repeatCount;
+            int _m_repeatCount;
     };
 
     class SKELLY_API KeyReleasedEvent : public KeyEvent {
