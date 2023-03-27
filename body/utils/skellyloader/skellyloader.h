@@ -6,12 +6,12 @@
 #include <string>
 #include <memory>
 
-namespace skelly_loader {
+namespace sl {
 
-    class skellyloader : public dl_api::dllink {
+    class SkellyLoader : public dlapi::DLLink {
     public:
         using application_t = std::unique_ptr<skelly::Application> (*)();
-        const application_t make_Application;
-        skellyloader();
+        const application_t makeApplication;
+        SkellyLoader();
     };
 }
