@@ -1,9 +1,10 @@
+
 #include <defs.h>
 #include <logger.h>
-#include <stdio.h>
-#include <memory>
-#include <iostream>
 
+#include <windowEvent.h>
+#include <mouseEvent.h>
+#include <keyEvent.h>
 
 namespace skelly {
 
@@ -16,6 +17,6 @@ namespace skelly {
     };
 
     extern "C" {
-    std::unique_ptr<Application> make_Application();
+    std::unique_ptr<Application> makeApplication();
     }
 }
