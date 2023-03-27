@@ -18,6 +18,7 @@ target_include_directories(
     _$ENV{PROJECT_NAME}_dlapi PUBLIC
         ${PROJECT_PATH}/utils/dlapi/
 )
+target_compile_options(_$ENV{PROJECT_NAME}_dlapi PRIVATE "-include" "${pch_file}")
 
 add_library(
     _$ENV{PROJECT_NAME}_skellyloader STATIC
@@ -28,10 +29,12 @@ target_include_directories(
     _$ENV{PROJECT_NAME}_skellyloader PUBLIC
         $ENV{ROOT_PATH}/skelly/
         $ENV{ROOT_PATH}/skelly/utils/logger/
+        $ENV{ROOT_PATH}/skelly/utils/eventHandler/
         $ENV{ROOT_PATH}/vendors/spdlog/include/
         ${PROJECT_PATH}/utils/dlapi/
         ${PROJECT_PATH}/utils/skellyloader/
 )
+target_compile_options(_$ENV{PROJECT_NAME}_skellyloader PRIVATE "-include" "${pch_file}")
 
 add_library($ENV{PROJECT_NAME}_skelly_dyn SHARED IMPORTED)
 set_target_properties(
@@ -50,6 +53,7 @@ target_include_directories(
     $ENV{PROJECT_NAME}_exec PUBLIC
         ${PROJECT_PATH}/
 )
+target_compile_options($ENV{PROJECT_NAME}_exec PRIVATE "-include" "${pch_file}")
 
 target_link_libraries(
     $ENV{PROJECT_NAME}_exec PUBLIC 

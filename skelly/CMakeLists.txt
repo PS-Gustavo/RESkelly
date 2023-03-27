@@ -10,12 +10,14 @@ target_include_directories(
     skelly_dyn PUBLIC
         ${SKELLY_PATH}/
         ${SKELLY_PATH}/utils/logger/
+        ${SKELLY_PATH}/utils/eventHandler/
         ${VENDOR_PATH}/spdlog/include/
 )
 set_property(
     TARGET skelly_dyn 
     PROPERTY POSITION_INDEPENDENT_CODE ON
 )
+target_precompile_headers(skelly_dyn PRIVATE ${pch_file})
 
 add_library(
     _s_logger STATIC
@@ -28,3 +30,4 @@ target_include_directories(
         ${SKELLY_PATH}/utils/logger/
         ${VENDOR_PATH}/spdlog/include
 )
+target_compile_options(_s_logger PRIVATE "-include" "${pch_file}")

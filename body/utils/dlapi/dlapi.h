@@ -8,35 +8,28 @@
 
 #pragma once
 
-#include <string>
-#include <map>
-#include <iostream>
-#include <dlfcn.h>
-#include <stdexcept>
-#include <utility>
-
 using dynlib_error = std::runtime_error;
 
-namespace dl_api {
+namespace dlapi {
 
-    class dllink {
+    class DLLink {
         public:
-            dllink(const char* filename);
-            dllink(const dllink&) = delete;
-            dllink(dllink&&);
-            dllink& operator=(const dllink&) = delete;
-            dllink& operator=(dllink&&);
-            virtual ~dllink();
+            DLLink(const char* filename);
+            DLLink(const DLLink&) = delete;
+            DLLink(DLLink&&);
+            DLLink& operator=(const DLLink&) = delete;
+            DLLink& operator=(DLLink&&);
+            virtual ~DLLink();
 
         protected:
             template<typename T>
             T load(const char* symbol) const {
                 static_cast<void>(dlerror());
-                return reinterpret_cast<T>(dlsym(handle,symbol));
+                return reinterpret_cast<T>(dlsym(m_handle,symbol));
             }
 
         private:
-            void* handle;
+            void* m_handle;
     };
 }
 

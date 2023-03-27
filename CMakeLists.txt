@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.16)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.1)
+if(${CMAKE_VERSION} VERSION_LESS 3.16)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 
@@ -15,6 +15,8 @@ set(ENV{ROOT_PATH} $ENV{PWD})
 set(ENV{OUTPUT_PATH} ${CMAKE_CURRENT_BINARY_DIR})
 set(VENDOR_PATH $ENV{PWD}/vendors)
 set(SKELLY_PATH $ENV{ROOT_PATH}/skelly)
+set(PCH_FILE "${OUTPUT_PATH}/pch.h.ghc")
+set(pch_file "${SKELLY_PATH}/pch.h")
 
 message("Importing Skelly libraries")
 include($ENV{ROOT_PATH}/skelly/CMakeLists.txt OPTIONAL RESULT_VARIABLE SKELLY_INCLUDED)

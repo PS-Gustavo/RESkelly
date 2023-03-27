@@ -1,9 +1,5 @@
 #pragma once
 
-#include <string>
-#include <functional>
-#include <sstream>
-
 #define SKELLY_API
 
 #ifdef RES_PLATFORM_WINDOWS
@@ -25,7 +21,7 @@
 #define BIT(x) (1 << x)
 
 #define EVENT_CLASS_TYPE(type) \
-    static EventType getStaticType() { return EventType::##type; }\
+    static EventType getStaticType() { return EventType::type; }\
     virtual EventType getEventType() const override { return getStaticType(); }\
     virtual const char* getName() const override { return  #type; }
 
