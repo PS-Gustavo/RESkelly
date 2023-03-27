@@ -14,12 +14,12 @@ namespace skelly {
         public:
             static void init();
 
-            inline static std::shared_ptr<spdlog::logger>& getSkellyLogger() { return s_SkellyLogger; }
-            inline static std::shared_ptr<spdlog::logger>& getBodyLogger() { return s_BodyLogger; }
+            inline static std::shared_ptr<spdlog::logger>& getSkellyLogger() { return _m_skellyLogger; }
+            inline static std::shared_ptr<spdlog::logger>& getBodyLogger() { return _m_bodyLogger; }
 
         private:
-            static std::shared_ptr<spdlog::logger> s_SkellyLogger;
-            static std::shared_ptr<spdlog::logger> s_BodyLogger;
+            static std::shared_ptr<spdlog::logger> _m_skellyLogger;
+            static std::shared_ptr<spdlog::logger> _m_bodyLogger;
     };
 
 }

@@ -45,19 +45,19 @@ namespace skelly {
         using EventFn = std::function<bool(T&)>;
 
         public:
-            EventDispatcher(Event& event) : m_event(event) {}
+            EventDispatcher(Event& event) : _m_event(event) {}
 
             template<typename T>
             bool dispatch(EventFn<T> func) {
-                if(m_event.getEventType() == T::getStaticType()) {
-                    m_event.m_isHandled == func(*(T*)&m_event);
+                if(_m_event.getEventType() == T::getStaticType()) {
+                    _m_event.m_isHandled == func(*(T*)&_m_event);
                     return true;
                 }
                 return false;
             }
 
         private:
-            Event& m_event;
+            Event& _m_event;
 
     };
 }
