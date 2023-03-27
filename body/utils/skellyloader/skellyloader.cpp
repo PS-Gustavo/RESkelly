@@ -1,10 +1,10 @@
 #include <skellyloader.h>
 
-namespace skelly_loader {
+namespace sl {
 
-    skellyloader::skellyloader() :
-        dllink("libskelly_dyn.so"),
-        make_Application(load<application_t>("make_Application")) {
-        if (make_Application == NULL) throw dynlib_error(std::string(dlerror()));
+    SkellyLoader::SkellyLoader() :
+        DLLink("libskelly_dyn.so"),
+        makeApplication(load<application_t>("makeApplication")) {
+        if (makeApplication == NULL) throw dynlib_error(std::string(dlerror()));
     }
 }
