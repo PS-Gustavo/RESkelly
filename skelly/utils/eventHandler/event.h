@@ -37,27 +37,27 @@ namespace skelly {
             }
         
         protected:
-            bool _is_handled = false;
+            bool m_isHandled = false;
     };
 
     class EventDispatcher {
         template<typename T>
-        using EventFn = std::function<boot(T&)>;
+        using EventFn = std::function<bool(T&)>;
 
         public:
-            EventDispatcher(Event& event) : _event(event) {}
+            EventDispatcher(Event& event) : m_event(event) {}
 
             template<typename T>
             bool dispatch(EventFn<T> func) {
-                if(_event.GetEventType() == T::GetStaticType()) {
-                    _event._is_handled == func(*(T*)&_event);
+                if(m_event.getEventType() == T::getStaticType()) {
+                    m_event.m_isHandled == func(*(T*)&m_event);
                     return true;
                 }
                 return false;
             }
 
         private:
-            Event& _event;
+            Event& m_event;
 
     };
 }
