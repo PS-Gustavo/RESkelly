@@ -6,34 +6,34 @@ namespace skelly {
 
     class SKELLY_API KeyEvent : public Event {
         public:
-            inline int getKeyCode() const { return _key_code; }
+            inline int getKeyCode() const { return m_keyCode; }
 
             EVENT_CLASS_CATEGORY(EventCategoryKey | EventCategoryInput)
 
         protected:
-            KeyEvent( int key_code ) : _key_code(key_code) {}
+            KeyEvent( int key_code ) : m_keyCode(key_code) {}
 
-            int _key_code;
+            int m_keyCode;
 
     };
 
     class SKELLY_API KeyPressedEvent : public KeyEvent {
         public:
             KeyPressedEvent(int key_code, int repeat_count)
-                : KeyEvent(key_code), _repeat_count(repeat_count) {} 
+                : KeyEvent(key_code), m_repeatCount(repeat_count) {} 
 
-            inline int GetRepeatCount() const { return _repeat_count; }
+            inline int GetRepeatCount() const { return m_repeatCount; }
 
             std::string toString() const override {
                 std::stringstream ss;
-                ss << "KeyPressedEvent: " << _key_code << " (" << _repeat_count << " repeats)";
+                ss << "KeyPressedEvent: " << m_keyCode << " (" << m_repeatCount << " repeats)";
                 return ss.str();
             }
 
             EVENT_CLASS_TYPE(KeyPressed)
 
         private:
-            int _repeat_count;
+            int m_repeatCount;
     };
 
     class SKELLY_API KeyReleasedEvent : public KeyEvent {
@@ -42,11 +42,11 @@ namespace skelly {
 
             std::string toString() const override {
                 std::stringstream ss;
-                ss << "KeyReleasedEvent: " << _key_code;
+                ss << "KeyReleasedEvent: " << m_keyCode;
                 return ss.str();
             }
 
-            EVENT_CLASS_TYPE(Key_Released)
+            EVENT_CLASS_TYPE(KeyReleased)
     };
 
     inline std::ostream& operator<<(std::ostream& os, const Event& e) {
