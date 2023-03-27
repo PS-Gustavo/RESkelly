@@ -50,8 +50,41 @@ The project is currently at its early stages, and thus several functionalities a
  - Basic project configurations for GUI and system
  - Initial Plugins and Components
 
-### Style Guide
+### Challenges
+
+Besides the project main features, some issues need to be addressed at some point in development. These have been introduced during main feature implementation, and require considerable time to be addressed. They are as follows:
+
+- Internal logging solution: Logging should not be vendor-based, and should have individual behavior depending on features being logged:
+  - Logging should have colors, preferably unmangled functions, timestamp and generally return messages.
+- CMake parametrized projects: CMake creates subdirectories based on the number of projects the user wishes to work with, but needs to use the central Skelly application.
+  - Currently, it is not possible to run Make from within each project output dir and have CMake automatically populate the necessary files on the Skelly application.
+  - 2 Features are necessary: One to allow the user to generate only Skelly files in the top output folder, and other to automatically check for those necessary top folder files when generating from the output project folders from below.
+
+## Style Guide
+
+### Coding
 
 This project is heavily guided by the CppCoreGuidelines convention of rules for modern C++.
 
-This project uses absolute pathing for system build files via the CMake application.
+As of version 0.x, naming conventions are as follows:
+- Folders and files in camelCase, where applicable;
+- Public variables and functions in camelCase;
+- Protected variables and functions in m_camelCase;
+- Private variables and functions in _m_camelCase, where applicable;
+- Classes in CamelCase;
+- Namespaces in lowercase;
+- Definitions in uppercase;
+- Type definitions in t_camelCase;
+
+### Infrastructure
+
+This project uses CMake to generate all strucure required for building.
+
+There will be a `CMakeLists.txt` file in the top layer of the project and in each major structure: The Skelly engine and the Body projects.
+- TopCM creates environment variables and calls subdirectory building recipes;
+- SkellyCM handles the engine libraries and is included by TopCM;
+- BodyCM handles the template libs and links everything together into a project-specific executable;
+
+Changes to Skelly Engine should net changes to SkellyCM. Changes to a Body feature should net conditional changes to the BodyCM available in the template Body.
+
+ALl CMake system build files should use the absolute pathing stemming from TopCM and dynamically named variables to affect all available Bodies.
