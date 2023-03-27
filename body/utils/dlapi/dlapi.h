@@ -23,7 +23,7 @@ namespace dlapi {
 
         protected:
             template<typename T>
-            T load(const char* symbol) const {
+            T m_load(const char* symbol) const {
                 static_cast<void>(dlerror());
                 return reinterpret_cast<T>(dlsym(_m_handle,symbol));
             }
