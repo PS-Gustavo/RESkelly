@@ -27,10 +27,10 @@ add_library(
 )
 target_include_directories(
     _$ENV{PROJECT_NAME}_skellyloader PUBLIC
-        $ENV{ROOT_PATH}/skelly/
-        $ENV{ROOT_PATH}/skelly/utils/logger/
-        $ENV{ROOT_PATH}/skelly/utils/eventHandler/
-        $ENV{ROOT_PATH}/vendors/spdlog/include/
+        ${SKELLY_PATH}/
+        ${SKELLY_PATH}/utils/logger/
+        ${SKELLY_PATH}/utils/eventHandler/
+        ${VENDOR_PATH}/spdlog/include/
         ${PROJECT_PATH}/utils/dlapi/
         ${PROJECT_PATH}/utils/skellyloader/
 )
