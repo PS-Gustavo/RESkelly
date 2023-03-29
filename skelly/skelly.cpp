@@ -21,8 +21,13 @@ namespace skelly {
         }
 
         SKELLY_LOG_WARN("CHEESIUM");
-
         WindowResizeEvent e(1280, 720);
+        SKELLY_LOG_INFO(e);
+        std::cout << e << "\n";
+
+        MouseButtonPressedEvent e2(5);
+        std::cout << "This is a test: " << e2 << "\n";
+        SKELLY_LOG_WARN(e2);
 
         std::cout << typeid(e).name() << "\n";
         std::cout << "(" << e.getWidth() << ", " << e.getHeight() << ")\n";
