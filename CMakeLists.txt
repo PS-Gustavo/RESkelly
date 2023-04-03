@@ -16,7 +16,7 @@ set(CMAKE_VERBOSE_MAKEFILE OFF)
 # compile benchmarks
 set(BENCHMARK_ENABLED OFF)
 # pch
-set(PCH_ENABLED OFF)
+set(PCH_ENABLED ON)
 
 ## global properties
 if (${BENCHMARK_ENABLED})
