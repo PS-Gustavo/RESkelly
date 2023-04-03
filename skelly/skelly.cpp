@@ -12,17 +12,10 @@ namespace skelly {
     void Application::run() {
         
         skelly::Logger::init();
+        SKELLY_LOG_INFO("Logger structures initialized.");
 
-        char i = 64;
-        while (i!=90) {
-            i++;
-            std::cout << i << "\n";
-            if (!(i%91)) i = 64;
-        }
-
-        SKELLY_LOG_WARN("CHEESIUM");
         WindowResizeEvent e(1280, 720);
-        SKELLY_LOG_INFO(e);
+        SKELLY_LOG_ERROR(e);
         std::cout << e << "\n";
 
         MouseButtonPressedEvent e2(5);

@@ -2,6 +2,12 @@
 
 #include <defs.h>
 
+#ifndef PCH_ENABLED
+    #include <iostream>
+    #include <sstream>
+    #include <functional>
+#endif
+
 namespace skelly {
 
     // WIP: Change event system from blocking to buffering

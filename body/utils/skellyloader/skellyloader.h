@@ -2,9 +2,12 @@
 
 #include <dlapi.h>
 #include <skelly.h>
-#include <iostream>
-#include <string>
-#include <memory>
+
+#ifndef PCH_ENABLED
+    #include <memory>
+    #include <string>
+    #include <stdexcept>
+#endif
 
 namespace sl {
 

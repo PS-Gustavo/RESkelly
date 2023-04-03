@@ -1,3 +1,5 @@
+#pragma once
+
 /**
  * Dynamic Library API
  **
@@ -6,7 +8,13 @@
  * 
 */
 
-#pragma once
+#ifndef PCH_ENABLED
+    #include <dlfcn.h>
+    #include <stdexcept>
+    #include <utility>
+    #include <string>
+#endif
+
 
 using dynlib_error = std::runtime_error;
 
@@ -32,4 +40,3 @@ namespace dlapi {
             void* _m_handle;
     };
 }
-
