@@ -1,7 +1,7 @@
 set(ENV{PROJECT_NAME} body)
 set(PROJECT_PATH $ENV{ROOT_PATH}/$ENV{PROJECT_NAME})
 
-message("Reading $ENV{PROJECT_NAME} Project libraries.")
+message(STATUS "Reading $ENV{PROJECT_NAME} Project libraries.")
 
 project($ENV{PROJECT_NAME}
             VERSION 0.1
@@ -9,56 +9,55 @@ project($ENV{PROJECT_NAME}
             LANGUAGES CXX
 )
 
-add_library(
-    _$ENV{PROJECT_NAME}_dlapi STATIC
-        ${PROJECT_PATH}/utils/dlapi/dlapi.cpp
-        ${PROJECT_PATH}/utils/dlapi/dlapi.h
+## dlapi
+add_library(_$ENV{PROJECT_NAME}_dlapi STATIC
+    ${PROJECT_PATH}/utils/dlapi/dlapi.cpp)
+set(DLAPI_LIBS ${PROJECT_PATH}/utils/dlapi/)
+if (${PCH_ENABLED})
+    target_precompile_headers(_$ENV{PROJECT_NAME}_dlapi REUSE_FROM pch_target)
+endif()
+target_include_directories(_$ENV{PROJECT_NAME}_dlapi PUBLIC
+    ${DLAPI_LIBS}
 )
-target_include_directories(
-    _$ENV{PROJECT_NAME}_dlapi PUBLIC
-        ${PROJECT_PATH}/utils/dlapi/
-)
-target_compile_options(_$ENV{PROJECT_NAME}_dlapi PRIVATE "-include" "${pch_file}")
+## dlapi
 
-add_library(
-    _$ENV{PROJECT_NAME}_skellyloader STATIC
-        ${PROJECT_PATH}/utils/skellyloader/skellyloader.cpp
-        ${PROJECT_PATH}/utils/skellyloader/skellyloader.h
+## skellyloader
+add_library(_$ENV{PROJECT_NAME}_skellyloader STATIC
+    ${PROJECT_PATH}/utils/skellyloader/skellyloader.cpp)
+set(SKELLYLOADER_LIBS ${SKELLY_PATH}/ 
+    ${SKELLY_PATH}/utils/logger/
+    ${SKELLY_PATH}/utils/eventHandler/
+    ${PROJECT_PATH}/utils/dlapi/
+    ${PROJECT_PATH}/utils/skellyloader/
 )
-target_include_directories(
-    _$ENV{PROJECT_NAME}_skellyloader PUBLIC
-        ${SKELLY_PATH}/
-        ${SKELLY_PATH}/utils/logger/
-        ${SKELLY_PATH}/utils/eventHandler/
-        ${VENDOR_PATH}/spdlog/include/
-        ${PROJECT_PATH}/utils/dlapi/
-        ${PROJECT_PATH}/utils/skellyloader/
+if (${PCH_ENABLED})
+    target_precompile_headers(_$ENV{PROJECT_NAME}_skellyloader REUSE_FROM pch_target)
+else()
+    set(SKELLYLOADER_LIBS ${SKELLYLOADER_LIBS} ${VENDOR_PATH}/spdlog/include/)
+endif()
+target_include_directories(_$ENV{PROJECT_NAME}_skellyloader PUBLIC
+    ${SKELLYLOADER_LIBS}
 )
-target_compile_options(_$ENV{PROJECT_NAME}_skellyloader PRIVATE "-include" "${pch_file}")
+## skellyloader
 
+## skelly imports
 add_library($ENV{PROJECT_NAME}_skelly_dyn SHARED IMPORTED)
-set_target_properties(
-    $ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
-        IMPORTED_LOCATION $ENV{OUTPUT_PATH}/libskelly_dyn.so
+set_target_properties($ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
+    IMPORTED_LOCATION $ENV{OUTPUT_PATH}/libskelly_dyn.so
 )
+## skelly imports
 
-add_library($ENV{PROJECT_NAME}_s_logger STATIC IMPORTED)
-set_target_properties(
-    $ENV{PROJECT_NAME}_s_logger PROPERTIES
-        IMPORTED_LOCATION $ENV{OUTPUT_PATH}/lib_s_logger.a
-)
-
+## body_exec
 add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp ${PROJECT_PATH}/body.h)
-target_include_directories(
-    $ENV{PROJECT_NAME}_exec PUBLIC
-        ${PROJECT_PATH}/
+target_include_directories($ENV{PROJECT_NAME}_exec PRIVATE
+    ${PROJECT_PATH}/
 )
-target_compile_options($ENV{PROJECT_NAME}_exec PRIVATE "-include" "${pch_file}")
-
-target_link_libraries(
-    $ENV{PROJECT_NAME}_exec PUBLIC 
-        $ENV{PROJECT_NAME}_skelly_dyn 
-        $ENV{PROJECT_NAME}_s_logger 
-        _$ENV{PROJECT_NAME}_dlapi 
-        _$ENV{PROJECT_NAME}_skellyloader
+if (${PCH_ENABLED})
+    target_precompile_headers($ENV{PROJECT_NAME}_exec REUSE_FROM pch_target)
+endif()
+target_link_libraries($ENV{PROJECT_NAME}_exec PRIVATE 
+    $ENV{PROJECT_NAME}_skelly_dyn 
+    _$ENV{PROJECT_NAME}_dlapi
+    _$ENV{PROJECT_NAME}_skellyloader
 )
+## body_exec
