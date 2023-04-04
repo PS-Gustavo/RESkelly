@@ -1,5 +1,5 @@
 set(ENV{PROJECT_NAME} body)
-set(PROJECT_PATH $ENV{ROOT_PATH}/$ENV{PROJECT_NAME})
+set(PROJECT_PATH ${ROOT_PATH}/$ENV{PROJECT_NAME})
 
 message(STATUS "Reading $ENV{PROJECT_NAME} Project libraries.")
 
@@ -43,7 +43,7 @@ target_include_directories(_$ENV{PROJECT_NAME}_skellyloader PUBLIC
 ## skelly imports
 add_library($ENV{PROJECT_NAME}_skelly_dyn SHARED IMPORTED)
 set_target_properties($ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
-    IMPORTED_LOCATION $ENV{OUTPUT_PATH}/libskelly_dyn.so
+    IMPORTED_LOCATION ${OUTPUT_PATH}/libskelly_dyn.so
 )
 ## skelly imports
 

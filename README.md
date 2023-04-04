@@ -13,7 +13,7 @@ Currently, the only supported OS are linux-based systems. Windows and MacOS supp
 ## Installation and Setup
 
 This project requires a C/C++ compiler in order to build and link the code. GCC has been used as the main compiler for development.
-CMake and Makefiles are also used to automate building, linking and running the project. Those can be installed in Linux through the following command:
+CMake and Makefiles are also used to automate building, linking and running the project. Those can be installed in Linux through the following commands:
 
 ```sh
 sudo apt install gcc
@@ -21,11 +21,11 @@ sudo apt install Makefile
 sudo apt install cmake
 ```
 
-After cloning the repository, generate CMake outputs and run the appropriate project files within the output/ folder:
+After cloning the repository, use the commands below to generate CMake outputs and run the appropriate project files within the output/ folder:
 
 ```sh
-# Creates the cmake structure for all projects
-make structure
+# From project root, this creates the cmake structure for all projects
+make
 # Builds and links all projects
 cd output/; make
 # Run the linked executable
@@ -52,7 +52,7 @@ The project is currently at its early stages, and thus several functionalities a
 
 ### Challenges
 
-Besides the project main features, some issues need to be addressed at some point in development. These have been introduced during main feature implementation, and require considerable time to be addressed. They are as follows:
+Besides the project main features, some issues need to be addressed. These have been introduced during main feature implementation, and require considerable time to be addressed. They are as follows:
 
 - Internal logging solution: Logging should not be vendor-based, and should have individual behavior depending on features being logged:
   - Logging should have colors, preferably unmangled functions, timestamp and generally return messages.
@@ -85,6 +85,10 @@ There will be a `CMakeLists.txt` file in the top layer of the project and in eac
 - SkellyCM handles the engine libraries and is included by TopCM;
 - BodyCM handles the template libs and links everything together into a project-specific executable;
 
-Changes to Skelly Engine should net changes to SkellyCM. Changes to a Body feature should net conditional changes to the BodyCM available in the template Body.
+Changes to Skelly Engine require changes to SkellyCM. Changes to a Body feature require conditional changes to the BodyCM available in the template Body.
 
-ALl CMake system build files should use the absolute pathing stemming from TopCM and dynamically named variables to affect all available Bodies.
+All CMake system build files should use the absolute pathing stemming from TopCM and dynamically named variables to affect all available Bodies.
+
+Project configurations are included from `./config/project.config` into TopCM.
+
+This project can use Pre-compiled headers(PCH), and as such all new libraries that can be considered ubiquitous througout both Skelly and Bodies should be considered to be added to the `pch.h` header. If it is such, `pch.h` should be updated and impacted headers should include the new libraries within the `#ifndef PCH_ENABLED` clause.

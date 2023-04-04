@@ -10,13 +10,18 @@ project(RESkelly
             LANGUAGES CXX
 )
 
-## project options
-# verbose
-set(CMAKE_VERBOSE_MAKEFILE OFF)
-# compile benchmarks
-set(BENCHMARK_ENABLED OFF)
-# pch
-set(PCH_ENABLED ON)
+## global pathing variables
+set(ROOT_PATH $ENV{PWD})
+set(CONFIG_PATH ${ROOT_PATH}/config)
+set(VENDOR_PATH ${ROOT_PATH}/vendors)
+set(SKELLY_PATH ${ROOT_PATH}/skelly)
+set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
+
+set(PCH_FILE ${SKELLY_PATH}/pch.h)
+
+## include project options
+message(STATUS "Importing project configurations")
+include(${ROOT_PATH}/config/project.config)
 
 ## global properties
 if (${BENCHMARK_ENABLED})
@@ -26,19 +31,11 @@ if (${PCH_ENABLED})
     add_compile_definitions(PCH_ENABLED)
 endif()
 
-## global pathing variables
-set(ENV{ROOT_PATH} $ENV{PWD})
-set(ENV{OUTPUT_PATH} ${CMAKE_CURRENT_BINARY_DIR})
-set(VENDOR_PATH $ENV{PWD}/vendors)
-set(SKELLY_PATH $ENV{ROOT_PATH}/skelly)
-set(PCH_FILE "${OUTPUT_PATH}/pch.h.ghc")
-set(pch_file "${SKELLY_PATH}/pch.h")
-
 message(STATUS "Importing Skelly libraries")
-include($ENV{ROOT_PATH}/skelly/CMakeLists.txt OPTIONAL RESULT_VARIABLE SKELLY_INCLUDED)
+include(${ROOT_PATH}/skelly/CMakeLists.txt)
 
 # Reads available projects
-file(STRINGS project.list PROJECT_LIST)
+file(STRINGS config/project.list PROJECT_LIST)
 
 # For each project, create structures using the project-specific CMakeLists file
 while(PROJECT_LIST)
