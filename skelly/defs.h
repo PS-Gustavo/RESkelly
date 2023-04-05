@@ -14,9 +14,19 @@
     #define SKELLY_API
 #endif
 
-/**
- * Event Handler definitions
-*/
+#ifdef ENABLE_ASSERTS
+    #ifdef PLATFORM_WINDOWS
+        #define SKELLY_ASSERT(x, ...) { if(!(x)) { SKELLY_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+        #define BODY_ASSERT(x, ...) { if(!(x)) { BODY_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+    #endif
+    #ifdef PLATFORM_LINUX
+        #define SKELLY_ASSERT(x, ...) { if(!(x)) { SKELLY_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); } }
+        #define BODY_ASSERT(x, ...) { if(!(x)) { BODY_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); } }
+    #endif
+#else
+    #define SKELLY_ASSERT(x, ...)
+    #define BODY_ASSERT(x, ...)
+#endif
 
 #define BIT(x) (1 << x)
 

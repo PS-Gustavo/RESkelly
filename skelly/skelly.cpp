@@ -2,7 +2,11 @@
 
 namespace skelly {
     
-    Application::Application() {}
+    Application::Application() {
+        m_window = std::unique_ptr<Window>(Window::create());
+
+    }
+
     Application::~Application() {}
 
     void Application::print() {
@@ -11,23 +15,9 @@ namespace skelly {
 
     void Application::run() {
         
-        skelly::Logger::init();
-        SKELLY_LOG_INFO("Logger structures initialized.");
-
-        WindowResizeEvent e(1280, 720);
-        SKELLY_LOG_ERROR(e);
-        std::cout << e << "\n";
-
-        MouseButtonPressedEvent e2(5);
-        std::cout << "This is a test: " << e2 << "\n";
-        SKELLY_LOG_WARN(e2);
-
-        std::cout << typeid(e).name() << "\n";
-        std::cout << "(" << e.getWidth() << ", " << e.getHeight() << ")\n";
-        
-        //SKELLY_LOG_TRACE(e);
-
-        //SKELLY_LOG_ERROR(e);
+        while(m_running) {
+            m_window->onUpdate();
+        }
         
     }
 

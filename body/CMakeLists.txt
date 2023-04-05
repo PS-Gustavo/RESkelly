@@ -27,8 +27,10 @@ add_library(_$ENV{PROJECT_NAME}_skellyloader STATIC
 set(SKELLYLOADER_LIBS ${SKELLY_PATH}/ 
     ${SKELLY_PATH}/utils/logger/
     ${SKELLY_PATH}/utils/eventHandler/
+    ${SKELLY_PATH}/utils/window/
     ${PROJECT_PATH}/utils/dlapi/
     ${PROJECT_PATH}/utils/skellyloader/
+    ${VENDOR_PATH}/glwf/
 )
 if (${PCH_ENABLED})
     target_precompile_headers(_$ENV{PROJECT_NAME}_skellyloader REUSE_FROM pch_target)

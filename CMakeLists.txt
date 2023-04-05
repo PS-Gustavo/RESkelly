@@ -24,12 +24,27 @@ message(STATUS "Importing project configurations")
 include(${ROOT_PATH}/config/project.config)
 
 ## global properties
+# Platform configurations
+if (${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
+    message(STATUS "${CMAKE_SYSTEM_NAME} system detected, applying platform specific configs.")
+    add_compile_definitions(PLATFORM_LINUX)
+endif()
+# Project run mode configurations
+if (${DEBUG_ENABLED})
+    message(STATUS "CONFIG: Debug mode enabled.")
+    add_compile_definitions(ENABLE_ASSERTS)
+endif()
+# Compile options
 if (${BENCHMARK_ENABLED})
+    message(STATUS "CONFIG: Compiler benchmark mode active.")
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
 endif()
 if (${PCH_ENABLED})
+    message(STATUS "CONFIG: PCH structure enabled.")
     add_compile_definitions(PCH_ENABLED)
 endif()
+
+
 
 message(STATUS "Importing Skelly libraries")
 include(${ROOT_PATH}/skelly/CMakeLists.txt)
