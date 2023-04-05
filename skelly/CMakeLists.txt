@@ -20,12 +20,15 @@ endif()
 add_library(skelly_dyn SHARED 
     ${SKELLY_PATH}/skelly.cpp
     ${SKELLY_PATH}/utils/logger/logger.cpp
+    ${SKELLY_PATH}/utils/window/window.cpp
 )
 target_include_directories(skelly_dyn PUBLIC
     ${SKELLY_PATH}/
     ${SKELLY_PATH}/utils/logger/
     ${SKELLY_PATH}/utils/eventHandler/
+    ${SKELLY_PATH}/utils/window/
     ${VENDOR_PATH}/spdlog/include/
+    ${VENDOR_PATH}/glwf/
 )
 set_property(
     TARGET skelly_dyn

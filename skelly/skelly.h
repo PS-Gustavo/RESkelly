@@ -1,11 +1,13 @@
-#include <defs.h>
 #include <logger.h>
+
+#include <window.h>
 
 #include <windowEvent.h>
 #include <mouseEvent.h>
 #include <keyEvent.h>
 
 #ifndef PCH_ENABLED
+    #include <defs.h>
     #include <iostream>
 #endif
 
@@ -17,6 +19,9 @@ namespace skelly {
             virtual ~Application();
             virtual void run();
             virtual void print();
+        private:
+            std::unique_ptr<Window> m_window;
+            bool m_running = true;
     };
 
     extern "C" {
