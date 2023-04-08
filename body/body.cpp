@@ -3,17 +3,15 @@
 int main() {
 
     try
-    {
-        sl::SkellyLoader sl;
-
-        auto app = sl.makeApplication();
-
-        app->run();
+    {   
+        
+        skelly::Application skellyApp;
+        skellyApp.run();
     }
     catch(const std::exception& e)
     {
         std::clog << e.what() << '\n';
-        return 1;
+        return -1;
     }
     
     return 0;

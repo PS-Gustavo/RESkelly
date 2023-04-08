@@ -1,7 +1,6 @@
 #pragma once
 
 #ifdef PCH_ENABLED
-    #include <dlfcn.h>
     #include <defs.h>
 
     #include <iostream>
