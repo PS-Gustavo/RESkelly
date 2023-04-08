@@ -30,13 +30,18 @@ add_library(skelly_logger STATIC
 target_include_directories(skelly_logger PUBLIC
     ${SKELLY_PATH}/utils/logger/
 )
-if(${PCH_ENABLED})
-    target_precompile_headers(skelly_logger REUSE_FROM pch_shared)
-endif()
 set_property(
     TARGET skelly_logger
     PROPERTY POSITION_INDEPENDENT_CODE ON
 )
+if(${PCH_ENABLED})
+    target_precompile_headers(skelly_logger REUSE_FROM pch_shared)
+else()
+    target_include_directories(skelly_logger PUBLIC
+        ${SKELLY_PATH}/
+        ${VENDOR_PATH}/spdlog/include/
+    )
+endif()
 ## logger
 
 ## window
