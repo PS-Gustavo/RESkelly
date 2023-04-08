@@ -1,6 +1,6 @@
 #pragma once
 
-#include <skellyloader.h>
+#include <skelly.h>
 
 #ifndef PCH_ENABLED
     #include <iostream>

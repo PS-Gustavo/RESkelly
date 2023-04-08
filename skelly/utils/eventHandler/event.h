@@ -1,8 +1,7 @@
 #pragma once
 
-#include <defs.h>
-
 #ifndef PCH_ENABLED
+    #include <defs.h>
     #include <iostream>
     #include <sstream>
     #include <functional>

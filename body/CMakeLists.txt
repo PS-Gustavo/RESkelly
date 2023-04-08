@@ -9,39 +9,6 @@ project($ENV{PROJECT_NAME}
             LANGUAGES CXX
 )
 
-## dlapi
-add_library(_$ENV{PROJECT_NAME}_dlapi STATIC
-    ${PROJECT_PATH}/utils/dlapi/dlapi.cpp)
-set(DLAPI_LIBS ${PROJECT_PATH}/utils/dlapi/)
-if (${PCH_ENABLED})
-    target_precompile_headers(_$ENV{PROJECT_NAME}_dlapi REUSE_FROM pch_target)
-endif()
-target_include_directories(_$ENV{PROJECT_NAME}_dlapi PUBLIC
-    ${DLAPI_LIBS}
-)
-## dlapi
-
-## skellyloader
-add_library(_$ENV{PROJECT_NAME}_skellyloader STATIC
-    ${PROJECT_PATH}/utils/skellyloader/skellyloader.cpp)
-set(SKELLYLOADER_LIBS ${SKELLY_PATH}/ 
-    ${SKELLY_PATH}/utils/logger/
-    ${SKELLY_PATH}/utils/eventHandler/
-    ${SKELLY_PATH}/utils/window/
-    ${PROJECT_PATH}/utils/dlapi/
-    ${PROJECT_PATH}/utils/skellyloader/
-    ${VENDOR_PATH}/glwf/
-)
-if (${PCH_ENABLED})
-    target_precompile_headers(_$ENV{PROJECT_NAME}_skellyloader REUSE_FROM pch_target)
-else()
-    set(SKELLYLOADER_LIBS ${SKELLYLOADER_LIBS} ${VENDOR_PATH}/spdlog/include/)
-endif()
-target_include_directories(_$ENV{PROJECT_NAME}_skellyloader PUBLIC
-    ${SKELLYLOADER_LIBS}
-)
-## skellyloader
-
 ## skelly imports
 add_library($ENV{PROJECT_NAME}_skelly_dyn SHARED IMPORTED)
 set_target_properties($ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
@@ -50,16 +17,18 @@ set_target_properties($ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
 ## skelly imports
 
 ## body_exec
-add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp ${PROJECT_PATH}/body.h)
+add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp)
 target_include_directories($ENV{PROJECT_NAME}_exec PRIVATE
     ${PROJECT_PATH}/
 )
+# set_property(
+#     TARGET $ENV{PROJECT_NAME}_exec
+#     PROPERTY POSITION_INDEPENDENT_CODE ON
+# )
 if (${PCH_ENABLED})
-    target_precompile_headers($ENV{PROJECT_NAME}_exec REUSE_FROM pch_target)
+    target_precompile_headers($ENV{PROJECT_NAME}_exec REUSE_FROM pch_static)
 endif()
-target_link_libraries($ENV{PROJECT_NAME}_exec PRIVATE 
-    $ENV{PROJECT_NAME}_skelly_dyn 
-    _$ENV{PROJECT_NAME}_dlapi
-    _$ENV{PROJECT_NAME}_skellyloader
-)
+target_link_libraries($ENV{PROJECT_NAME}_exec PRIVATE skelly_dyn)
+target_compile_options($ENV{PROJECT_NAME}_exec PUBLIC "-lGL -lglew")
+
 ## body_exec

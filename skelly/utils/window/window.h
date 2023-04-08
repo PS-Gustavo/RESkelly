@@ -3,10 +3,9 @@
 #include <event.h>
 #include <GLFW/glfw3.h>
 #include <logger.h>
-#include <defs.h>
 
 #ifndef PCH_ENABLED
-
+    #include <defs.h>
     #include <string>
     #include <functional>
 #endif

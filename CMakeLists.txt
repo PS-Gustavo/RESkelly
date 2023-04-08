@@ -10,18 +10,28 @@ project(RESkelly
             LANGUAGES CXX
 )
 
-## global pathing variables
+## Pathing variables
+# global folders
 set(ROOT_PATH $ENV{PWD})
 set(CONFIG_PATH ${ROOT_PATH}/config)
 set(VENDOR_PATH ${ROOT_PATH}/vendors)
 set(SKELLY_PATH ${ROOT_PATH}/skelly)
 set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-
-set(PCH_FILE ${SKELLY_PATH}/pch.h)
+# pch pathing file
+set(PCH_FILE ${SKELLY_PATH}/pch.cpp)
 
 ## include project options
 message(STATUS "Importing project configurations")
 include(${ROOT_PATH}/config/project.config)
+
+## vendor project options
+#glfw
+# needed to install libxinerama-dev, libxcursor
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(${VENDOR_PATH}/glfw/)
+
 
 ## global properties
 # Platform configurations
@@ -43,8 +53,6 @@ if (${PCH_ENABLED})
     message(STATUS "CONFIG: PCH structure enabled.")
     add_compile_definitions(PCH_ENABLED)
 endif()
-
-
 
 message(STATUS "Importing Skelly libraries")
 include(${ROOT_PATH}/skelly/CMakeLists.txt)
