@@ -1,7 +1,7 @@
 # RESkelly
-
+---
 Rendering Engine Skelly - A barebones and modular graphics engine solution for diverse applications.
-
+---
 ## Introduction
 
 RESkelly, or Skelly for short, uses mainly C++ and C to provide a very basic solution for rendering panels, objects and other features into applications, called the bodies.
@@ -9,7 +9,7 @@ RESkelly, or Skelly for short, uses mainly C++ and C to provide a very basic sol
 Each body is able to call upon different plugins of Skelly to implement different functionalities to the application.
 
 Currently, the only supported OS are linux-based systems. Windows and MacOS support is planned in future stages.
-
+---
 ## Installation and Setup
 
 This project requires a C/C++ compiler in order to build and link the code. GCC has been used as the main compiler for development.
@@ -21,7 +21,13 @@ sudo apt install Makefile
 sudo apt install cmake
 ```
 
-After cloning the repository, use the commands below to generate CMake outputs and run the appropriate project files within the output/ folder:
+At this time, this project also requires OpenGL and auxiliary headers associated with rendering to function properly. The following packages should be confirmed to be available:
+
+```sh
+sudo apt install libglu1-mesa-dev freeglut3-dev mesa-common-dev libxinerama-dev libxcursor-dev libxi-dev
+```
+
+After installing the necessary packages, clone the repository and use the commands below to generate CMake outputs and run the project files within the `output/` folder:
 
 ```sh
 # From project root, this creates the cmake structure for all projects
@@ -33,6 +39,8 @@ cd output/; make
 
 ```
 
+---
+
 It is possible to have multiple, independent body projects by using the same template basis (obtained in the cloning process) and adding the project to the project.list file in root folder. We advise maintaining the main body template for sanity purposes and adding your own application to the list.
 
 The creation of multiple projects is automated via the Makefile in the root folder:
@@ -40,7 +48,7 @@ The creation of multiple projects is automated via the Makefile in the root fold
 ```sh
 make project NAME=<YOUR_PROJECT_NAME>
 ```
-
+---
 ## Development
 
 The project is currently at its early stages, and thus several functionalities are undergoing planning, development and integration:
@@ -49,7 +57,7 @@ The project is currently at its early stages, and thus several functionalities a
  - Initial entry state
  - Basic project configurations for GUI and system
  - Initial Plugins and Components
-
+---
 ### Challenges
 
 Besides the project main features, some issues need to be addressed. These have been introduced during main feature implementation, and require considerable time to be addressed. They are as follows:
@@ -59,7 +67,7 @@ Besides the project main features, some issues need to be addressed. These have 
 - CMake parametrized projects: CMake creates subdirectories based on the number of projects the user wishes to work with, but needs to use the central Skelly application.
   - Currently, it is not possible to run Make from within each project output dir and have CMake automatically populate the necessary files on the Skelly application.
   - 2 Features are necessary: One to allow the user to generate only Skelly files in the top output folder, and other to automatically check for those necessary top folder files when generating from the output project folders from below.
-
+---
 ## Style Guide
 
 ### Coding
