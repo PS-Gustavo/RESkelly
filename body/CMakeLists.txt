@@ -17,18 +17,13 @@ set_target_properties($ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
 ## skelly imports
 
 ## body_exec
+find_package(OpenGL REQUIRED)
 add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp)
 target_include_directories($ENV{PROJECT_NAME}_exec PRIVATE
     ${PROJECT_PATH}/
 )
-# set_property(
-#     TARGET $ENV{PROJECT_NAME}_exec
-#     PROPERTY POSITION_INDEPENDENT_CODE ON
-# )
 if (${PCH_ENABLED})
     target_precompile_headers($ENV{PROJECT_NAME}_exec REUSE_FROM pch_static)
 endif()
-target_link_libraries($ENV{PROJECT_NAME}_exec PRIVATE skelly_dyn)
-target_compile_options($ENV{PROJECT_NAME}_exec PUBLIC "-lGL -lglew")
-
+target_link_libraries($ENV{PROJECT_NAME}_exec PRIVATE skelly_dyn OpenGL::GL)
 ## body_exec

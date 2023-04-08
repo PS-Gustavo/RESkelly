@@ -46,7 +46,6 @@ add_library(skelly_window STATIC
 target_include_directories(skelly_window PUBLIC
     ${SKELLY_PATH}/utils/window/
     ${SKELLY_PATH}/utils/eventHandler/
-    # ${VENDOR_PATH}/glfw/include/
 )
 target_link_libraries(skelly_window PUBLIC skelly_logger glfw)
 if(${PCH_ENABLED})
