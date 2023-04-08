@@ -3,8 +3,9 @@
 namespace skelly {
     
     Application::Application() {
+        Logger::init();
+        
         m_window = std::unique_ptr<Window>(Window::create());
-
     }
 
     Application::~Application() {}
