@@ -17,9 +17,11 @@ namespace skelly {
         public:
             Application();
             virtual ~Application();
+            virtual void createWindow();
             virtual void run();
         private:
             std::unique_ptr<Window> m_window;
+            // std::map<std::string, std::unique_ptr<Window>> m_windows;
             bool m_running = true;
     };
 
