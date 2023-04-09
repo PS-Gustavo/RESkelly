@@ -50,7 +50,7 @@ if (${BENCHMARK_ENABLED})
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
 endif()
 if (${PCH_ENABLED})
-    message(STATUS "CONFIG: PCH structure enabled.")
+    message(STATUS "CONFIG: PCH enabled.")
     add_compile_definitions(PCH_ENABLED)
 endif()
 

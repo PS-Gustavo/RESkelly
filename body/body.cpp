@@ -6,6 +6,7 @@ int main() {
     {   
         
         skelly::Application skellyApp;
+        skellyApp.createWindow();
         skellyApp.run();
     }
     catch(const std::exception& e)
