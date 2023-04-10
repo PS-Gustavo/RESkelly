@@ -4,10 +4,8 @@
 if (PCH_ENABLED)
     message(STATUS "Compiling using pre-compiled header support")    
     add_library(pch_shared STATIC ${PCH_FILE})
-    target_include_directories(pch_shared PUBLIC
-        ${SKELLY_PATH}/
-        ${VENDOR_PATH}/spdlog/include/
-    )
+    set(pch_libs ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/ ${VENDOR_PATH}/spdlog/include/)
+    target_include_directories(pch_shared PUBLIC ${pch_libs})
     set_property(
         TARGET pch_shared
         PROPERTY POSITION_INDEPENDENT_CODE ON
@@ -15,10 +13,7 @@ if (PCH_ENABLED)
     target_precompile_headers(pch_shared PUBLIC ${SKELLY_PATH}/pch.h)
     
     add_library(pch_static STATIC ${PCH_FILE})
-    target_include_directories(pch_static PUBLIC
-        ${SKELLY_PATH}/
-        ${VENDOR_PATH}/spdlog/include/
-    )
+    target_include_directories(pch_static PUBLIC ${pch_libs})
     target_precompile_headers(pch_static PUBLIC ${SKELLY_PATH}/pch.h)
 endif()
 ## pch

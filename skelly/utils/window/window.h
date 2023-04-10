@@ -1,6 +1,6 @@
 #pragma once
 
-#include <event.h>
+
 #include <GLFW/glfw3.h>
 #include <logger.h>
 
@@ -8,6 +8,9 @@
     #include <defs.h>
     #include <string>
     #include <functional>
+    #include <windowEvent.h>
+    #include <mouseEvent.h>
+    #include <keyEvent.h>
 #endif
 
 // Platform agnostic section
@@ -60,7 +63,7 @@ namespace skelly {
             inline unsigned int getHeight() const override { return m_data.height; }
 
             inline void setEventCallback(const EventCallbackFn& callback) 
-                override { m_data.EventCallback = callback; }
+                override { m_data.eventCallback = callback; }
             void setVSync(bool enabled) override;
             bool isVSync() const override;
 
@@ -75,7 +78,7 @@ namespace skelly {
                 unsigned int width, height;
                 bool vSync;
 
-                EventCallbackFn EventCallback;
+                EventCallbackFn eventCallback;
             };
 
             WindowData m_data;

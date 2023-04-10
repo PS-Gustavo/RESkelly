@@ -28,9 +28,9 @@ namespace skelly {
 
     class SKELLY_API WindowCloseEvent : public Event {
         public:
-            WindowCloseEvent() {}
+            WindowCloseEvent() = default;
 
-            //EVENT_CLASS_TYPE(WindowClose)
+            EVENT_CLASS_TYPE(WindowClose)
             EVENT_CLASS_CATEGORY(EventCategoryWindow)
     };
 
