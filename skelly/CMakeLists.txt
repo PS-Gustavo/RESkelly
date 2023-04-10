@@ -4,7 +4,12 @@
 if (PCH_ENABLED)
     message(STATUS "Compiling using pre-compiled header support")    
     add_library(pch_shared STATIC ${PCH_FILE})
-    set(pch_libs ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/ ${VENDOR_PATH}/spdlog/include/)
+    set(pch_libs 
+        ${SKELLY_PATH}/
+        ${SKELLY_PATH}/utils/eventHandler/
+        ${SKELLY_PATH}/utils/layer/
+        ${VENDOR_PATH}/spdlog/include/
+    )
     target_include_directories(pch_shared PUBLIC ${pch_libs})
     set_property(
         TARGET pch_shared
@@ -57,8 +62,23 @@ set_property(
 )
 ## window
 
-##spdlog
-##spdlog
+##layers
+add_library(skelly_layer STATIC
+    ${SKELLY_PATH}/utils/layer/layer.cpp
+    ${SKELLY_PATH}/utils/layer/layerStack.cpp
+)
+set(skelly_layer_libs ${SKELLY_PATH}/utils/layer/)
+if(${PCH_ENABLED})
+    target_precompile_headers(skelly_layer REUSE_FROM pch_shared)
+else()
+    set(skelly_layer_libs ${skelly_layer_libs} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
+endif()
+target_include_directories(skelly_layer PUBLIC ${skelly_layer_libs})
+set_property(
+    TARGET skelly_layer
+    PROPERTY POSITION_INDEPENDENT_CODE ON
+)
+##layers
 
 ##glfw
 ##glfw
@@ -70,7 +90,7 @@ add_library(skelly_dyn SHARED
 target_include_directories(skelly_dyn PUBLIC
     ${SKELLY_PATH}/
 )
-target_link_libraries(skelly_dyn PUBLIC skelly_window)
+target_link_libraries(skelly_dyn PUBLIC skelly_window skelly_layer)
 set_property(
     TARGET skelly_dyn
     PROPERTY POSITION_INDEPENDENT_CODE ON

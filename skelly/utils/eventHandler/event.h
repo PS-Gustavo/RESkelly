@@ -40,7 +40,9 @@ namespace skelly {
             inline bool IsInCategory(EventCategory category) {
                 return getCategoryFlags() & category;
             }
-        
+
+            bool isHandled() const { return m_isHandled; }
+
         protected:
             bool m_isHandled = false;
     };

@@ -10,6 +10,7 @@
 
     #include <stdexcept>
 
+    #include <iterator>
     #include <string>
     #include <vector>
     #include <map>
@@ -22,5 +23,8 @@
     #include <windowEvent.h>
     #include <mouseEvent.h>
     #include <keyEvent.h>
+
+    #include <layer.h>
+    #include <layerStack.h>
 
 #endif
