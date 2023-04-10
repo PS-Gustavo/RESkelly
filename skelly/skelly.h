@@ -1,5 +1,4 @@
 #include <logger.h>
-
 #include <window.h>
 
 #ifndef PCH_ENABLED
@@ -8,6 +7,7 @@
     #include <windowEvent.h>
     #include <mouseEvent.h>
     #include <keyEvent.h>
+    #include <layerStack.h>
 #endif
 
 namespace skelly {
@@ -16,15 +16,28 @@ namespace skelly {
         public:
             Application();
             virtual ~Application();
+
             virtual void createWindow();
-            virtual void run();
 
+            // layer handlers
+            void pushLayer(Layer* layer);
+            void popLayer(Layer* layer);
+            void pushOverlay(Layer* overlay);
+            void popOverlay(Layer* overlay);
+
+            // event handler
             void onEvent(Event& e);
+            // main application loop
+            virtual void run();
         private:
-            bool onWindowClose(WindowCloseEvent& e);
+            // event handler for window close action
+            bool _m_onWindowClose(WindowCloseEvent& e);
 
-            std::unique_ptr<Window> m_window;
+            // application layer stack
+            LayerStack _m_layerStack;
+
+            std::unique_ptr<Window> _m_window;
             // std::map<std::string, std::unique_ptr<Window>> m_windows;
-            bool m_running = true;
+            bool _m_running = true;
     };
 }
