@@ -37,6 +37,8 @@ namespace skelly {
 
         m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
         glfwMakeContextCurrent(m_window);
+        int status = gladLoadGL(glfwGetProcAddress);
+        SKELLY_ASSERT(status, "Failed to initialize Glad.")
         glfwSetWindowUserPointer(m_window, &m_data);
         setVSync(true);
 
