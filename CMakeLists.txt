@@ -25,12 +25,13 @@ message(STATUS "Importing project configurations")
 include(${ROOT_PATH}/config/project.config)
 
 ## vendor project options
-#glfw
-# needed to install libxinerama-dev, libxcursor
+# glfw
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR_PATH}/glfw/)
+# glad
+add_subdirectory(${VENDOR_PATH}/glad/)
 
 
 ## global properties

@@ -52,7 +52,7 @@ target_include_directories(skelly_window PUBLIC
     ${SKELLY_PATH}/utils/window/
     ${SKELLY_PATH}/utils/eventHandler/
 )
-target_link_libraries(skelly_window PUBLIC skelly_logger glfw)
+target_link_libraries(skelly_window PUBLIC skelly_logger glfw glad)
 if(${PCH_ENABLED})
     target_precompile_headers(skelly_window REUSE_FROM pch_shared)
 endif()
