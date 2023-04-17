@@ -7,3 +7,4 @@
 [submodule "vendors/imguiCM"]
 	path = vendors/imguiCM
 	url = https://github.com/PS-Gustavo/imguiCM.git
+	branch = main

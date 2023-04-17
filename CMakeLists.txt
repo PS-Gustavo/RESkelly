@@ -32,6 +32,8 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR_PATH}/glfw/)
 # glad
 add_subdirectory(${VENDOR_PATH}/glad/)
+# imgui
+add_subdirectory(${VENDOR_PATH}/imguiCM/)
 
 
 ## global properties
