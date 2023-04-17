@@ -80,6 +80,27 @@ set_property(
 )
 ##layers
 
+##render
+add_library(skelly_render STATIC
+    ${SKELLY_PATH}/utils/render/render.cpp
+)
+set(skelly_render_libs 
+    ${SKELLY_PATH}/utils/render/
+    ${VENDOR_PATH}/imguiCM/imgui/
+    )
+if(${PCH_ENABLED})
+    target_precompile_headers(skelly_render REUSE_FROM pch_shared)
+else()
+    set(skelly_render_libs ${skelly_layer_libs} ${SKELLY_PATH}/)
+endif()
+target_include_directories(skelly_render PUBLIC ${skelly_render_libs})
+target_link_libraries(skelly_render PUBLIC glfw glad)
+set_property(
+    TARGET skelly_render
+    PROPERTY POSITION_INDEPENDENT_CODE ON
+)
+##render
+
 ##glfw
 ##glfw
 
