@@ -4,7 +4,10 @@ namespace skelly {
     
     #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
+    Application* Application::_s_instance;
+
     Application::Application() {
+        _s_instance = this;
         Logger::init();
     }
 
@@ -18,6 +21,7 @@ namespace skelly {
     void Application::pushLayer(Layer* layer) {
         SKELLY_LOG_TRACE("Creating new layer: {0}", layer->getName());
         _m_layerStack.pushLayer(layer);
+        layer->onAttach();
     }
     void Application::popLayer(Layer* layer) {
         SKELLY_LOG_TRACE("Creating new layer: {0}", layer->getName());
@@ -26,6 +30,7 @@ namespace skelly {
     void Application::pushOverlay(Layer* overlay) {
         SKELLY_LOG_TRACE("Creating new layer: {0}", overlay->getName());
         _m_layerStack.pushOverlay(overlay);
+        overlay->onAttach();
     }
     void Application::popOverlay(Layer* overlay) {
         SKELLY_LOG_TRACE("Creating new layer: {0}", overlay->getName());

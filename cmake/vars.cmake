@@ -10,7 +10,7 @@ set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(PCH_FILE ${SKELLY_PATH}/pch.cpp)
 
 ## Skelly libs
-set(skelly_libs skelly_logger skelly_window skelly_layer )#skelly_render skelly_l_imgui)
+set(skelly_libs skelly_logger skelly_window skelly_layer skelly_render skelly_l_imgui)
 
 ## Skelly libs source paths
 set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
