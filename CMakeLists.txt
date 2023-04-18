@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.25.2)
 
-if(${CMAKE_VERSION} VERSION_LESS 3.16)
+if(${CMAKE_VERSION} VERSION_LESS 3.25.2)
     cmake_policy(VERSION ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION})
 endif()
 
@@ -9,20 +9,13 @@ project(RESkelly
             DESCRIPTION "Rendering Engine Skelly - Modular and barebones solution for modern visual applications."
             LANGUAGES CXX
 )
-
-## Pathing variables
-# global folders
 set(ROOT_PATH $ENV{PWD})
-set(CONFIG_PATH ${ROOT_PATH}/config)
-set(VENDOR_PATH ${ROOT_PATH}/vendors)
-set(SKELLY_PATH ${ROOT_PATH}/skelly)
-set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
-# pch pathing file
-set(PCH_FILE ${SKELLY_PATH}/pch.cpp)
+
+## include variables
+include($ENV{PWD}/cmake/vars.cmake)
 
 ## include project options
-message(STATUS "Importing project configurations")
-include(${ROOT_PATH}/config/project.config)
+include(${ROOT_PATH}/cmake/config.cmake)
 
 ## vendor project options
 # glfw
@@ -32,8 +25,6 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR_PATH}/glfw/)
 # glad
 add_subdirectory(${VENDOR_PATH}/glad/)
-# imgui
-add_subdirectory(${VENDOR_PATH}/imguiCM/)
 
 
 ## global properties
@@ -60,7 +51,7 @@ endif()
 message(STATUS "Importing Skelly libraries")
 include(${ROOT_PATH}/skelly/CMakeLists.txt)
 
-# Reads available projects
+# Read available projects
 file(STRINGS config/project.list PROJECT_LIST)
 
 # For each project, create structures using the project-specific CMakeLists file

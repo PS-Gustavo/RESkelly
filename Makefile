@@ -8,7 +8,7 @@ project:
 	sed -i '1 s/body/${NAME}/' ./${NAME}/CMakeLists.txt
 
 cfg:
-	open ./config/project.config
+	open ./cmake/config.cmake
 
 help:
 	echo "make project NAME=<PROJECT_NAME> : creates new project"

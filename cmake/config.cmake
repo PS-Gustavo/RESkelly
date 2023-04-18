@@ -1,3 +1,5 @@
+message(STATUS "Importing project configurations")
+
 ## Verbose mode
 #  Runs all build steps using the --verbose flag
 set(CMAKE_VERBOSE_MAKEFILE OFF)
