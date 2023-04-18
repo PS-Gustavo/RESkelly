@@ -37,8 +37,8 @@ else()
     target_link_libraries(pch_shared PUBLIC spdlog)
 endif()
 target_link_libraries(skelly_window PUBLIC skelly_logger glfw glad)
-# target_link_libraries(skelly_render PUBLIC glfw glad)
-# target_link_libraries(skelly_l_imgui PUBLIC skelly_layer skelly_render)
+target_link_libraries(skelly_render PUBLIC glfw glad)
+target_link_libraries(skelly_l_imgui PUBLIC skelly_layer skelly_render)
 
 foreach(lib IN LISTS skelly_libs)
     target_include_directories(${lib} PUBLIC ${${lib}_includes})
@@ -57,7 +57,7 @@ target_include_directories(skelly_dyn PUBLIC
     ${SKELLY_PATH}/
     ${SKELLY_PATH}/utils/layer/imgui/
 )
-target_link_libraries(skelly_dyn PUBLIC skelly_window skelly_layer)#skelly_render skelly_l_imgui)
+target_link_libraries(skelly_dyn PUBLIC skelly_window skelly_layer skelly_render skelly_l_imgui)
 set_property(
     TARGET skelly_dyn
     PROPERTY POSITION_INDEPENDENT_CODE ON
