@@ -20,6 +20,7 @@ namespace body {
         public:
             Body() {
                 pushLayer(new BodyLayer());
+                pushOverlay(new skelly::ImguiLayer());
             }
 
             ~Body() {}

@@ -1,6 +1,8 @@
+#pragma once
+
 #include <logger.h>
 #include <window.h>
-// #include <imguiLayer.h>
+#include <imguiLayer.h>
 
 #ifndef PCH_ENABLED
     #include <defs.h>
@@ -29,8 +31,8 @@ namespace skelly {
             // application handlers
             inline static Application& getApplication() { return *_s_instance; }
 
-            // // window handlers
-            // inline Window& getWindow() { return *_m_window; }
+            // window handlers
+            inline Window& getWindow() { return *_m_window; }
 
             // event handler
             void onEvent(Event& e);
