@@ -31,8 +31,9 @@ namespace skelly {
     }
 
     void ImguiLayer::onUpdate() {
+        // ImGui::CreateContext();
         // ImGuiIO& io = ImGui::GetIO();
-        // Application& app = Application::getApplication();
+        Application& app = Application::getApplication();
         // io.DisplaySize = ImVec2(app.getWindow().getWidth(), app.getWindow().getHeight());
 
         // float time = (float)glfwGetTime();
