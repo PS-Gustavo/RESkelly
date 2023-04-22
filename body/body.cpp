@@ -19,6 +19,7 @@ namespace body {
     class Body : public skelly::Application {
         public:
             Body() {
+                createWindow();
                 pushLayer(new BodyLayer());
                 pushOverlay(new skelly::ImguiLayer());
             }
@@ -30,7 +31,6 @@ namespace body {
 int main() {
     try {           
         body::Body App;
-        App.createWindow();
         App.run();
     }
     catch(const std::exception& e) {

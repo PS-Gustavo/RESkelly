@@ -17,7 +17,6 @@ set_target_properties($ENV{PROJECT_NAME}_skelly_dyn PROPERTIES
 ## skelly imports
 
 ## body_exec
-find_package(OpenGL REQUIRED)
 add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp)
 set (body_exec_libs ${PROJECT_PATH}/)
 if (${PCH_ENABLED})
