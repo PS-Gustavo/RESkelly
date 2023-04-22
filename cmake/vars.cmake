@@ -14,11 +14,11 @@ set(skelly_libs imgui skelly_logger skelly_window skelly_layer skelly_render)
 
 ## Skelly libs source paths
 set(imgui_path
-    ${VENDOR_PATH}/imguiCM/imgui/imgui.cpp
-    ${VENDOR_PATH}/imguiCM/imgui/imgui_demo.cpp
-    ${VENDOR_PATH}/imguiCM/imgui/imgui_draw.cpp
-    ${VENDOR_PATH}/imguiCM/imgui/imgui_tables.cpp
-    ${VENDOR_PATH}/imguiCM/imgui/imgui_widgets.cpp
+    ${VENDOR_PATH}/imgui/imgui.cpp
+    ${VENDOR_PATH}/imgui/imgui_demo.cpp
+    ${VENDOR_PATH}/imgui/imgui_draw.cpp
+    ${VENDOR_PATH}/imgui/imgui_tables.cpp
+    ${VENDOR_PATH}/imgui/imgui_widgets.cpp
 )
 set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
 set(skelly_window_path ${SKELLY_PATH}/utils/window/window.cpp)
@@ -28,8 +28,8 @@ set(skelly_render_path ${SKELLY_PATH}/utils/render/render.cpp)
 
 ## Skelly lib include paths
 set(imgui_includes
-    ${VENDOR_PATH}/imguiCM/imgui/
-    ${VENDOR_PATH}/imguiCM/imgui/backends/
+    ${VENDOR_PATH}/imgui/
+    ${VENDOR_PATH}/imgui/backends/
 )
 set(skelly_logger_includes ${SKELLY_PATH}/utils/logger/)
 set(skelly_window_includes 
@@ -44,5 +44,4 @@ if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/)
     set(skelly_layer_includes ${skelly_layer_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
     set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/ {VENDOR_PATH}/imguiCM/imgui/)
-    set(skelly_l_imgui_includes ${skelly_l_imgui_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/render/)
 endif()
