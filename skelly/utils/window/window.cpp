@@ -132,7 +132,7 @@ namespace skelly {
     }
 
     void LinuxWindow::setVSync(bool enabled) {
-        enabled ? glfwSwapInterval(1) : glfwSwapInterval(0);
+        (enabled) ? glfwSwapInterval(1) : glfwSwapInterval(0);
 
         m_data.vSync = enabled;
     }

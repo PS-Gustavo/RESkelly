@@ -8,11 +8,15 @@ namespace skelly {
 
     Application::Application() {
         _s_instance = this;
+        _m_window = nullptr;
+        
         Logger::init();
     }
 
     Application::~Application() {}
-
+    
+    // Creates the window instance for the application.
+    // CAREFUL! You need to create the window context before creating the layers and overlays.
     void Application::createWindow() {
         _m_window = std::unique_ptr<Window>(Window::create());
         _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
@@ -49,15 +53,14 @@ namespace skelly {
     }
 
     void Application::run() {
-        
         while(_m_running) {
-            glClearColor(1, 0, 0, 1);
+            glClearColor(0.6F, 0, 1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
             
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();
             }
-            _m_window->onUpdate();
+            if(_m_window != nullptr) _m_window->onUpdate();
         }
         
     }

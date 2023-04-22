@@ -22,9 +22,12 @@ include(${ROOT_PATH}/cmake/config.cmake)
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR_PATH}/glfw/)
 # glad
 add_subdirectory(${VENDOR_PATH}/glad/)
+# opengl
+find_package(OpenGL REQUIRED)
 
 
 ## global properties

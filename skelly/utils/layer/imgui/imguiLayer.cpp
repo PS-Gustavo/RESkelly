@@ -15,39 +15,34 @@ namespace skelly {
     }
 
     void ImguiLayer::onAttach() {
-        // ImGui::CreateContext();
-        // ImGui::StyleColorsDark();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        ImGui::StyleColorsDark();
 
-        // ImGuiIO& io = ImGui::GetIO();
-        // io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-        // io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+        Application& app = Application::getApplication();
 
-        // // io.AddKeyEvent(ImGuiMod_Ctrl,  (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS));
-        // // io.AddKeyEvent(ImGuiMod_Shift, (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT)   == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT)   == GLFW_PRESS));
-        // // io.AddKeyEvent(ImGuiMod_Alt,   (glfwGetKey(window, GLFW_KEY_LEFT_ALT)     == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_ALT)     == GLFW_PRESS));
-        // // io.AddKeyEvent(ImGuiMod_Super, (glfwGetKey(window, GLFW_KEY_LEFT_SUPER)   == GLFW_PRESS) || (glfwGetKey(window, GLFW_KEY_RIGHT_SUPER)   == GLFW_PRESS));
-
-        // ImGui_ImplOpenGL3_Init(glsl_version);
+        ImGui_ImplOpenGL3_Init("#version 130");
     }
 
     void ImguiLayer::onUpdate() {
-        // ImGui::CreateContext();
-        // ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO& io = ImGui::GetIO();
         Application& app = Application::getApplication();
-        // io.DisplaySize = ImVec2(app.getWindow().getWidth(), app.getWindow().getHeight());
+        io.DisplaySize = ImVec2(app.getWindow().getWidth(), app.getWindow().getHeight());
 
-        // float time = (float)glfwGetTime();
-        // io.DeltaTime = _m_time > 0.0f ? (time - _m_time) : (1.0f / 60.0f);
-        // _m_time = time;
+        float time = (float)glfwGetTime();
+        io.DeltaTime = _m_time > 0.0f ? (time - _m_time) : (1.0f / 60.0f);
+        _m_time = time;
 
-        // ImGui_ImplOpenGL3_NewFrame();
-        // ImGui::NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
 
-        // static bool show = true;
-        // ImGui::ShowDemoWindow(&show);
+        static bool show = true;
+        ImGui::ShowDemoWindow(&show);
 
-        // ImGui::Render();
-        // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         
     }
 
