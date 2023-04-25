@@ -37,3 +37,6 @@
 
 #define EVENT_CLASS_CATEGORY(category)\
     virtual int getCategoryFlags() const override { return category; }
+
+#define DISPATCH_BINDER(type, fn)\
+    dispatcher.dispatch<type>(std::bind(&fn, this, std::placeholders::_1))

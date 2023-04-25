@@ -71,7 +71,7 @@ namespace skelly {
             virtual void init(const WindowProps& props);
             virtual void shutdown();
 
-            GLFWwindow* m_window;
+            GLFWwindow* _m_window;            
 
             struct WindowData {
                 std::string title;

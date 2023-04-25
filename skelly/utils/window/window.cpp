@@ -35,15 +35,15 @@ namespace skelly {
             s_GLFWInitialized = true;
         }
 
-        m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(m_window);
+        _m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
+        glfwMakeContextCurrent(_m_window);
         int status = gladLoadGL(glfwGetProcAddress);
         SKELLY_ASSERT(status, "Failed to initialize Glad.")
-        glfwSetWindowUserPointer(m_window, &m_data);
+        glfwSetWindowUserPointer(_m_window, &m_data);
         setVSync(true);
 
         // GLFW callbacks
-        glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height){
+        glfwSetWindowSizeCallback(_m_window, [](GLFWwindow* window, int width, int height){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             data.width = width;
@@ -53,14 +53,14 @@ namespace skelly {
             data.eventCallback(event);
         });
 
-        glfwSetWindowCloseCallback(m_window, [](GLFWwindow* window){
+        glfwSetWindowCloseCallback(_m_window, [](GLFWwindow* window){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             WindowCloseEvent event;
             data.eventCallback(event);
         });
 
-        glfwSetKeyCallback(m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             // WIP: Change action mapping from glfw specific to Skelly specific (framework agnostic)
@@ -86,7 +86,7 @@ namespace skelly {
             }
         });
 
-        glfwSetMouseButtonCallback(m_window, [](GLFWwindow* window, int button, int action, int mods){
+        glfwSetMouseButtonCallback(_m_window, [](GLFWwindow* window, int button, int action, int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             switch(action) {
@@ -106,14 +106,14 @@ namespace skelly {
             }
         });
 
-        glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset){
+        glfwSetScrollCallback(_m_window, [](GLFWwindow* window, double xOffset, double yOffset){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             MouseScrolledEvent event((float)xOffset, (float)yOffset);
             data.eventCallback(event);
         });
 
-        glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos){
+        glfwSetCursorPosCallback(_m_window, [](GLFWwindow* window, double xPos, double yPos){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             MouseMovedEvent event((float)xPos, (float)yPos);
@@ -123,12 +123,12 @@ namespace skelly {
     }
 
     void LinuxWindow::shutdown() {
-        glfwDestroyWindow(m_window);
+        glfwDestroyWindow(_m_window);
     }
 
     void LinuxWindow::onUpdate() {
         glfwPollEvents();
-        glfwSwapBuffers(m_window);
+        glfwSwapBuffers(_m_window);
     }
 
     void LinuxWindow::setVSync(bool enabled) {
