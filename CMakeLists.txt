@@ -11,11 +11,11 @@ project(RESkelly
 )
 set(ROOT_PATH $ENV{PWD})
 
-## include variables
-include($ENV{PWD}/cmake/vars.cmake)
-
 ## include project options
 include(${ROOT_PATH}/cmake/config.cmake)
+
+## include variables
+include($ENV{PWD}/cmake/vars.cmake)
 
 ## vendor project options
 # glfw

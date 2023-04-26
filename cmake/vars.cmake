@@ -41,7 +41,7 @@ set(skelly_render_includes
     ${SKELLY_PATH}/utils/render/
 )
 if(NOT ${PCH_ENABLED})
-    set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/)
+    set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
     set(skelly_layer_includes ${skelly_layer_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
     set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/ {VENDOR_PATH}/imguiCM/imgui/)
 endif()

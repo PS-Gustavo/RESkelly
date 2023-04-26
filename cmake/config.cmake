@@ -15,4 +15,4 @@ set(BENCHMARK_ENABLED OFF)
 
 ## PCH usage
 #  Enables usage of the Pre-Compiled Header(PCH) for the project targets.
-set(PCH_ENABLED ON)
+set(PCH_ENABLED OFF)
