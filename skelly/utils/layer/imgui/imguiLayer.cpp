@@ -10,13 +10,17 @@ namespace skelly {
 
     }
 
-    bool ImguiLayer::imguiResolveWindowClose() {return false;}
-    bool ImguiLayer::imguiResolveWindowResize() {return false;}
-    bool ImguiLayer::imguiResolveWindowFocus() {return false;}
-    bool ImguiLayer::imguiResolveWindowLostFocus() {return false;}
-    bool ImguiLayer::imguiResolveWindowMoved() {return false;}
-    bool ImguiLayer::imguiResolveKeyPressed() {return false;}
-    bool ImguiLayer::imguiResolveKeyReleased() {return false;}
+    // bool ImguiLayer::imguiResolveWindowClose() {return false;}
+    // bool ImguiLayer::imguiResolveWindowResize() {return false;}
+    // bool ImguiLayer::imguiResolveWindowFocus() {return false;}
+    // bool ImguiLayer::imguiResolveWindowLostFocus() {return false;}
+    // bool ImguiLayer::imguiResolveWindowMoved() {return false;}
+    bool ImguiLayer::imguiResolveKeyPressed(KeyPressedEvent& event) {
+        return false;
+    }
+    bool ImguiLayer::imguiResolveKeyReleased(KeyReleasedEvent& event) {
+        return false;
+    }
     bool ImguiLayer::imguiResolveMouseButtonPressed(MouseButtonPressedEvent& event) {
         ImGuiIO& io = ImGui::GetIO();
         io.AddMouseButtonEvent(event.getMouseButton(), true);
@@ -43,13 +47,13 @@ namespace skelly {
         EventDispatcher dispatcher(event);
         DISPATCH_BINDER(MouseButtonPressedEvent, ImguiLayer::imguiResolveMouseButtonPressed);
         DISPATCH_BINDER(MouseButtonReleasedEvent, ImguiLayer::imguiResolveMouseButtonReleased);
-        // DISPATCH_BINDER(MouseMovedEvent, ImguiLayer::imguiResolveMouseMoved);
-        // DISPATCH_BINDER(MouseScrolledEvent, ImguiLayer::imguiResolveMouseScrolled);
-        // DISPATCH_BINDER(KeyPressedEvent, ImguiLayer::imguiResolveKeyPressed);
-        // DISPATCH_BINDER(KeyReleasedEvent, ImguiLayer::imguiResolveKeyReleased);
-        // DISPATCH_BINDER(WindowResizeEvent, ImguiLayer::imguiResolveWindowResize);
-
+        DISPATCH_BINDER(MouseMovedEvent, ImguiLayer::imguiResolveMouseMoved);
+        DISPATCH_BINDER(MouseScrolledEvent, ImguiLayer::imguiResolveMouseScrolled);
+        DISPATCH_BINDER(KeyPressedEvent, ImguiLayer::imguiResolveKeyPressed);
+        DISPATCH_BINDER(KeyReleasedEvent, ImguiLayer::imguiResolveKeyReleased);
+        
         // to be implemented, if necessary
+        // DISPATCH_BINDER(WindowResizeEvent, ImguiLayer::imguiResolveWindowResize);
         // DISPATCH_BINDER(WindowResizeEvent, ImguiLayer::imguiResolveWindowClose);
         // DISPATCH_BINDER(WindowResizeEvent, ImguiLayer::imguiResolveWindowFocus);
         // DISPATCH_BINDER(WindowResizeEvent, ImguiLayer::imguiResolveWindowLostFocus);
@@ -91,12 +95,6 @@ namespace skelly {
         float time = (float)glfwGetTime();
         io.DeltaTime = _m_time > 0.0f ? (time - _m_time) : (1.0f / 60.0f);
         _m_time = time;
-
-        double mouse_x, mouse_y;
-        glfwGetCursorPos(window, &mouse_x, &mouse_y);
-        io.AddMousePosEvent((float)mouse_x, (float)mouse_y);
-        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
 
         ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
