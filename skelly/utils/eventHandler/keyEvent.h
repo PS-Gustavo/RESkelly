@@ -49,6 +49,19 @@ namespace skelly {
             EVENT_CLASS_TYPE(KeyReleased)
     };
 
+    class SKELLY_API KeyTypedEvent : public KeyEvent {
+        public:
+            KeyTypedEvent(unsigned short character) : KeyEvent((int) character) {}
+
+            std::string toString() const override {
+                std::stringstream ss;
+                ss << "KeyReleasedEvent: " << m_keyCode;
+                return ss.str();
+            }
+
+            EVENT_CLASS_TYPE(KeyTyped)
+    };
+
     inline std::ostream& operator<<(std::ostream& os, const Event& e) {
         return os << e.toString();
     }
