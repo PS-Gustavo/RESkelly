@@ -30,10 +30,11 @@ namespace skelly {
             Window* _m_window = nullptr;
 
             // bool imguiResolveWindowClose();
-            // bool imguiResolveWindowResize();
             // bool imguiResolveWindowFocus();
             // bool imguiResolveWindowLostFocus();
             // bool imguiResolveWindowMoved();
+            bool imguiResolveWindowResize(WindowResizeEvent& event);
+            bool imguiResolveKeyTyped(KeyTypedEvent& event);
             bool imguiResolveKeyPressed(KeyPressedEvent& event);
             bool imguiResolveKeyReleased(KeyReleasedEvent& event);
             bool imguiResolveMouseButtonPressed(MouseButtonPressedEvent& event);
