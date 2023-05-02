@@ -10,7 +10,7 @@ set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 set(PCH_FILE ${SKELLY_PATH}/pch.cpp)
 
 ## Skelly libs
-set(skelly_libs imgui skelly_logger skelly_window skelly_layer skelly_render)
+set(skelly_libs imgui skelly_logger skelly_window skelly_layer skelly_render skelly_core)
 
 ## Skelly libs source paths
 set(imgui_path
@@ -24,7 +24,11 @@ set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
 set(skelly_window_path ${SKELLY_PATH}/utils/window/window.cpp)
 set(skelly_layer_path ${SKELLY_PATH}/utils/layer/layer.cpp ${SKELLY_PATH}/utils/layer/layerStack.cpp)
 set(skelly_render_path ${SKELLY_PATH}/utils/render/render.cpp)
-
+set(skelly_core_path
+    ${SKELLY_PATH}/utils/application/application.cpp
+    ${SKELLY_PATH}/utils/layer/imgui/imguiLayer.cpp
+    ${SKELLY_PATH}/utils/inputPoll/input.cpp
+)
 
 ## Skelly lib include paths
 set(imgui_includes
@@ -39,6 +43,11 @@ set(skelly_window_includes
 set(skelly_layer_includes  ${SKELLY_PATH}/utils/layer/)
 set(skelly_render_includes
     ${SKELLY_PATH}/utils/render/
+)
+set(skelly_core_includes
+    ${SKELLY_PATH}/utils/application/
+    ${SKELLY_PATH}/utils/layer/imgui/
+    ${SKELLY_PATH}/utils/inputPoll/
 )
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
