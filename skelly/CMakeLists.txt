@@ -50,10 +50,12 @@ endforeach()
 add_library(skelly_dyn SHARED
     ${SKELLY_PATH}/skelly.cpp
     ${SKELLY_PATH}/utils/layer/imgui/imguiLayer.cpp
+    ${SKELLY_PATH}/utils/inputPoll/input.cpp
 )
 target_include_directories(skelly_dyn PUBLIC
     ${SKELLY_PATH}/
     ${SKELLY_PATH}/utils/layer/imgui/
+    ${SKELLY_PATH}/utils/inputPoll/
 )
 target_link_libraries(skelly_dyn PUBLIC skelly_window skelly_layer skelly_render)
 set_property(

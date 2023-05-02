@@ -14,7 +14,11 @@
     #define SKELLY_API
 #endif
 
-#ifdef ENABLE_ASSERTS
+#ifdef DEBUG_ENABLED
+    #define ENABLE_ASSERTS 1
+#endif
+
+#if ENABLE_ASSERTS
     #ifdef PLATFORM_WINDOWS
         #define SKELLY_ASSERT(x, ...) { if(!(x)) { SKELLY_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
         #define BODY_ASSERT(x, ...) { if(!(x)) { BODY_LOG_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

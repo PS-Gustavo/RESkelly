@@ -3,6 +3,7 @@
 #include <logger.h>
 #include <window.h>
 #include <imguiLayer.h>
+#include <input.h>
 
 #ifndef PCH_ENABLED
     #include <defs.h>

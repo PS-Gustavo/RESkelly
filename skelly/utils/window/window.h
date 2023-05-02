@@ -42,6 +42,8 @@ namespace skelly {
             virtual void setVSync(bool enabled) = 0;
             virtual bool isVSync() const = 0;
 
+            virtual void* getNativeWindow() const = 0;
+
             static Window* create(const WindowProps& props = WindowProps());
     };
 }
@@ -52,10 +54,10 @@ namespace skelly {
 #ifdef PLATFORM_LINUX
 
 namespace skelly {
-    class LinuxWindow : public Window {
+    class PlatWindow : public Window {
         public:
-            LinuxWindow(const WindowProps& props);
-            virtual ~LinuxWindow();
+            PlatWindow(const WindowProps& props);
+            virtual ~PlatWindow();
 
             void onUpdate() override;
 
@@ -67,6 +69,7 @@ namespace skelly {
             void setVSync(bool enabled) override;
             bool isVSync() const override;
 
+            inline virtual void* getNativeWindow() const { return _m_window; }
         private:
             virtual void init(const WindowProps& props);
             virtual void shutdown();

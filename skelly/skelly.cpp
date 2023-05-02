@@ -60,6 +60,10 @@ namespace skelly {
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();
             }
+
+            auto[x, y] = Input::getMouseCoord();
+            SKELLY_LOG_TRACE("{0}, {1}", x, y);
+
             if(_m_window != nullptr) _m_window->onUpdate();
         }
         

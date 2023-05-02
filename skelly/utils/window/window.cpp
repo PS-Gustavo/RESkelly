@@ -1,6 +1,7 @@
 #include <window.h>
 
 #ifdef PLATFORM_LINUX
+#endif
 
 namespace skelly {
 
@@ -11,18 +12,18 @@ namespace skelly {
     }
 
     Window* Window::create(const WindowProps& props) {
-        return new LinuxWindow(props);
+        return new PlatWindow(props);
     }
 
-    LinuxWindow::LinuxWindow(const WindowProps& props) {
+    PlatWindow::PlatWindow(const WindowProps& props) {
         init(props);
     }
 
-    LinuxWindow::~LinuxWindow() {
+    PlatWindow::~PlatWindow() {
         shutdown();
     };
 
-    void LinuxWindow::init(const WindowProps& props) {
+    void PlatWindow::init(const WindowProps& props) {
         m_data.title = props.title;
         m_data.width = props.width;
         m_data.height = props.height;
@@ -129,25 +130,23 @@ namespace skelly {
 
     }
 
-    void LinuxWindow::shutdown() {
+    void PlatWindow::shutdown() {
         glfwDestroyWindow(_m_window);
     }
 
-    void LinuxWindow::onUpdate() {
+    void PlatWindow::onUpdate() {
         glfwPollEvents();
         glfwSwapBuffers(_m_window);
     }
 
-    void LinuxWindow::setVSync(bool enabled) {
+    void PlatWindow::setVSync(bool enabled) {
         (enabled) ? glfwSwapInterval(1) : glfwSwapInterval(0);
 
         m_data.vSync = enabled;
     }
 
-    bool LinuxWindow::isVSync() const {
+    bool PlatWindow::isVSync() const {
         return m_data.vSync;
     }
 
 }
-#endif
-
