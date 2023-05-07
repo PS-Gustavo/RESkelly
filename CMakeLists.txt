@@ -26,8 +26,11 @@ set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR_PATH}/glfw/)
 # glad
 add_subdirectory(${VENDOR_PATH}/glad/)
+# glm
+add_subdirectory(${VENDOR_PATH}/glm/)
 # opengl
 find_package(OpenGL REQUIRED)
+
 
 
 ## global properties
