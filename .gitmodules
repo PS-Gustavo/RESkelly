@@ -8,3 +8,6 @@
 	path = vendors/imgui
 	url = https://github.com/ocornut/imgui.git
 	branch = master
+[submodule "vendors/glm"]
+	path = vendors/glm
+	url = https://github.com/g-truc/glm.git
