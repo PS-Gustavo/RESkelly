@@ -8,6 +8,8 @@
     #include <mouseEvent.h>
     #include <keyEvent.h>
     #include <windowEvent.h>
+    #include <keyBindings.h>
+    #include <mouseBindings.h>
 #endif
 
 namespace skelly {

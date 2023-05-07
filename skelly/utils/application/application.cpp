@@ -41,7 +41,7 @@ namespace skelly {
     void Application::onEvent(Event& e) {
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::_m_onWindowClose));
-        SKELLY_LOG_TRACE("{0}", e);
+        // SKELLY_LOG_TRACE("{0}", e);
 
         for (auto it = _m_layerStack.end(); it != _m_layerStack.begin();) {
             (*--it)->onEvent(e);
@@ -57,9 +57,6 @@ namespace skelly {
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();
             }
-
-            auto[x, y] = Input::getMouseCoord();
-            SKELLY_LOG_TRACE("{0}, {1}", x, y);
 
             if(_m_window != nullptr) _m_window->onUpdate();
         }

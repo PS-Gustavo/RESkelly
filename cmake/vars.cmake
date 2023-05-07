@@ -48,6 +48,7 @@ set(skelly_core_includes
     ${SKELLY_PATH}/utils/application/
     ${SKELLY_PATH}/utils/layer/imgui/
     ${SKELLY_PATH}/utils/inputPoll/
+    ${SKELLY_PATH}/utils/inputBindings/
 )
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)

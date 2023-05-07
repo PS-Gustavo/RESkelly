@@ -12,6 +12,8 @@
     #include <mouseEvent.h>
     #include <keyEvent.h>
     #include <layerStack.h>
+    #include <keyBindings.h>
+    #include <mouseBindings.h>
 #endif
 
 namespace skelly {

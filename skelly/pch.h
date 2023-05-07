@@ -20,6 +20,8 @@
     #include <spdlog/sinks/stdout_color_sinks.h>
 
     #include <defs.h>
+    #include <keycodes.h>
+
     #include <windowEvent.h>
     #include <mouseEvent.h>
     #include <keyEvent.h>
