@@ -38,11 +38,11 @@
 
 #define EVENT_CLASS_TYPE(type) \
     static EventType getStaticType() { return EventType::type; }\
-    virtual EventType getEventType() const override { return getStaticType(); }\
-    virtual const char* getName() const override { return  #type; }
+    EventType getEventType() const override { return getStaticType(); }\
+    const char* getName() const override { return  #type; }
 
 #define EVENT_CLASS_CATEGORY(category)\
-    virtual int getCategoryFlags() const override { return category; }
+    int getCategoryFlags() const override { return category; }
 
 #define DISPATCH_BINDER(type, fn)\
     dispatcher.dispatch<type>(std::bind(&fn, this, std::placeholders::_1))

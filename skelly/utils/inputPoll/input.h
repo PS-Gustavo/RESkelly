@@ -27,11 +27,11 @@ namespace skelly {
 
     class PlatInput : public Input {
         protected:
-            virtual bool m_isKeyPressedImpl(int keycode) override;
-            virtual bool m_isMouseButtonPressedImpl(int button) override;
-            virtual float m_getMouseXImpl() override;
-            virtual float m_getMouseYImpl() override;
-            virtual std::pair<float, float> m_getMouseCoordImpl() override;
+            bool m_isKeyPressedImpl(int keycode) override;
+            bool m_isMouseButtonPressedImpl(int button) override;
+            float m_getMouseXImpl() override;
+            float m_getMouseYImpl() override;
+            std::pair<float, float> m_getMouseCoordImpl() override;
     } ;
 
 }

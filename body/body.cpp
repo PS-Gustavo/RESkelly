@@ -6,14 +6,14 @@ namespace body {
         public:
             BodyLayer() : Layer("Example") {}
 
-            virtual void onUpdate() override {}
+            void onUpdate() override {}
 
-            virtual void onEvent(skelly::Event& event) override {
+            void onEvent(skelly::Event& event) override {
                 BODY_LOG_TRACE("{0}", event);
             }
 
-            virtual void onAttach() {}
-            virtual void onDetach() {}
+            void onAttach() override {}
+            void onDetach() override {}
 
     };
 
