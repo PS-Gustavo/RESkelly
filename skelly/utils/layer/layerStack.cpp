@@ -24,6 +24,9 @@ namespace skelly {
 
     void LayerStack::pushOverlay(Layer* overlay) {
         _m_layers.emplace_back(overlay);
+        if (_m_layers.size() == 1) {
+            _m_layerIterator = _m_layers.begin();
+        }
     }
 
     void LayerStack::popOverlay(Layer* overlay) {

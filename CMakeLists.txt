@@ -42,6 +42,7 @@ endif()
 # Project run mode configurations
 if (${DEBUG_ENABLED})
     message(STATUS "CONFIG: Debug mode enabled.")
+    set(CMAKE_BUILD_TYPE Debug)
     add_compile_definitions(ENABLE_ASSERTS)
 endif()
 # Compile options

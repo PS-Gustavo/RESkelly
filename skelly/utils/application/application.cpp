@@ -25,17 +25,19 @@ namespace skelly {
         layer->onAttach();
     }
     void Application::popLayer(Layer* layer) {
-        SKELLY_LOG_TRACE("Creating new layer: {0}", layer->getName());
+        SKELLY_LOG_TRACE("Destroying layer: {0}", layer->getName());
         _m_layerStack.popLayer(layer);
+        layer->onDetach();
     }
     void Application::pushOverlay(Layer* overlay) {
-        SKELLY_LOG_TRACE("Creating new layer: {0}", overlay->getName());
+        SKELLY_LOG_TRACE("Creating new overlay: {0}", overlay->getName());
         _m_layerStack.pushOverlay(overlay);
         overlay->onAttach();
     }
     void Application::popOverlay(Layer* overlay) {
-        SKELLY_LOG_TRACE("Creating new layer: {0}", overlay->getName());
+        SKELLY_LOG_TRACE("Destroying overlay: {0}", overlay->getName());
         _m_layerStack.popOverlay(overlay);
+        overlay->onDetach();
     }
 
     void Application::onEvent(Event& e) {

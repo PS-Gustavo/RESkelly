@@ -1,7 +1,7 @@
 #pragma once
 
 #include <window.h>
-#include <skelly.h>
+#include <application.h>
 #include <GLFW/glfw3.h>
 
 namespace skelly {

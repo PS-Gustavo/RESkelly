@@ -1,6 +1,6 @@
 #pragma once
 
-#include <skelly.h>
+#include <application.h>
 #include <render.h>
 
 #ifndef PCH_ENABLED

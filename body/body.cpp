@@ -6,22 +6,21 @@ namespace body {
         public:
             BodyLayer() : Layer("Example") {}
 
-            void onUpdate() override {
-                //BODY_LOG_INFO("Example Layer: Update");
-            }
+            virtual void onUpdate() override {}
 
-            void onEvent(skelly::Event& event) override {
+            virtual void onEvent(skelly::Event& event) override {
                 BODY_LOG_TRACE("{0}", event);
             }
 
+            virtual void onAttach() {}
+            virtual void onDetach() {}
+
     };
 
-    class Body : public skelly::Application {
+    class Body : public skelly::Skelly {
         public:
             Body() {
-                createWindow();
                 pushLayer(new BodyLayer());
-                pushOverlay(new skelly::ImguiLayer());
             }
 
             ~Body() {}
