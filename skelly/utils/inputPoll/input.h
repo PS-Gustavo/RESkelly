@@ -1,5 +1,13 @@
 #pragma once
 
+/**
+ * Input and Platform Agnostic Input Interface
+ * 
+ * Input class defines the methods to poll whether input events are triggered or not;
+ * PlatInput is an interface that defines the polling functions based on platform, 
+ * making Input class platform agnostic;
+*/
+
 #include <window.h>
 #include <application.h>
 #include <GLFW/glfw3.h>
