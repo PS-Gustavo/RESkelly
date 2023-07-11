@@ -19,6 +19,8 @@ set(imgui_path
     ${VENDOR_PATH}/imgui/imgui_draw.cpp
     ${VENDOR_PATH}/imgui/imgui_tables.cpp
     ${VENDOR_PATH}/imgui/imgui_widgets.cpp
+    ${VENDOR_PATH}/imgui/backends/imgui_impl_opengl3.cpp
+    ${VENDOR_PATH}/imgui/backends/imgui_impl_glfw.cpp
 )
 set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
 set(skelly_window_path ${SKELLY_PATH}/utils/window/window.cpp)
@@ -53,5 +55,5 @@ set(skelly_core_includes
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
     set(skelly_layer_includes ${skelly_layer_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
-    set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/ {VENDOR_PATH}/imguiCM/imgui/)
+    set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/imgui/)
 endif()
