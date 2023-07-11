@@ -23,7 +23,7 @@ namespace skelly {
 
         private:
             std::vector<Layer*> _m_layers;
-            std::vector<Layer*>::iterator _m_layerIterator;
+            unsigned int _m_layerIteratorIndex;
 
     };
 
