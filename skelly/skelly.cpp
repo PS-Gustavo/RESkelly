@@ -10,6 +10,5 @@ namespace skelly {
 
     void Skelly::init() {
         createWindow();
-        pushOverlay(new skelly::ImguiLayer());
     }
 }

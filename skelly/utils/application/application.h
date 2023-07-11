@@ -19,6 +19,8 @@
 
 namespace skelly {
 
+    class ImguiLayer;
+
     class SKELLY_API Application {
         public:
             Application();
@@ -51,8 +53,10 @@ namespace skelly {
 
             // application layer stack
             LayerStack _m_layerStack;
-
+            ImguiLayer* _m_imguiLayer;
+            
             std::unique_ptr<Window> _m_window;
+            
             // std::map<std::string, std::unique_ptr<Window>> m_windows;
             bool _m_running = true;
     };

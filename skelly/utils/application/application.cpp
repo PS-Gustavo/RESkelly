@@ -17,6 +17,9 @@ namespace skelly {
     void Application::createWindow() {
         _m_window = std::unique_ptr<Window>(Window::create());
         _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+
+        _m_imguiLayer = new ImguiLayer();
+        pushOverlay(_m_imguiLayer);
     }
 
     void Application::pushLayer(Layer* layer) {
@@ -59,6 +62,12 @@ namespace skelly {
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();
             }
+
+            _m_imguiLayer->begin();
+            for (Layer* layer : _m_layerStack) {
+                layer->onImguiRender();
+            }
+            _m_imguiLayer->end();
 
             if(_m_window != nullptr) _m_window->onUpdate();
         }
