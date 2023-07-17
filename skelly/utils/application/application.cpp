@@ -74,7 +74,7 @@ namespace skelly {
         
     }
 
-    bool Application::_m_onWindowClose(WindowCloseEvent& e) {
+    bool Application::_m_onWindowClose([[maybe_unused]] WindowCloseEvent& e) {
         _m_running = false;
         return _m_running;
     }    

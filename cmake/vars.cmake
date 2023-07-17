@@ -1,5 +1,12 @@
 message(STATUS "Importing project variables")
 
+## Compile configs
+if (MSVC)
+    set(compiler_options /W4)
+else()
+    set(compiler_options -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 ## Global paths
 # folders
 set(CONFIG_PATH ${ROOT_PATH}/config)

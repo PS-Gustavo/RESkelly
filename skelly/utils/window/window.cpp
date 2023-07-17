@@ -61,7 +61,7 @@ namespace skelly {
             data.eventCallback(event);
         });
 
-        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key, int scancode, int action, int mods){
+        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key, int action, [[maybe_unused]] int scancode, [[maybe_unused]] int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             // WIP: Change action mapping from glfw specific to Skelly specific (framework agnostic)
@@ -94,7 +94,7 @@ namespace skelly {
             data.eventCallback(event);
         });
 
-        glfwSetMouseButtonCallback(_m_window, [](GLFWwindow* window, int button, int action, int mods){
+        glfwSetMouseButtonCallback(_m_window, [](GLFWwindow* window, int button, int action, [[maybe_unused]] int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             switch(action) {

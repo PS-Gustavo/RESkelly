@@ -57,8 +57,7 @@ namespace skelly {
             template<typename T>
             bool dispatch(EventFn<T> func) {
                 if(_m_event.getEventType() == T::getStaticType()) {
-                    _m_event.m_isHandled == func(*(T*)&_m_event);
-                    return true;
+                    _m_event.m_isHandled = func(*(T*)&_m_event);
                 }
                 return false;
             }

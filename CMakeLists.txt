@@ -31,7 +31,8 @@ add_subdirectory(${VENDOR_PATH}/glm/)
 # opengl
 find_package(OpenGL REQUIRED)
 
-
+## set global compiler options
+add_compile_options(${compiler_options})
 
 ## global properties
 # Platform configurations
