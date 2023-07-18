@@ -37,9 +37,10 @@ namespace skelly {
         }
 
         _m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
-        glfwMakeContextCurrent(_m_window);
-        int status = gladLoadGL(glfwGetProcAddress);
-        SKELLY_ASSERT(status, "Failed to initialize Glad.")
+
+        _m_context = new RenderContext(_m_window);  
+        _m_context->init();
+
         glfwSetWindowUserPointer(_m_window, &m_data);
         setVSync(true);
 
@@ -136,12 +137,11 @@ namespace skelly {
 
     void PlatWindow::onUpdate() {
         glfwPollEvents();
-        glfwSwapBuffers(_m_window);
+        _m_context->swapBuffers();
     }
 
     void PlatWindow::setVSync(bool enabled) {
         (enabled) ? glfwSwapInterval(1) : glfwSwapInterval(0);
-
         m_data.vSync = enabled;
     }
 

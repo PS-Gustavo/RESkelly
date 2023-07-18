@@ -14,6 +14,19 @@
     #define SKELLY_API
 #endif
 
+#ifdef PLATFORM_IOS
+    #define SKELLY_API
+#endif
+
+#ifdef USING_OPENGL
+#endif
+
+#ifdef USING_DIRECTX
+#endif
+
+#ifdef USING_VULKAN
+#endif
+
 #ifdef DEBUG_ENABLED
     #define ENABLE_ASSERTS 1
 #endif
