@@ -55,8 +55,8 @@ namespace skelly {
     }
 
     void Application::run() {
-        while(_m_running) {
-            glClearColor(0.6F, 0, 1, 1);
+        while(_m_running) {            
+            glClearColor(0, 0, 0, 0);
             glClear(GL_COLOR_BUFFER_BIT);
             
             for (Layer* layer : _m_layerStack) {

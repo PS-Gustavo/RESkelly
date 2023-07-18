@@ -1,8 +1,8 @@
 #pragma once
 
-#include <glad/gl.h>
-#include <GLFW/glfw3.h>
 #include <logger.h>
+#include <graphicContext.h>
+#include <renderContext.h>
 
 #ifndef PCH_ENABLED
     #include <defs.h>
@@ -74,7 +74,8 @@ namespace skelly {
             virtual void init(const WindowProps& props);
             virtual void shutdown();
 
-            GLFWwindow* _m_window;            
+            GLFWwindow* _m_window;
+            GraphicContext* _m_context;
 
             struct WindowData {
                 std::string title;
