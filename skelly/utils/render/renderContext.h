@@ -16,15 +16,12 @@ namespace skelly {
     
     class RenderContext : public GraphicContext {
         public:
-            //#ifdef USING_OPENGL
             RenderContext(GLFWwindow* windowHandle);
-            //#endif
 
             virtual void init() override;
             virtual void swapBuffers() override;
         private:
-            // #ifdef USING_OPENGL
-                GLFWwindow* _m_windowHandle;
-            // #endif
+            GLFWwindow* _m_windowHandle;
+            
     };
 }

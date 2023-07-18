@@ -24,12 +24,17 @@ set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
 add_subdirectory(${VENDOR_PATH}/glfw/)
-# glad
-add_subdirectory(${VENDOR_PATH}/glad/)
 # glm
 add_subdirectory(${VENDOR_PATH}/glm/)
-# opengl
-find_package(OpenGL REQUIRED)
+
+
+# OpenGL suite
+if (${USING_OPENGL})
+    message(STATUS "Using OpenGL as rendering API.")
+    add_subdirectory(${VENDOR_PATH}/glad/)
+    find_package(OpenGL REQUIRED)
+    add_compile_definitions(USING_OPENGL)
+endif()
 
 ## set global compiler options
 add_compile_options(${compiler_options})
