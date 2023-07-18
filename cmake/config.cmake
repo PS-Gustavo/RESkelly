@@ -1,5 +1,14 @@
 message(STATUS "Importing project configurations")
 
+## Rendering API
+#  Pick one of the available APIs below.
+#  DirectX should only be used with Windows!
+#  Metal should only be used with iOS!
+set(USING_OPENGL ON)
+#set(USING_VULKAN OFF)
+#set(USING_DIRECTX OFF)
+#set(USING_METAL OFF)
+
 ## Verbose mode
 #  Runs all build steps using the --verbose flag
 set(CMAKE_VERBOSE_MAKEFILE OFF)

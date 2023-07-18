@@ -57,7 +57,9 @@ namespace skelly {
             
             std::unique_ptr<Window> _m_window;
             
-            // std::map<std::string, std::unique_ptr<Window>> m_windows;
             bool _m_running = true;
+
+            // vertex mockup structures
+            unsigned int _m_vertexArray, _m_vertexBuffer, _m_indexBuffer;
     };
 }
