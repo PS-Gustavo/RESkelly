@@ -4,6 +4,7 @@
 #include <window.h>
 #include <imguiLayer.h>
 #include <input.h>
+#include <shader.h>
 
 #ifndef PCH_ENABLED
     #include <defs.h>
@@ -59,7 +60,9 @@ namespace skelly {
             
             bool _m_running = true;
 
-            // vertex mockup structures
+            // rendering mockup structures
             unsigned int _m_vertexArray, _m_vertexBuffer, _m_indexBuffer;
+            std::unique_ptr<Shader> _m_shader;
+
     };
 }
