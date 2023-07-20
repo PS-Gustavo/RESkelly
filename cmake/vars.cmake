@@ -21,6 +21,7 @@ set(skelly_libs
     imgui
     skelly_logger
     skelly_contexts
+    skelly_shader
     skelly_window
     skelly_layer
     skelly_render
@@ -38,7 +39,8 @@ set(imgui_path
     ${VENDOR_PATH}/imgui/backends/imgui_impl_glfw.cpp
 )
 set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
-set(skelly_contexts_path ${SKELLY_PATH}/utils/render/renderContext.cpp)
+set(skelly_contexts_path ${SKELLY_PATH}/utils/render/context/renderContext.cpp)
+set(skelly_shader_path ${SKELLY_PATH}/utils/render/shader/shader.cpp)
 set(skelly_window_path ${SKELLY_PATH}/utils/window/window.cpp)
 set(skelly_layer_path ${SKELLY_PATH}/utils/layer/layer.cpp ${SKELLY_PATH}/utils/layer/layerStack.cpp)
 set(skelly_render_path ${SKELLY_PATH}/utils/render/render.cpp)
@@ -54,7 +56,8 @@ set(imgui_includes
     ${VENDOR_PATH}/imgui/backends/
 )
 set(skelly_logger_includes ${SKELLY_PATH}/utils/logger/)
-set(skelly_contexts_includes ${SKELLY_PATH}/utils/render/)
+set(skelly_contexts_includes ${SKELLY_PATH}/utils/render/context/)
+set(skelly_shader_includes ${SKELLY_PATH}/utils/render/shader/)
 set(skelly_window_includes 
     ${SKELLY_PATH}/utils/window/
     ${SKELLY_PATH}/utils/eventHandler/
@@ -72,6 +75,7 @@ set(skelly_core_includes
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
     set(skelly_contexts_includes ${skelly_contexts_includes} ${SKELLY_PATH}/)
+    set(skelly_shader_includes ${skelly_shader_includes} ${SKELLY_PATH}/)
     set(skelly_layer_includes ${skelly_layer_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
     set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/imgui/)
 endif()
