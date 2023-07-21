@@ -28,6 +28,8 @@ namespace skelly {
             virtual void onDetach() override;
             virtual void onImguiRender() override;
 
+            static void imguiOverlayPane(bool* p_open);
+
             void begin();
             void end();
 

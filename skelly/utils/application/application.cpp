@@ -54,8 +54,10 @@ namespace skelly {
             layout(location = 0) in vec3 a_Position;
 
             out vec3 v_Position;
+            out float v_offset;
 
             void main() {
+                v_offset = 0.5;
                 v_Position = a_Position;
                 gl_Position = vec4(a_Position, 1.0);
             }
@@ -67,9 +69,10 @@ namespace skelly {
             layout(location = 0) out vec4 color;
 
             in vec3 v_Position;
+            in float v_offset;
 
             void main() {
-                color = vec4(0.81*(v_Position[0]*0.5+0.5), 0.5*(v_Position[1]*0.5+0.5), 0.3*(v_Position[2]*0.5+0.5), 1.0);
+                color = vec4(0.81*(v_Position[0]*0.5+v_offset), 0.5*(v_Position[1]*0.5+v_offset), 0.3*(v_Position[2]*0.5+v_offset), 1.0);
             }
         )";
 
