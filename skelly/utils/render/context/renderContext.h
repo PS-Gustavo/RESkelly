@@ -8,6 +8,7 @@
 #ifndef PCH_ENABLED
     #include <defs.h>
     #include <logger.h>
+    #include <iostream>
 #endif
 
 class GLFWwindow;

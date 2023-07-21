@@ -1,4 +1,3 @@
-#include <iostream>
 #include <renderContext.h>
 
 namespace skelly {

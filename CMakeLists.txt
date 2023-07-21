@@ -50,6 +50,7 @@ if (${DEBUG_ENABLED})
     message(STATUS "CONFIG: Debug mode enabled.")
     set(CMAKE_BUILD_TYPE Debug)
     add_compile_definitions(ENABLE_ASSERTS)
+    add_compile_definitions(DEBUG_ENABLED)
 endif()
 # Compile options
 if (${BENCHMARK_ENABLED})
