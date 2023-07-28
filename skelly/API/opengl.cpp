@@ -6,7 +6,7 @@ namespace skelly {
 
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) {
         glCreateBuffers(1, &_m_rendererId);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _m_rendererId);
+        glBindBuffer(GL_ARRAY_BUFFER, _m_rendererId);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
     }
 
