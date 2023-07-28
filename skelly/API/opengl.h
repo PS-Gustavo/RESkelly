@@ -1,6 +1,7 @@
 #pragma once
 
 #include <buffer.h>
+#include <shader.h>
 #include <glad/gl.h>
 // #include <GLFW/glfw3.h>
 
@@ -31,6 +32,18 @@ namespace skelly {
         private:
             uint32_t _m_rendererId;
             uint32_t _m_count;
+    };
+
+    class OpenGLShader : public Shader {
+        public:
+            OpenGLShader(std::string& vertexSrc, std::string& fragmentSrc);
+            virtual ~OpenGLShader();
+
+            virtual void bind() const;
+            virtual void unbind() const;
+
+        private:
+            uint32_t _m_rendererId;
     };
 
 }

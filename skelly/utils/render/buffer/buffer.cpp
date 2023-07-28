@@ -12,6 +12,7 @@ namespace skelly {
                 return nullptr;
         }
 
+        SKELLY_ASSERT(false, "VertexBuffer::create unknown behavior.")
         return nullptr;
     }
 
@@ -24,6 +25,7 @@ namespace skelly {
                 return nullptr;
         }
 
+        SKELLY_ASSERT(false, "IndexBuffer::create unknown behavior.")
         return nullptr;
     }
 
