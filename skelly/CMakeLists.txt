@@ -34,13 +34,24 @@ if(${PCH_ENABLED})
         target_precompile_headers(${lib} REUSE_FROM pch_shared)
     endforeach()
 endif()
-target_link_libraries(skelly_contexts PUBLIC skelly_logger glad)
-target_link_libraries(skelly_shader PUBLIC skelly_logger glad)
-target_link_libraries(skelly_window PUBLIC skelly_contexts glfw)
+
+target_link_libraries(skelly_render PUBLIC skelly_logger glad)
+target_compile_definitions(skelly_render PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+
+# target_link_libraries(skelly_contexts PUBLIC skelly_logger glad)
+# target_link_libraries(skelly_api PUBLIC skelly_render skelly_logger skelly_buffer glad)
+# target_link_libraries(skelly_buffer PUBLIC skelly_render skelly_api)
+# target_link_libraries(skelly_shader PUBLIC skelly_logger glad)
+
+target_link_libraries(skelly_window PUBLIC skelly_render glfw)
 target_compile_definitions(skelly_core PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
-target_link_libraries(skelly_core PUBLIC imgui skelly_window skelly_shader skelly_layer glm)
-# target_link_libraries(skelly_render PUBLIC glfw glad imgui)
-# target_compile_definitions(skelly_render PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+target_link_libraries(skelly_core PUBLIC imgui skelly_window skelly_render skelly_layer glm)
+
+#skelly_render
+#skelly_contexts
+#skelly_buffer
+#skelly_shader
+#skelly_api
 
 foreach(lib IN LISTS skelly_libs)
     target_include_directories(${lib} PUBLIC ${${lib}_includes})
