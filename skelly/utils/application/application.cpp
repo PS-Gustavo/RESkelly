@@ -70,8 +70,7 @@ namespace skelly {
             }
         )";
 
-        _m_shader.reset(new Shader(vertexSrc, fragmentSrc));
-
+        _m_shader.reset(Shader::create(vertexSrc, fragmentSrc));
     }
 
     void Application::pushLayer(Layer* layer) {

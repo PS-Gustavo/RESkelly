@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glad/gl.h>
+#include <render.h>
 
 #ifndef PCH_ENABLED
     #include <string>
@@ -12,14 +12,12 @@ namespace skelly {
 
     class Shader {
         public:
-            Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-            ~Shader();
+            virtual ~Shader() {}
 
-            void bind() const;
-            void unbind() const;
+            virtual void bind() const = 0;
+            virtual void unbind() const = 0;
 
-        private:
-            uint32_t _m_rendererId;
+            static Shader* create(std::string& vertexSrc, std::string& fragmentSrc);
     };
 
 }
