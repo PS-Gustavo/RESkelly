@@ -27,26 +27,20 @@ namespace skelly {
         glGenVertexArrays(1, &_m_vertexArray);
         glBindVertexArray(_m_vertexArray);
 
-        glGenBuffers(1, &_m_vertexBuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, _m_vertexBuffer);
-
         float vertices[3*3] = {
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f,
             0.0f, 0.8f, 0.0f
         };
 
-        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        _m_vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
 
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), nullptr);
 
         // index buffer creation
-        glGenBuffers(1, &_m_indexBuffer);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _m_indexBuffer);
-
-        unsigned int indices[3] = {0, 1, 2};
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        uint32_t indices[3] = {0, 1, 2};
+        _m_indexBuffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
 
         std::string vertexSrc = R"(
             #version 450 core
@@ -120,7 +114,8 @@ namespace skelly {
             // drawing a triangle
             _m_shader->bind();
             glBindVertexArray(_m_vertexArray);
-            glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+            // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+            glDrawElements(GL_TRIANGLES, _m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();
