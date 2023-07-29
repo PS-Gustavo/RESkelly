@@ -47,6 +47,8 @@ namespace skelly {
             void onEvent(Event& e);
             // main application loop
             virtual void run();
+
+            void mockTriangle();
         private:
             // event handler for window close action
             bool _m_onWindowClose(WindowCloseEvent& e);

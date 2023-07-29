@@ -22,6 +22,28 @@ namespace skelly {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
+    void* OpenGLVertexBuffer::getElementType(ShaderDataType type) const {
+        switch (type) {
+            case ShaderDataType::Float: return (void*)GL_FLOAT;
+            case ShaderDataType::Float2: return (void*)GL_FLOAT;
+            case ShaderDataType::Float3: return (void*)GL_FLOAT;
+            case ShaderDataType::Float4: return (void*)GL_FLOAT;
+            case ShaderDataType::Mat3: return (void*)GL_FLOAT;
+            case ShaderDataType::Mat4: return (void*)GL_FLOAT;
+            case ShaderDataType::Int: return (void*)GL_INT;
+            case ShaderDataType::Int2: return (void*)GL_INT;
+            case ShaderDataType::Int3: return (void*)GL_INT;
+            case ShaderDataType::Int4: return (void*)GL_INT;
+            case ShaderDataType::Bool: return (void*)GL_BOOL;
+            default:
+                SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Shader Data Type");
+                return GL_FALSE;
+        }
+
+        SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Error!");
+        return GL_FALSE;
+    }
+
     // IndexBuffer
 
     OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : _m_count(count) {
