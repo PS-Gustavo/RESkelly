@@ -12,31 +12,44 @@ namespace skelly {
 
     Application::~Application() {}
     
-    // Creates the window instance for the application.
-    // CAREFUL! You need to create the window context before creating the layers and overlays.
-    void Application::createWindow() {
-        _m_window = std::unique_ptr<Window>(Window::create());
-        _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
-
-        _m_imguiLayer = new ImguiLayer();
-        pushOverlay(_m_imguiLayer);
-
-
+    void Application::mockTriangle() {
         // triangle drawing example
         // vertex buffer creation
         glGenVertexArrays(1, &_m_vertexArray);
         glBindVertexArray(_m_vertexArray);
 
-        float vertices[3*3] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.0f, 0.8f, 0.0f
+        float vertices[6*7] = {
+            -0.5f, -0.5f, 0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
+            0.5f,  -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+            0.0f,  0.8f,  0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
         };
 
         _m_vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
 
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), nullptr);
+        {
+            BufferLayout layout = {
+                { ShaderDataType::Float3, "a_Position" },
+                { ShaderDataType::Float4, "a_Color" },
+            };
+            _m_vertexBuffer->setLayout(layout);
+        }
+
+        uint32_t index = 0;
+        const auto& layout = _m_vertexBuffer->getLayout();
+        for (const auto& element : layout) {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(
+                index, 
+                element.getComponentCount(),
+                (GLenum)(intptr_t)_m_vertexBuffer->getElementType(element.type),
+                element.isNormalized ? GL_TRUE : GL_FALSE,
+                layout.getStride(),
+                (const void*)(intptr_t) element.offset
+            );
+            index++;
+        }
+
+        
 
         // index buffer creation
         uint32_t indices[3] = {0, 1, 2};
@@ -46,13 +59,12 @@ namespace skelly {
             #version 450 core
 
             layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec4 a_Color;
 
-            out vec3 v_Position;
-            out float v_offset;
+            out vec4 v_Color;
 
             void main() {
-                v_offset = 0.5;
-                v_Position = a_Position;
+                v_Color = a_Color;
                 gl_Position = vec4(a_Position, 1.0);
             }
         )";
@@ -62,15 +74,26 @@ namespace skelly {
 
             layout(location = 0) out vec4 color;
 
-            in vec3 v_Position;
-            in float v_offset;
+            in vec4 v_Color;
 
             void main() {
-                color = vec4(0.81*(v_Position[0]*0.5+v_offset), 0.5*(v_Position[1]*0.5+v_offset), 0.3*(v_Position[2]*0.5+v_offset), 1.0);
+                color = v_Color;
             }
         )";
 
         _m_shader.reset(Shader::create(vertexSrc, fragmentSrc));
+    }
+
+    // Creates the window instance for the application.
+    // CAREFUL! You need to create the window context before creating the layers and overlays.
+    void Application::createWindow() {
+        _m_window = std::unique_ptr<Window>(Window::create());
+        _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+
+        _m_imguiLayer = new ImguiLayer();
+        pushOverlay(_m_imguiLayer);
+
+        mockTriangle();
     }
 
     void Application::pushLayer(Layer* layer) {
@@ -113,7 +136,6 @@ namespace skelly {
             // drawing a triangle
             _m_shader->bind();
             glBindVertexArray(_m_vertexArray);
-            // glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
             glDrawElements(GL_TRIANGLES, _m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
 
             for (Layer* layer : _m_layerStack) {

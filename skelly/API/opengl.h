@@ -12,11 +12,16 @@ namespace skelly {
             OpenGLVertexBuffer(float* vertices, uint32_t size);
             virtual ~OpenGLVertexBuffer();
 
-            virtual void bind() const;
-            virtual void unbind() const;
+            virtual void bind() const override;
+            virtual void unbind() const override;
 
+            virtual const BufferLayout& getLayout() const override { return _m_layout; }
+            virtual void setLayout(const BufferLayout& layout) override { _m_layout = layout; }
+
+            virtual void* getElementType(ShaderDataType type) const override;
         private:
             uint32_t _m_rendererId;
+            BufferLayout _m_layout;
     };
 
     class OpenGLIndexBuffer : public IndexBuffer {
@@ -24,8 +29,8 @@ namespace skelly {
             OpenGLIndexBuffer(uint32_t* indices, uint32_t size);
             virtual ~OpenGLIndexBuffer();
 
-            virtual void bind() const;
-            virtual void unbind() const;
+            virtual void bind() const override;
+            virtual void unbind() const override;
 
             virtual inline uint32_t getCount() const { return _m_count; };
 
@@ -39,8 +44,8 @@ namespace skelly {
             OpenGLShader(std::string& vertexSrc, std::string& fragmentSrc);
             virtual ~OpenGLShader();
 
-            virtual void bind() const;
-            virtual void unbind() const;
+            virtual void bind() const override;
+            virtual void unbind() const override;
 
         private:
             uint32_t _m_rendererId;
