@@ -14,9 +14,8 @@ namespace skelly {
     
     void Application::mockTriangle() {
         // triangle drawing example
-        // vertex buffer creation
-        glGenVertexArrays(1, &_m_vertexArray);
-        glBindVertexArray(_m_vertexArray);
+
+        _m_vertexArray.reset(VertexArray::create());
 
         float vertices[6*7] = {
             -0.5f, -0.5f, 0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
@@ -24,36 +23,22 @@ namespace skelly {
             0.0f,  0.8f,  0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
         };
 
-        _m_vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
+        std::shared_ptr<VertexBuffer> vertexBuffer;
+        vertexBuffer.reset(VertexBuffer::create(vertices, sizeof(vertices)));
 
-        {
-            BufferLayout layout = {
-                { ShaderDataType::Float3, "a_Position" },
-                { ShaderDataType::Float4, "a_Color" },
-            };
-            _m_vertexBuffer->setLayout(layout);
-        }
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "a_Position" },
+            { ShaderDataType::Float4, "a_Color" },
+        };
+        vertexBuffer->setLayout(layout);
 
-        uint32_t index = 0;
-        const auto& layout = _m_vertexBuffer->getLayout();
-        for (const auto& element : layout) {
-            glEnableVertexAttribArray(index);
-            glVertexAttribPointer(
-                index, 
-                element.getComponentCount(),
-                (GLenum)(intptr_t)_m_vertexBuffer->getElementType(element.type),
-                element.isNormalized ? GL_TRUE : GL_FALSE,
-                layout.getStride(),
-                (const void*)(intptr_t) element.offset
-            );
-            index++;
-        }
-
-        
+        _m_vertexArray->addVertexBuffer(vertexBuffer);
 
         // index buffer creation
         uint32_t indices[3] = {0, 1, 2};
-        _m_indexBuffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
+        std::shared_ptr<IndexBuffer> indexBuffer;
+        indexBuffer.reset(IndexBuffer::create(indices, sizeof(indices) / sizeof(uint32_t)));
+        _m_vertexArray->addIndexBuffer(indexBuffer);
 
         std::string vertexSrc = R"(
             #version 450 core
@@ -135,8 +120,8 @@ namespace skelly {
             
             // drawing a triangle
             _m_shader->bind();
-            glBindVertexArray(_m_vertexArray);
-            glDrawElements(GL_TRIANGLES, _m_indexBuffer->getCount(), GL_UNSIGNED_INT, nullptr);
+            _m_vertexArray->bind();
+            glDrawElements(GL_TRIANGLES, _m_vertexArray->getIndexBuffers()[0]->getCount(), GL_UNSIGNED_INT, nullptr);
 
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();

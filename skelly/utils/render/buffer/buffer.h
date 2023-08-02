@@ -119,8 +119,6 @@ namespace skelly {
             virtual const BufferLayout& getLayout() const = 0;
             virtual void setLayout(const BufferLayout& layout) = 0;
 
-            virtual void* getElementType(ShaderDataType type) const = 0;
-
             static VertexBuffer* create(float* vertices, uint32_t size);
     };
 

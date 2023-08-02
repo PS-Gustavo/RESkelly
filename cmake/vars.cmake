@@ -51,6 +51,7 @@ set(skelly_render_path
     ${SKELLY_PATH}/utils/render/render.cpp
     ${SKELLY_PATH}/API/opengl.cpp
     ${SKELLY_PATH}/utils/render/buffer/buffer.cpp
+    ${SKELLY_PATH}/utils/render/buffer/vertexArray.cpp
     ${SKELLY_PATH}/utils/render/context/renderContext.cpp
     ${SKELLY_PATH}/utils/render/shader/shader.cpp
 )
