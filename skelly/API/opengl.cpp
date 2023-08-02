@@ -2,6 +2,86 @@
 
 namespace skelly {
 
+    // Utils
+
+    static GLenum getElementType(ShaderDataType type) {
+        switch (type) {
+            case ShaderDataType::Float: return GL_FLOAT;
+            case ShaderDataType::Float2: return GL_FLOAT;
+            case ShaderDataType::Float3: return GL_FLOAT;
+            case ShaderDataType::Float4: return GL_FLOAT;
+            case ShaderDataType::Mat3: return GL_FLOAT;
+            case ShaderDataType::Mat4: return GL_FLOAT;
+            case ShaderDataType::Int: return GL_INT;
+            case ShaderDataType::Int2: return GL_INT;
+            case ShaderDataType::Int3: return GL_INT;
+            case ShaderDataType::Int4: return GL_INT;
+            case ShaderDataType::Bool: return GL_BOOL;
+            default:
+                SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Shader Data Type");
+                return GL_FALSE;
+        }
+
+        SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Error!");
+        return GL_FALSE;
+    }
+
+    // VertexArray
+
+    OpenGLVertexArray::OpenGLVertexArray() {
+        glCreateVertexArrays(1, &_m_rendererId);
+    }
+
+    OpenGLVertexArray::~OpenGLVertexArray() {
+        glDeleteVertexArrays(1, &_m_rendererId);
+    }
+
+    void OpenGLVertexArray::bind() const {
+        glBindVertexArray(_m_rendererId);
+    }
+
+    void OpenGLVertexArray::unbind() const {
+        glBindVertexArray(0);
+    }
+    
+    void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
+        
+        SKELLY_ASSERT(vertexBuffer->getLayout().getElements().size(), "No layout has been created for the VertexBuffer");
+
+        glBindVertexArray(_m_rendererId);
+        vertexBuffer->bind();
+        uint32_t index = 0;
+        const auto& layout = vertexBuffer->getLayout();
+        for (const auto& element : layout) {
+            glEnableVertexAttribArray(index);
+            glVertexAttribPointer(
+                index, 
+                element.getComponentCount(),
+                getElementType(element.type),
+                element.isNormalized ? GL_TRUE : GL_FALSE,
+                layout.getStride(),
+                (const void*)(intptr_t) element.offset
+            );
+            index++;
+        }
+        
+        _m_vertexBuffers.push_back(vertexBuffer);
+         
+    }
+
+    void OpenGLVertexArray::addIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
+        glBindVertexArray(_m_rendererId);
+        indexBuffer->bind();
+        _m_indexBuffers.push_back(indexBuffer);
+    }
+
+    const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const {
+        return _m_vertexBuffers;
+    }
+    const std::vector<std::shared_ptr<IndexBuffer>>& OpenGLVertexArray::getIndexBuffers() const {
+        return _m_indexBuffers;
+    }
+
     // VertexBuffer
 
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) {
@@ -20,28 +100,6 @@ namespace skelly {
 
     void OpenGLVertexBuffer::unbind() const {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
-    }
-
-    void* OpenGLVertexBuffer::getElementType(ShaderDataType type) const {
-        switch (type) {
-            case ShaderDataType::Float: return (void*)GL_FLOAT;
-            case ShaderDataType::Float2: return (void*)GL_FLOAT;
-            case ShaderDataType::Float3: return (void*)GL_FLOAT;
-            case ShaderDataType::Float4: return (void*)GL_FLOAT;
-            case ShaderDataType::Mat3: return (void*)GL_FLOAT;
-            case ShaderDataType::Mat4: return (void*)GL_FLOAT;
-            case ShaderDataType::Int: return (void*)GL_INT;
-            case ShaderDataType::Int2: return (void*)GL_INT;
-            case ShaderDataType::Int3: return (void*)GL_INT;
-            case ShaderDataType::Int4: return (void*)GL_INT;
-            case ShaderDataType::Bool: return (void*)GL_BOOL;
-            default:
-                SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Shader Data Type");
-                return GL_FALSE;
-        }
-
-        SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Error!");
-        return GL_FALSE;
     }
 
     // IndexBuffer

@@ -7,6 +7,7 @@
 
 #include <shader.h>
 #include <buffer.h>
+#include <vertexArray.h>
 
 #ifndef PCH_ENABLED
     #include <defs.h>
@@ -65,10 +66,8 @@ namespace skelly {
             bool _m_running = true;
 
             // rendering mockup structures
-            unsigned int _m_vertexArray;           
-            std::unique_ptr<VertexBuffer> _m_vertexBuffer;
-            std::unique_ptr<IndexBuffer> _m_indexBuffer;
-            std::unique_ptr<Shader> _m_shader;
+            std::shared_ptr<VertexArray> _m_vertexArray;
+            std::shared_ptr<Shader> _m_shader;
 
     };
 }
