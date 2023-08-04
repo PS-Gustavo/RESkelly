@@ -49,6 +49,7 @@ set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
 
 set(skelly_render_path
     ${SKELLY_PATH}/utils/render/render.cpp
+    ${SKELLY_PATH}/utils/render/rendererAPI.cpp
     ${SKELLY_PATH}/API/opengl.cpp
     ${SKELLY_PATH}/utils/render/buffer/buffer.cpp
     ${SKELLY_PATH}/utils/render/buffer/vertexArray.cpp

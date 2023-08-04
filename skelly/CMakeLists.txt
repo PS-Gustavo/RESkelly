@@ -35,7 +35,7 @@ if(${PCH_ENABLED})
     endforeach()
 endif()
 
-target_link_libraries(skelly_render PUBLIC skelly_logger glad)
+target_link_libraries(skelly_render PUBLIC skelly_logger glad glm)
 target_compile_definitions(skelly_render PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 
 # target_link_libraries(skelly_contexts PUBLIC skelly_logger glad)
@@ -45,7 +45,7 @@ target_compile_definitions(skelly_render PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 
 target_link_libraries(skelly_window PUBLIC skelly_render glfw)
 target_compile_definitions(skelly_core PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
-target_link_libraries(skelly_core PUBLIC imgui skelly_window skelly_render skelly_layer glm)
+target_link_libraries(skelly_core PUBLIC imgui skelly_window skelly_render skelly_layer)
 
 #skelly_render
 #skelly_contexts

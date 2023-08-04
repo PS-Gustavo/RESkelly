@@ -4,8 +4,8 @@
 namespace skelly {
 
     VertexBuffer* VertexBuffer::create(float* vertices, uint32_t size) {
-        switch (Renderer::getAPI()) {
-            case RenderAPI::OpenGL:
+        switch (Renderer::getTargetAPI()) {
+            case RenderTarget::OpenGL:
                 return new OpenGLVertexBuffer(vertices, size);
             default:
                 SKELLY_ASSERT(false, "No Rendering API found!");
@@ -17,8 +17,8 @@ namespace skelly {
     }
 
     IndexBuffer* IndexBuffer::create(uint32_t* indices, uint32_t size) {
-        switch (Renderer::getAPI()) {
-            case RenderAPI::OpenGL:
+        switch (Renderer::getTargetAPI()) {
+            case RenderTarget::OpenGL:
                 return new OpenGLIndexBuffer(indices, size);
             default:
                 SKELLY_ASSERT(false, "No rendering API found!");
