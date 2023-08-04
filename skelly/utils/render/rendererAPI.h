@@ -1,10 +1,9 @@
 #pragma once
 
 #include <glm/vec4.hpp>
-// #include <vertexArray.h>
+#include <vertexArray.h>
 
 #ifndef PCH_ENABLED
-    // #include <memory>
 #endif
 
 namespace skelly {
@@ -22,7 +21,7 @@ namespace skelly {
             virtual void setClearColor(const glm::vec4& color) = 0;
             virtual void clear() = 0;
 
-        //     virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray);
+            virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
             inline static RenderTarget getRenderTarget() { return _s_renderTarget; }
         private:

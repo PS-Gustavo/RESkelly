@@ -4,9 +4,16 @@
 #include <vertexArray.h>
 #include <shader.h>
 #include <glad/gl.h>
-// #include <GLFW/glfw3.h>
 
 namespace skelly {
+
+    class OpenGLRendererAPI : public RendererAPI {
+        public:
+            virtual void setClearColor(const glm::vec4& color) override;
+            virtual void clear() override;
+
+            virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
+    };
 
     class OpenGLVertexArray : public VertexArray {
         public:

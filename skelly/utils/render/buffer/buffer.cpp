@@ -1,5 +1,6 @@
 #include <buffer.h>
 #include <opengl.h>
+#include <render.h>
 
 namespace skelly {
 
