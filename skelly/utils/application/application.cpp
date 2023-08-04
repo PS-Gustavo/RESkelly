@@ -115,13 +115,24 @@ namespace skelly {
 
     void Application::run() {
         while(_m_running) {            
+
+            // drawing a triangle             
             glClearColor(0.1f, 0.1f, 0.1f, 1);
             glClear(GL_COLOR_BUFFER_BIT);
-            
-            // drawing a triangle
+            // RenderCommand::setClearColor(0.1f, 0.1f, 0.1f, 1);
+            // RenderCommand::clear();
+
+            // Renderer::beginScene(camera, lights, environment);
+            // Renderer::beginScene();
+
             _m_shader->bind();
             _m_vertexArray->bind();
             glDrawElements(GL_TRIANGLES, _m_vertexArray->getIndexBuffers()[0]->getCount(), GL_UNSIGNED_INT, nullptr);
+
+            // Renderer::submit(_m_vertexArray);
+           
+            // Renderer::endScene();
+            // Renderer::flush();
 
             for (Layer* layer : _m_layerStack) {
                 layer->onUpdate();

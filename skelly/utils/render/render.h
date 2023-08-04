@@ -1,24 +1,22 @@
 #pragma once
 
 // #include <stdio.h>
+#include <rendererAPI.h>
 
 namespace skelly {
 
-    enum class RenderAPI {
-        None = 0,
-        OpenGL = 1,
-        Direct3D = 2,
-        Vulkan = 3,
-        Metal = 4
-    };
-
     class Renderer {
         public:
-            inline static RenderAPI getAPI() { return _s_rendererAPI; }
-            inline void setAPI(RenderAPI api) { _s_rendererAPI = api; }
+            // inline static RenderTarget getAPI() { return _s_rendererAPITarget; }
+            // inline void setAPI(RenderTarget api) { _s_rendererAPITarget = api; }
 
-        private:
-            static RenderAPI _s_rendererAPI;
+            inline static RenderTarget getTargetAPI() { return RendererAPI::getRenderTarget(); }
     };
+
+    // class RendererCommands {
+    //     public:
+
+    //     private:
+    // };
 
 }
