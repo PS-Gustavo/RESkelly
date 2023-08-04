@@ -1,7 +1,5 @@
 #pragma once
 
-#include <render.h>
-
 #ifndef PCH_ENABLED
     #include <defs.h>
     #include <logger.h>

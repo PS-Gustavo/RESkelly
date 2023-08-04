@@ -18,7 +18,6 @@
     #include <layerStack.h>
     #include <keyBindings.h>
     #include <mouseBindings.h>
-    #include <glm/vec3.hpp>
 #endif
 
 namespace skelly {
