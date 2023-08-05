@@ -1,14 +1,46 @@
+
+/****************************************************************************************
+ * 
+ * Frontal
+ * Application Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Basic logging, windowing, layer, rendering and events
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * This is the engine focal point for the Body project.
+ * This module initializes all Skelly structures as necessary, and provides the necessary
+ * tools and modules to create the desired end application.
+ * 
+ ***************************************************************************************/
+
 #include <application.h>
 #include <render.h>
 
 namespace skelly {
     Application* Application::_s_instance;
 
+    // Lifetime handlers
+
+    // If you modify the constructor behavior, be careful! You need to create the window 
+    // context before creating the layers and overlays.
     Application::Application() {
         _s_instance = this;
         _m_window = nullptr;
         
         Logger::init();
+        _m_window = std::unique_ptr<Window>(Window::create());
+        _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+
+        // debug layer
+        _m_imguiLayer = new ImguiLayer();
+        pushOverlay(_m_imguiLayer);
     }
 
     Application::~Application() {}
@@ -20,7 +52,7 @@ namespace skelly {
 
         float vertices[6*7] = {
             -0.5f, -0.5f, 0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
-            0.5f,  -0.5f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+            0.5f,  -0.5f, 0.0f, 1.0f, 1.0f, 0.4f, 1.0f,
             0.0f,  0.8f,  0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
         };
 
@@ -70,17 +102,7 @@ namespace skelly {
         _m_shader.reset(Shader::create(vertexSrc, fragmentSrc));
     }
 
-    // Creates the window instance for the application.
-    // CAREFUL! You need to create the window context before creating the layers and overlays.
-    void Application::createWindow() {
-        _m_window = std::unique_ptr<Window>(Window::create());
-        _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
-
-        _m_imguiLayer = new ImguiLayer();
-        pushOverlay(_m_imguiLayer);
-
-        mockTriangle();
-    }
+    // layer stack handlers
 
     void Application::pushLayer(Layer* layer) {
         SKELLY_LOG_TRACE("Creating new layer: {0}", layer->getName());
@@ -103,50 +125,51 @@ namespace skelly {
         overlay->onDetach();
     }
 
+    // event handlers
+
     void Application::onEvent(Event& e) {
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::_m_onWindowClose));
-        // SKELLY_LOG_TRACE("{0}", e);
-
+ 
         for (auto it = _m_layerStack.end(); it != _m_layerStack.begin();) {
             (*--it)->onEvent(e);
             if (e.isHandled()) break;
         }
     }
 
-    void Application::run() {
-        while(_m_running) {            
-
-            // drawing a mock triangle
-            RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
-            RenderCommands::clear();
-
-            // Renderer::beginScene(camera, lights, environment);
-            // Renderer::beginScene();
-
-            _m_shader->bind();
-            Renderer::submit(_m_vertexArray);
-           
-            // Renderer::endScene();
-            // Renderer::flush();
-
-            for (Layer* layer : _m_layerStack) {
-                layer->onUpdate();
-            }
-
-            _m_imguiLayer->begin();
-            for (Layer* layer : _m_layerStack) {
-                layer->onImguiRender();
-            }
-            _m_imguiLayer->end();
-
-            if(_m_window != nullptr) _m_window->onUpdate();
-        }
-        
-    }
-
     bool Application::_m_onWindowClose([[maybe_unused]] WindowCloseEvent& e) {
         _m_running = false;
         return _m_running;
     }    
+
+    // main application loop
+
+    void Application::run() {
+        while(_m_running) {            
+
+            // standard clear operation
+            RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
+            RenderCommands::clear();
+
+            // draw if there are contents in the vertexArray
+            if (_m_shader.use_count()) {
+                _m_shader->bind();
+                Renderer::submit(_m_vertexArray);
+            }
+            
+            // sweep and update layers
+            for (Layer* layer : _m_layerStack) {
+                layer->onUpdate();
+            }
+            if (_m_imguiLayer != nullptr) {
+                _m_imguiLayer->begin();
+                for (Layer* layer : _m_layerStack) {
+                    layer->onImguiRender();
+                }
+                _m_imguiLayer->end();
+            }
+
+            if (_m_window != nullptr) _m_window->onUpdate();
+        }
+    }
 }

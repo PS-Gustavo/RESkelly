@@ -35,6 +35,7 @@ namespace body {
 int main() {
     try {           
         body::Body App;
+        App.mockTriangle();       
         App.run();
     }
     catch(const std::exception& e) {
