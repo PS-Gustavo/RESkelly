@@ -8,8 +8,6 @@ namespace skelly {
         public:
             Skelly();
             virtual ~Skelly();
-
-            void init();
     };
 
 }
