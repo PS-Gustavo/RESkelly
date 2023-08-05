@@ -22,8 +22,6 @@
 
 #pragma once
 
-#include <logger.h>
-
 #include <window.h>
 #include <imguiLayer.h>
 #include <layerStack.h>
@@ -42,6 +40,7 @@
 // #include <mouseBindings.h>
 
 #ifndef PCH_ENABLED
+    #include <logger.h>
     #include <defs.h>
     #include <iostream>
 #endif

@@ -1,3 +1,25 @@
+
+/****************************************************************************************
+ * 
+ * Sphenoid
+ * Logger Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Basic logging, setup and Spdlog usage
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * This is the logging solution. It allows the application to send relevant messages to
+ * the console, as well as provide the funcionality to create asserts and warnings or error
+ * messages during runs. Currently, it uses the SPDLog solution.
+ * 
+ ***************************************************************************************/
+
 #pragma once
 
 #ifndef PCH_ENABLED
