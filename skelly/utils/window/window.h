@@ -1,16 +1,14 @@
 #pragma once
 
-#include <logger.h>
-#include <graphicContext.h>
-#include <renderContext.h>
+#include <windowEvent.h>
+#include <mouseEvent.h>
+#include <keyEvent.h>
 
 #ifndef PCH_ENABLED
     #include <defs.h>
+    #include <logger.h>
     #include <string>
     #include <functional>
-    #include <windowEvent.h>
-    #include <mouseEvent.h>
-    #include <keyEvent.h>
 #endif
 
 // Platform agnostic section
@@ -47,48 +45,3 @@ namespace skelly {
             static Window* create(const WindowProps& props = WindowProps());
     };
 }
-
-#ifdef PLATFORM_WINDOWS
-#endif
-
-#ifdef PLATFORM_LINUX
-
-namespace skelly {
-    class PlatWindow : public Window {
-        public:
-            PlatWindow(const WindowProps& props);
-            virtual ~PlatWindow();
-
-            void onUpdate() override;
-
-            inline unsigned int getWidth() const override { return m_data.width; }
-            inline unsigned int getHeight() const override { return m_data.height; }
-
-            inline void setEventCallback(const EventCallbackFn& callback) 
-                override { m_data.eventCallback = callback; }
-            void setVSync(bool enabled) override;
-            bool isVSync() const override;
-
-            inline virtual void* getNativeWindow() const { return _m_window; }
-        private:
-            virtual void init(const WindowProps& props);
-            virtual void shutdown();
-
-            GLFWwindow* _m_window;
-            GraphicContext* _m_context;
-
-            struct WindowData {
-                std::string title;
-                unsigned int width, height;
-                bool vSync;
-
-                EventCallbackFn eventCallback;
-            };
-
-            WindowData m_data;
-    };
-}
-#endif
-
-#ifdef PLATFORM_IOS
-#endif
