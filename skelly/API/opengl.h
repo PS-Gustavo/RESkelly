@@ -3,7 +3,16 @@
 #include <buffer.h>
 #include <vertexArray.h>
 #include <shader.h>
+
+#include <window.h>
+#include <graphicContext.h>
+
 #include <glad/gl.h>
+#include <GLFW/glfw3.h>
+
+#ifndef PCH_ENABLED
+    #include <logger.h>
+#endif
 
 namespace skelly {
 
@@ -13,6 +22,50 @@ namespace skelly {
             virtual void clear() override;
 
             virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) override;
+    };
+
+    class OpenGLRenderContext : public GraphicContext {
+        public:
+            OpenGLRenderContext(GLFWwindow* windowHandle);
+
+            virtual void init() override;
+            virtual void swapBuffers() override;
+        private:
+            GLFWwindow* _m_windowHandle;
+    };
+
+    class OpenGLWindow : public Window {
+        public:
+            OpenGLWindow(const WindowProps& props);
+            virtual ~OpenGLWindow();
+
+            void onUpdate() override;
+
+            inline unsigned int getWidth() const override { return m_data.width; }
+            inline unsigned int getHeight() const override { return m_data.height; }
+
+            inline void setEventCallback(const EventCallbackFn& callback) 
+                override { m_data.eventCallback = callback; }
+            void setVSync(bool enabled) override;
+            bool isVSync() const override;
+
+            inline virtual void* getNativeWindow() const { return _m_window; }
+        private:
+            virtual void init(const WindowProps& props);
+            virtual void shutdown();
+
+            GLFWwindow* _m_window;
+            GraphicContext* _m_context;
+
+            struct WindowData {
+                std::string title;
+                unsigned int width, height;
+                bool vSync;
+
+                EventCallbackFn eventCallback;
+            };
+
+            WindowData m_data;
     };
 
     class OpenGLVertexArray : public VertexArray {

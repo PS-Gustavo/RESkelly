@@ -2,21 +2,6 @@
 
 namespace skelly {
 
-    // Renderer API
-
-    void OpenGLRendererAPI::setClearColor(const glm::vec4& color) {
-        glClearColor(color.r, color.g, color.b, color.a);
-
-    }
-    
-    void OpenGLRendererAPI::clear() {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    }
-
-    void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) {
-        glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffers()[0]->getCount(), GL_UNSIGNED_INT, nullptr);
-    }
-
     // Utils
 
     static GLenum getElementType(ShaderDataType type) {
@@ -39,6 +24,183 @@ namespace skelly {
 
         SKELLY_ASSERT(false, "getOpenGLShaderDataType: Unknown Error!");
         return GL_FALSE;
+    }
+
+    // Renderer API
+
+    void OpenGLRendererAPI::setClearColor(const glm::vec4& color) {
+        glClearColor(color.r, color.g, color.b, color.a);
+
+    }
+    
+    void OpenGLRendererAPI::clear() {
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    }
+
+    void OpenGLRendererAPI::drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) {
+        glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffers()[0]->getCount(), GL_UNSIGNED_INT, nullptr);
+    }
+
+    // RenderContext
+
+    OpenGLRenderContext::OpenGLRenderContext(GLFWwindow* windowHandle) : _m_windowHandle(windowHandle) {
+        SKELLY_ASSERT(windowHandle, "Window handle is null.")
+    }
+
+    void OpenGLRenderContext::init() {
+        glfwMakeContextCurrent(_m_windowHandle);
+        int status = gladLoadGL(glfwGetProcAddress);
+        SKELLY_ASSERT(status, "Failed to initialize Glad.")
+        
+        // init log hardware dump
+        SKELLY_LOG_INFO("Vendor: {0}", (const char*) glGetString(GL_VENDOR));
+        SKELLY_LOG_INFO("Renderer Hardware: {0}", (const char*) glGetString(GL_RENDERER));
+        SKELLY_LOG_INFO("Version: {0}", (const char*) glGetString(GL_VERSION));
+    }
+
+    void OpenGLRenderContext::swapBuffers() {        
+        glfwSwapBuffers(_m_windowHandle);
+    }
+
+    // Window
+
+    static bool s_GLFWInitialized = false;
+
+    static void GLFWErrorCallback(int error, const char* desc) {
+        SKELLY_LOG_ERROR("GLFW Error: ({0}) {1}", error, desc);
+    }
+
+    OpenGLWindow::OpenGLWindow(const WindowProps& props) {
+        init(props);
+    }
+
+    OpenGLWindow::~OpenGLWindow() {
+        shutdown();
+    };
+
+    void OpenGLWindow::init(const WindowProps& props) {
+        m_data.title = props.title;
+        m_data.width = props.width;
+        m_data.height = props.height;
+
+        SKELLY_LOG_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
+        if(!s_GLFWInitialized) {
+            int success = glfwInit();
+            SKELLY_ASSERT(success, "Could not initialize GLFW");
+            glfwSetErrorCallback(GLFWErrorCallback);
+            s_GLFWInitialized = true;
+        }
+
+        _m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
+
+        _m_context = new OpenGLRenderContext(_m_window);  
+        _m_context->init();
+
+        glfwSetWindowUserPointer(_m_window, &m_data);
+        setVSync(true);
+
+        // GLFW callbacks
+        glfwSetWindowSizeCallback(_m_window, [](GLFWwindow* window, int width, int height){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            data.width = width;
+            data.height = height;
+            
+            WindowResizeEvent event(width, height);
+            data.eventCallback(event);
+        });
+
+        glfwSetWindowCloseCallback(_m_window, [](GLFWwindow* window){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            WindowCloseEvent event;
+            data.eventCallback(event);
+        });
+
+        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key, int action, [[maybe_unused]] int scancode, [[maybe_unused]] int mods){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            // WIP: Change action mapping from glfw specific to Skelly specific (framework agnostic)
+            switch(action) {
+                case GLFW_RELEASE: {
+                    KeyReleasedEvent event(key);
+                    data.eventCallback(event);
+                    break;
+                }
+                case GLFW_PRESS: {
+                    KeyPressedEvent event(key, 0);
+                    data.eventCallback(event);
+                    break;
+                }
+                case GLFW_REPEAT: {
+                    KeyPressedEvent event(key, 1);
+                    data.eventCallback(event);
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        });
+
+        glfwSetCharCallback(_m_window, [](GLFWwindow* window, unsigned int keycode){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            KeyTypedEvent event(keycode);
+            data.eventCallback(event);
+        });
+
+        glfwSetMouseButtonCallback(_m_window, [](GLFWwindow* window, int button, int action, [[maybe_unused]] int mods){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            switch(action) {
+                case GLFW_RELEASE: {
+                    MouseButtonReleasedEvent event(button);
+                    data.eventCallback(event);
+                    break;
+                }
+                case GLFW_PRESS: {
+                    MouseButtonPressedEvent event(button);
+                    data.eventCallback(event);
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        });
+
+        glfwSetScrollCallback(_m_window, [](GLFWwindow* window, double xOffset, double yOffset){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            MouseScrolledEvent event((float)xOffset, (float)yOffset);
+            data.eventCallback(event);
+        });
+
+        glfwSetCursorPosCallback(_m_window, [](GLFWwindow* window, double xPos, double yPos){
+            WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+            MouseMovedEvent event((float)xPos, (float)yPos);
+            data.eventCallback(event);
+        });
+    }
+
+    void OpenGLWindow::shutdown() {
+        glfwDestroyWindow(_m_window);
+    }
+
+    void OpenGLWindow::onUpdate() {
+        glfwPollEvents();
+        _m_context->swapBuffers();
+    }
+
+    void OpenGLWindow::setVSync(bool enabled) {
+        (enabled) ? glfwSwapInterval(1) : glfwSwapInterval(0);
+        m_data.vSync = enabled;
+    }
+
+    bool OpenGLWindow::isVSync() const {
+        return m_data.vSync;
     }
 
     // VertexArray
