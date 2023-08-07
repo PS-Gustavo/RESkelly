@@ -5,14 +5,14 @@ namespace skelly {
     
     VertexArray* VertexArray::create() {
         switch (Renderer::getTargetAPI()) {
-            case RenderTarget::OpenGL:
+            case APITarget::OpenGL:
                 return new OpenGLVertexArray();
             default:
-                SKELLY_ASSERT(false, "No Rendering API found!");
+                SKELLY_ASSERT(false, "VertexArray::create: No Rendering API found!");
                 return nullptr;
         }
 
-        SKELLY_ASSERT(false, "VertexBuffer::create unknown behavior.")
+        SKELLY_ASSERT(false, "VertexArray::create: unknown behavior.")
         return nullptr;
     }   
 }

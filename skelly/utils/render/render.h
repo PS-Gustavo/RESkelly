@@ -1,6 +1,5 @@
 #pragma once
 
-// #include <stdio.h>
 #include <rendererAPI.h>
 
 namespace skelly {
@@ -12,7 +11,7 @@ namespace skelly {
 
             static void submit(std::shared_ptr<VertexArray>& vertexArray);
 
-            inline static RenderTarget getTargetAPI() { return RendererAPI::getRenderTarget(); }
+            inline static APITarget getTargetAPI() { return RendererAPI::getTargetAPI(); }
     };
 
     class RenderCommands {

@@ -39,15 +39,13 @@ set(imgui_path
 )
 set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
 ##WIP: Conditionals for environment should go here
-set(skelly_api_path ${SKELLY_PATH}/API/opengl.cpp)
+set(skelly_api_path ${SKELLY_PATH}/API/OpenGL/opengl.cpp)
 ##
 set(skelly_render_path
     ${SKELLY_PATH}/utils/render/render.cpp
     ${SKELLY_PATH}/utils/render/rendererAPI.cpp
-    ${SKELLY_PATH}/API/opengl.cpp
     ${SKELLY_PATH}/utils/render/buffer/buffer.cpp
     ${SKELLY_PATH}/utils/render/buffer/vertexArray.cpp
-    ${SKELLY_PATH}/utils/render/context/renderContext.cpp
     ${SKELLY_PATH}/utils/render/shader/shader.cpp
 )
 
@@ -67,7 +65,7 @@ set(imgui_includes
 )
 set(skelly_logger_includes ${SKELLY_PATH}/utils/logger/)
 set(skelly_api_includes
-    ${SKELLY_PATH}/API/
+    ${SKELLY_PATH}/API/OpenGL/
     ${SKELLY_PATH}/utils/render/
     ${SKELLY_PATH}/utils/render/context/
     ${SKELLY_PATH}/utils/render/buffer/
