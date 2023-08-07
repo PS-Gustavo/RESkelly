@@ -4,17 +4,10 @@
 #include <vertexArray.h>
 
 #ifndef PCH_ENABLED
+    #include <defs.h>
 #endif
 
 namespace skelly {
-
-    enum class RenderTarget {
-        None = 0,
-        OpenGL = 1,
-        Direct3D = 2,
-        Vulkan = 3,
-        Metal = 4
-    };
 
     class RendererAPI {
         public:
@@ -23,9 +16,9 @@ namespace skelly {
 
             virtual void drawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
-            inline static RenderTarget getRenderTarget() { return _s_renderTarget; }
+            inline static APITarget getTargetAPI() { return _s_targetAPI; }
         private:
-            static RenderTarget _s_renderTarget;
+            static APITarget _s_targetAPI;
     };
 
 }

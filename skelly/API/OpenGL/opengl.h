@@ -41,15 +41,17 @@ namespace skelly {
 
             void onUpdate() override;
 
-            inline unsigned int getWidth() const override { return m_data.width; }
-            inline unsigned int getHeight() const override { return m_data.height; }
+            unsigned int getWidth() const override { return _m_data.width; }
+            void setWidth(unsigned int width) override { _m_data.width = width; }
+            unsigned int getHeight() const override { return _m_data.height; }
+            void setHeight(unsigned int height) override { _m_data.height = height; }
 
-            inline void setEventCallback(const EventCallbackFn& callback) 
-                override { m_data.eventCallback = callback; }
+            void setEventCallback(const EventCallbackFn& callback) 
+                override { _m_data.eventCallback = callback; }
             void setVSync(bool enabled) override;
             bool isVSync() const override;
 
-            inline virtual void* getNativeWindow() const { return _m_window; }
+            virtual void* getNativeWindow() const { return _m_window; }
         private:
             virtual void init(const WindowProps& props);
             virtual void shutdown();
@@ -65,7 +67,7 @@ namespace skelly {
                 EventCallbackFn eventCallback;
             };
 
-            WindowData m_data;
+            WindowData _m_data;
     };
 
     class OpenGLVertexArray : public VertexArray {

@@ -36,7 +36,7 @@ namespace skelly {
             case ShaderDataType::Int4: return sizeof(int)*4;
             case ShaderDataType::Bool: return sizeof(char);
             default:
-                SKELLY_ASSERT(false, "Unknown ShaderDataType");
+                SKELLY_ASSERT(false, "ShaderDataTypeSize: Unknown ShaderDataType");
                 return 0;
         }
 
@@ -70,7 +70,7 @@ namespace skelly {
                 case ShaderDataType::Int4: return 4;
                 case ShaderDataType::Bool: return 1;
                 default:
-                    SKELLY_ASSERT(false, "getElementCount: Unknown Shader Data Type.");
+                    SKELLY_ASSERT(false, "BufferElement::getElementCount: Unknown Shader Data Type.");
                     return 0;
             }
         }

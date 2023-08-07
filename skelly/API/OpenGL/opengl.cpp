@@ -44,13 +44,13 @@ namespace skelly {
     // RenderContext
 
     OpenGLRenderContext::OpenGLRenderContext(GLFWwindow* windowHandle) : _m_windowHandle(windowHandle) {
-        SKELLY_ASSERT(windowHandle, "Window handle is null.")
+        SKELLY_ASSERT(windowHandle, "OpenGLRenderContext: Window handle is null.")
     }
 
     void OpenGLRenderContext::init() {
         glfwMakeContextCurrent(_m_windowHandle);
         int status = gladLoadGL(glfwGetProcAddress);
-        SKELLY_ASSERT(status, "Failed to initialize Glad.")
+        SKELLY_ASSERT(status, "OpenGLRenderContext::init: Failed to initialize Glad.")
         
         // init log hardware dump
         SKELLY_LOG_INFO("Vendor: {0}", (const char*) glGetString(GL_VENDOR));
@@ -79,24 +79,24 @@ namespace skelly {
     };
 
     void OpenGLWindow::init(const WindowProps& props) {
-        m_data.title = props.title;
-        m_data.width = props.width;
-        m_data.height = props.height;
+        _m_data.title = props.title;
+        _m_data.width = props.width;
+        _m_data.height = props.height;
 
         SKELLY_LOG_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
         if(!s_GLFWInitialized) {
             int success = glfwInit();
-            SKELLY_ASSERT(success, "Could not initialize GLFW");
+            SKELLY_ASSERT(success, "OpenGLWindow::init: Could not initialize GLFW");
             glfwSetErrorCallback(GLFWErrorCallback);
             s_GLFWInitialized = true;
         }
 
-        _m_window = glfwCreateWindow((int)props.width, (int)props.height, m_data.title.c_str(), nullptr, nullptr);
+        _m_window = glfwCreateWindow((int)props.width, (int)props.height, _m_data.title.c_str(), nullptr, nullptr);
 
         _m_context = new OpenGLRenderContext(_m_window);  
         _m_context->init();
 
-        glfwSetWindowUserPointer(_m_window, &m_data);
+        glfwSetWindowUserPointer(_m_window, &_m_data);
         setVSync(true);
 
         // GLFW callbacks
@@ -196,11 +196,11 @@ namespace skelly {
 
     void OpenGLWindow::setVSync(bool enabled) {
         (enabled) ? glfwSwapInterval(1) : glfwSwapInterval(0);
-        m_data.vSync = enabled;
+        _m_data.vSync = enabled;
     }
 
     bool OpenGLWindow::isVSync() const {
-        return m_data.vSync;
+        return _m_data.vSync;
     }
 
     // VertexArray
@@ -223,7 +223,7 @@ namespace skelly {
     
     void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) {
         
-        SKELLY_ASSERT(vertexBuffer->getLayout().getElements().size(), "No layout has been created for the VertexBuffer");
+        SKELLY_ASSERT(vertexBuffer->getLayout().getElements().size(), "OpenGLVertexArray::addVertexBuffer: No layout has been created for the VertexBuffer");
 
         glBindVertexArray(_m_rendererId);
         vertexBuffer->bind();
@@ -322,7 +322,7 @@ namespace skelly {
             glDeleteShader(vertexShader);
 
             SKELLY_LOG_ERROR("{0}", infoLog.data());
-            SKELLY_ASSERT(false, "Vertex shader compilation failure");
+            SKELLY_ASSERT(false, "OpenGLShader: Vertex shader compilation failure");
 
             return;
         }
@@ -346,7 +346,7 @@ namespace skelly {
             glDeleteShader(vertexShader);
 
             SKELLY_LOG_ERROR("{0}", infoLog.data());
-            SKELLY_ASSERT(false, "Fragment shader compilation failure");
+            SKELLY_ASSERT(false, "OpenGLShader: Fragment shader compilation failure");
 
             return;
         }
@@ -373,7 +373,7 @@ namespace skelly {
             glDeleteShader(fragmentShader);
 
             SKELLY_LOG_ERROR("{0}", infoLog.data());
-            SKELLY_ASSERT(false, "Shader linking failure.");
+            SKELLY_ASSERT(false, "OpenGLShader: Shader linking failure.");
 
             return;
         }

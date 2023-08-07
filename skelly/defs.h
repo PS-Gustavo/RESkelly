@@ -59,3 +59,11 @@
 
 #define DISPATCH_BINDER(type, fn)\
     dispatcher.dispatch<type>(std::bind(&fn, this, std::placeholders::_1))
+
+enum class APITarget {
+    None = 0,
+    OpenGL = 1,
+    Direct3D = 2,
+    Vulkan = 3,
+    Metal = 4
+};

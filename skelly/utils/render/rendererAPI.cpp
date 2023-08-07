@@ -2,6 +2,6 @@
 
 namespace skelly {
     
-    RenderTarget RendererAPI::_s_renderTarget = RenderTarget::OpenGL;
+    APITarget RendererAPI::_s_targetAPI = APITarget::OpenGL;
 
 }
