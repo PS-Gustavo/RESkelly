@@ -1,3 +1,24 @@
+
+/****************************************************************************************
+ * 
+ * Temporal
+ * Events Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Basic event handling, key, mouse and window handlers
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * This is the specification for events involving the window. Classes in this section deal
+ * with the resizing and closing actions.
+ * 
+ ***************************************************************************************/
+
 #pragma once
 
 #include <event.h>

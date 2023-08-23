@@ -1,3 +1,24 @@
+
+/****************************************************************************************
+ * 
+ * Temporal
+ * Events Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Basic event handling, key, mouse and window handlers
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * This is the specification for events involving the mouse. The classes store the position
+ * information, buttons pressed or other relevant information.
+ * 
+ ***************************************************************************************/
+
 #pragma once
 
 #include <event.h>

@@ -1,5 +1,9 @@
 #pragma once
 
+#ifndef PCH_ENABLED
+    #include <string>
+#endif
+
 #define SKELLY_API
 
 #ifdef PLATFORM_WINDOWS
@@ -66,4 +70,15 @@ enum class APITarget {
     Direct3D = 2,
     Vulkan = 3,
     Metal = 4
+};
+
+struct WindowProps {
+    std::string title;
+    unsigned int width;
+    unsigned int height;
+
+    WindowProps(const std::string& title = "RESkelly",
+        unsigned int width = 1280,
+        unsigned int height = 720
+    ) : title(title), width(width), height(height) {}
 };
