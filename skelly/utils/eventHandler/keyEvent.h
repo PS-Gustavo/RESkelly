@@ -1,8 +1,33 @@
+
+/****************************************************************************************
+ * 
+ * Temporal
+ * Events Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Basic event handling, key, mouse and window handlers
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * This is the specification for events involving keys. The focal class KeyEvent stores the
+ * keycode affected, and the subclasses define what action was made to that key.
+ * 
+ ***************************************************************************************/
+
 #pragma once
 
 #include <event.h>
 
 namespace skelly {
+
+    inline std::ostream& operator<<(std::ostream& os, const Event& e) {
+        return os << e.toString();
+    }
 
     class SKELLY_API KeyEvent : public Event {
         public:
@@ -61,10 +86,4 @@ namespace skelly {
 
             EVENT_CLASS_TYPE(KeyTyped)
     };
-
-    inline std::ostream& operator<<(std::ostream& os, const Event& e) {
-        return os << e.toString();
-    }
-
-
 }

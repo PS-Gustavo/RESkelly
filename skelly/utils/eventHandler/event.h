@@ -1,3 +1,25 @@
+
+/****************************************************************************************
+ * 
+ * Temporal
+ * Events Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Basic event handling, key, mouse and window handlers
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * This is the generic implementation for event handling. It contains the basic structure
+ * for event identification, as well as the dispatcher to the correct handlers based on
+ * 3 subsets of events: key, mouse or window events.
+ * 
+ ***************************************************************************************/
+
 #pragma once
 
 #ifndef PCH_ENABLED
@@ -47,8 +69,11 @@ namespace skelly {
             bool m_isHandled = false;
     };
 
+    // The dispatcher receives a function with a parameter of type T. If T matches the type
+    // of the event, event is set as handled as its handler is called.
     class EventDispatcher {
         template<typename T>
+        // EventFn receives T and returns bool
         using EventFn = std::function<bool(T&)>;
 
         public:
@@ -58,12 +83,12 @@ namespace skelly {
             bool dispatch(EventFn<T> func) {
                 if(_m_event.getEventType() == T::getStaticType()) {
                     _m_event.m_isHandled = func(*(T*)&_m_event);
+                    return true;
                 }
                 return false;
             }
 
         private:
             Event& _m_event;
-
     };
 }

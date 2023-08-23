@@ -15,7 +15,6 @@ namespace body {
             void onAttach() override {}
             void onDetach() override {}
 
-            
             virtual void onImguiRender() override {
             // Custom Imgui features    
             }

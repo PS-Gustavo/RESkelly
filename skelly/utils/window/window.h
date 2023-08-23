@@ -37,17 +37,6 @@
 
 namespace skelly {
 
-    struct WindowProps {
-        std::string title;
-        unsigned int width;
-        unsigned int height;
-
-        WindowProps(const std::string& title = "RESkelly",
-            unsigned int width = 1280,
-            unsigned int height = 720
-        ) : title(title), width(width), height(height) {}
-    };
-
     class Window {
         public:
             virtual ~Window() {}
