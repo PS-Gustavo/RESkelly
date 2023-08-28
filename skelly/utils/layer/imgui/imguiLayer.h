@@ -1,48 +1,61 @@
+
+/****************************************************************************************
+ * 
+ * Occipital
+ * ImGui Overlay Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Render GUI interface, basic overlay debug features.
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * ImguiLayer is an expansion of the Layer module, and is built to be GUI agnostic. It 
+ * provides basic features to debug applications in a overlay during runtime. The 
+ * functions called by the Skelly module are consumed directly from ImGui's backend.
+ * 
+ ***************************************************************************************/
+
 #pragma once
 
-#include <application.h>
-
-#define IMGUI_IMPL_API
-#define IMGUI_IMPL_OPENGL_LOADER_GLAD
-#include <imgui.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
-
-#include <glad/gl.h>
-#include <GLFW/glfw3.h>
-
 #ifndef PCH_ENABLED
+    #include <window.h>
     #include <layer.h>
     #include <mouseEvent.h>
     #include <keyEvent.h>
-    #include <windowEvent.h>
-    #include <keyBindings.h>
-    #include <mouseBindings.h>
 #endif
 
 namespace skelly {
 
     class SKELLY_API ImguiLayer : public Layer {
         public:
-            ImguiLayer();
-            ~ImguiLayer();
+            // constr has to be defined in this scope for its symbol name to be 
+            // properly created, other plat-specific functions are pure virtual
+            ImguiLayer([[maybe_unused]] const std::string& name) {}
 
-            virtual void onAttach() override;
-            virtual void onDetach() override;
-            virtual void onImguiRender() override;
+            virtual void onAttach() = 0;
+            virtual void onDetach() = 0;
+            virtual void onImguiRender() = 0;
 
-            static void imguiOverlayPane(bool* p_open);
+            virtual void imguiOverlayPane(bool* p_open) = 0;
 
-            void begin();
-            void end();
+            virtual void begin() = 0;
+            virtual void end() = 0;
 
-            inline void setWindow(Window* window) { _m_window = window; }
-            inline Window* getWindow() { return _m_window; }
+            void setWindow(Window* window) { _m_window = window; }
+            Window* getWindow() { return _m_window; }
 
+            static APITarget getTargetAPI() { return _s_targetAPI; }
+
+            // agnostic creator
+            static ImguiLayer* create(const std::string& overlayName = "ImGui Overlay");
         private:
             float _m_time = 0.0f;
             Window* _m_window = nullptr;
-
+            static APITarget _s_targetAPI;
     };
-
 }

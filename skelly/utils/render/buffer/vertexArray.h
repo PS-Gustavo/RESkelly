@@ -11,8 +11,6 @@ namespace skelly {
 
     class VertexArray {
         public:
-            virtual ~VertexArray() {}
-
             virtual void bind() const = 0;
             virtual void unbind() const = 0;
 

@@ -109,8 +109,6 @@ namespace skelly {
 
     class VertexBuffer {
         public:
-            virtual ~VertexBuffer() {}
-
             virtual void bind() const = 0;
             virtual void unbind() const = 0;
 
@@ -122,8 +120,6 @@ namespace skelly {
 
     class IndexBuffer {
         public:
-            virtual ~IndexBuffer() {}
-
             virtual void bind() const = 0;
             virtual void unbind() const = 0;
 

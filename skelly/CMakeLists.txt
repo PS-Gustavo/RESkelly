@@ -36,13 +36,22 @@ if(${PCH_ENABLED})
 endif()
 
 ## WIP: conditionals should go here
-target_link_libraries(skelly_api PUBLIC skelly_logger glad glfw glm)
-target_compile_definitions(skelly_api PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+target_link_libraries(skelly_api PUBLIC 
+    skelly_logger
+    imgui glad glfw glm
+)
 ##
-target_link_libraries(skelly_render PUBLIC skelly_logger skelly_api)
+target_link_libraries(skelly_render PUBLIC
+    skelly_logger skelly_api
+    imgui
+)
 target_link_libraries(skelly_window PUBLIC skelly_api)
-target_compile_definitions(skelly_core PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
-target_link_libraries(skelly_core PUBLIC imgui skelly_window skelly_render skelly_layer)
+target_link_libraries(skelly_layer PUBLIC skelly_window skelly_api)
+# target_compile_definitions(skelly_core PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
+target_link_libraries(skelly_core PUBLIC
+    skelly_window skelly_render skelly_layer
+    imgui
+)
 
 foreach(lib IN LISTS skelly_libs)
     target_include_directories(${lib} PUBLIC ${${lib}_includes})

@@ -73,6 +73,7 @@ namespace skelly {
             // Application loop
             virtual void run();
 
+            // Mock
             void mockTriangle();
         private:
             // Event handler for window close action
@@ -81,15 +82,16 @@ namespace skelly {
             // Instances
             static Application* _s_instance;
             std::unique_ptr<Window> _m_window;
+            std::unique_ptr<ImguiLayer> _m_imguiLayer;
 
             // Stacks
             LayerStack _m_layerStack;
-            ImguiLayer* _m_imguiLayer;
             
             // Flags
             bool _m_running = true;
 
             // Mock
+            // WIP: Move to Examples
             std::shared_ptr<VertexArray> _m_vertexArray;
             std::shared_ptr<Shader> _m_shader;
     };

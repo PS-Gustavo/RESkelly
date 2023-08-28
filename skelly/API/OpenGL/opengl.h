@@ -7,10 +7,13 @@
 #include <window.h>
 #include <graphicContext.h>
 
+#include <imguiLayer.h>
+
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
 #ifndef PCH_ENABLED
+    #include <layer.h>
     #include <logger.h>
 #endif
 
@@ -68,6 +71,26 @@ namespace skelly {
             };
 
             WindowData _m_data;
+    };
+
+    class OpenGLImgui : public ImguiLayer {
+        public:
+            OpenGLImgui(const std::string& overlayName = "ImGui Overlay");
+
+            virtual void onAttach() override;
+            virtual void onDetach() override;
+            virtual void onImguiRender() override;
+
+            virtual void imguiOverlayPane(bool* p_open) override;
+
+            void begin();
+            void end();
+
+            inline void setWindow(Window* window) { _m_window = window; }
+            inline Window* getWindow() { return _m_window; }
+        private:
+            float _m_time = 0.0f;
+            Window* _m_window = nullptr;
     };
 
     class OpenGLVertexArray : public VertexArray {
