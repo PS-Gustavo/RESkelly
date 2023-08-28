@@ -39,11 +39,15 @@ namespace skelly {
         _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
 
         // debug layer
-        _m_imguiLayer = new ImguiLayer();
-        pushOverlay(_m_imguiLayer);
+        // WIP: pop/push layers needs to support ImguiLayer w/o raw pointer translation
+        _m_imguiLayer = std::unique_ptr<ImguiLayer>(ImguiLayer::create("ImGui Overlay"));
+        pushOverlay(_m_imguiLayer.get());
     }
 
-    Application::~Application() {}
+    Application::~Application() {
+        // Remove from stack before destroying uq pointer;
+        popOverlay(_m_imguiLayer.get());
+    }
     
     void Application::mockTriangle() {
         // triangle drawing example
@@ -163,9 +167,11 @@ namespace skelly {
             }
             if (_m_imguiLayer != nullptr) {
                 _m_imguiLayer->begin();
-                for (Layer* layer : _m_layerStack) {
-                    layer->onImguiRender();
-                }
+                // WIP: Add support for custom ImGui layers
+                // for (Layer* layer : _m_layerStack) {
+                //     layer->onImguiRender();
+                // }
+                _m_imguiLayer->onImguiRender();
                 _m_imguiLayer->end();
             }
 

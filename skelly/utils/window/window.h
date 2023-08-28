@@ -54,7 +54,7 @@ namespace skelly {
 
             // API-specific object fetchers
             virtual void* getNativeWindow() const = 0;
-            inline static APITarget getTargetAPI() { return _s_targetAPI; }
+            static APITarget getTargetAPI() { return _s_targetAPI; }
 
             // Window attribute handlers
             virtual unsigned int getWidth() const = 0;

@@ -48,13 +48,14 @@ set(skelly_render_path
     ${SKELLY_PATH}/utils/render/buffer/vertexArray.cpp
     ${SKELLY_PATH}/utils/render/shader/shader.cpp
 )
-
 set(skelly_window_path ${SKELLY_PATH}/utils/window/window.cpp)
-set(skelly_layer_path ${SKELLY_PATH}/utils/layer/layer.cpp ${SKELLY_PATH}/utils/layer/layerStack.cpp)
-
+set(skelly_layer_path
+    ${SKELLY_PATH}/utils/layer/layer.cpp
+    ${SKELLY_PATH}/utils/layer/layerStack.cpp
+    ${SKELLY_PATH}/utils/layer/imgui/imguiLayer.cpp    
+)
 set(skelly_core_path
     ${SKELLY_PATH}/utils/application/application.cpp
-    ${SKELLY_PATH}/utils/layer/imgui/imguiLayer.cpp
     ${SKELLY_PATH}/utils/inputPoll/input.cpp
 )
 
@@ -66,31 +67,35 @@ set(imgui_includes
 set(skelly_logger_includes ${SKELLY_PATH}/utils/logger/)
 set(skelly_api_includes
     ${SKELLY_PATH}/API/OpenGL/
+    ${SKELLY_PATH}/utils/application/
     ${SKELLY_PATH}/utils/render/
     ${SKELLY_PATH}/utils/render/context/
     ${SKELLY_PATH}/utils/render/buffer/
     ${SKELLY_PATH}/utils/render/shader/
     ${SKELLY_PATH}/utils/window/
     ${SKELLY_PATH}/utils/eventHandler/
+    ${SKELLY_PATH}/utils/layer/
+    ${SKELLY_PATH}/utils/layer/imgui/
 )
 set(skelly_render_includes
     ${SKELLY_PATH}/utils/render/
 )
-
 set(skelly_window_includes 
     ${SKELLY_PATH}/utils/window/
 )
-set(skelly_layer_includes  ${SKELLY_PATH}/utils/layer/)
-
+set(skelly_layer_includes
+    ${SKELLY_PATH}/utils/layer/
+    ${SKELLY_PATH}/utils/layer/imgui/
+)
 set(skelly_core_includes
     ${SKELLY_PATH}/utils/application/
-    ${SKELLY_PATH}/utils/layer/imgui/
     ${SKELLY_PATH}/utils/inputPoll/
     ${SKELLY_PATH}/utils/inputBindings/
 )
+
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
-    set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/imgui/)
+    set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/)
     set(skelly_api_includes ${skelly_api_includes} ${SKELLY_PATH}/)
     set(skelly_shader_includes ${skelly_shader_includes} ${SKELLY_PATH}/)
     set(skelly_layer_includes ${skelly_layer_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
