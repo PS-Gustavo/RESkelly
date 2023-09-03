@@ -21,6 +21,7 @@ set(skelly_libs
     imgui
     skelly_logger
     skelly_api
+    skelly_input
     skelly_render
     skelly_window
     skelly_layer
@@ -41,6 +42,7 @@ set(skelly_logger_path ${SKELLY_PATH}/utils/logger/logger.cpp)
 ##WIP: Conditionals for environment should go here
 set(skelly_api_path ${SKELLY_PATH}/API/OpenGL/opengl.cpp)
 ##
+set(skelly_input_path ${SKELLY_PATH}/utils/inputPoll/input.cpp)
 set(skelly_render_path
     ${SKELLY_PATH}/utils/render/render.cpp
     ${SKELLY_PATH}/utils/render/rendererAPI.cpp
@@ -68,6 +70,7 @@ set(skelly_logger_includes ${SKELLY_PATH}/utils/logger/)
 set(skelly_api_includes
     ${SKELLY_PATH}/API/OpenGL/
     ${SKELLY_PATH}/utils/application/
+    ${SKELLY_PATH}/utils/inputPoll/
     ${SKELLY_PATH}/utils/render/
     ${SKELLY_PATH}/utils/render/context/
     ${SKELLY_PATH}/utils/render/buffer/
@@ -77,12 +80,9 @@ set(skelly_api_includes
     ${SKELLY_PATH}/utils/layer/
     ${SKELLY_PATH}/utils/layer/imgui/
 )
-set(skelly_render_includes
-    ${SKELLY_PATH}/utils/render/
-)
-set(skelly_window_includes 
-    ${SKELLY_PATH}/utils/window/
-)
+set(skelly_input_includes ${SKELLY_PATH}/utils/inputPoll/)
+set(skelly_render_includes ${SKELLY_PATH}/utils/render/)
+set(skelly_window_includes ${SKELLY_PATH}/utils/window/)
 set(skelly_layer_includes
     ${SKELLY_PATH}/utils/layer/
     ${SKELLY_PATH}/utils/layer/imgui/
@@ -95,8 +95,8 @@ set(skelly_core_includes
 
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
-    set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/)
     set(skelly_api_includes ${skelly_api_includes} ${SKELLY_PATH}/)
+    set(skelly_render_includes ${skelly_render_includes} ${SKELLY_PATH}/)
     set(skelly_shader_includes ${skelly_shader_includes} ${SKELLY_PATH}/)
     set(skelly_layer_includes ${skelly_layer_includes} ${SKELLY_PATH}/ ${SKELLY_PATH}/utils/eventHandler/)
 endif()
