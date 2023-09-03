@@ -1,37 +1,42 @@
+
+/****************************************************************************************
+ * 
+ * Lacrimal
+ * Input Polling Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Key and Mouse polling. Agnostic interface and OpenGL.
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * Input module allows polling whether input events are triggered or not;
+ * Currently events supported are keyboard and mouse input events
+ * 
+ ***************************************************************************************/
+
 #include <input.h>
+#include <opengl.h>
 
 namespace skelly {
 
-    Input* Input::_s_instance = new PlatInput();
+    APITarget Input::_s_targetAPI = APITarget::OpenGL;
 
-    bool PlatInput::m_isKeyPressedImpl(int keycode) {
-        auto window = static_cast<GLFWwindow*>(Application::getApplication().getWindow().getNativeWindow());
-        auto state = glfwGetKey(window, keycode);
-        return ((state == GLFW_PRESS) || (state == GLFW_REPEAT));
-    }
+    Input* Input::create() {
+        switch (Input::getTargetAPI()) {
+            case APITarget::OpenGL:
+                return new OpenGLInput();
+            default:
+                SKELLY_ASSERT(false, "Input::create: No Rendering API Found!");
+                return nullptr;
+        }
 
-    bool PlatInput::m_isMouseButtonPressedImpl(int button) {
-        auto window = static_cast<GLFWwindow*>(Application::getApplication().getWindow().getNativeWindow());
-        auto state = glfwGetMouseButton(window, button);
-        return (state == GLFW_PRESS);
-    }
-
-    std::pair<float, float> PlatInput::m_getMouseCoordImpl() {
-        auto window = static_cast<GLFWwindow*>(Application::getApplication().getWindow().getNativeWindow());
-        double xPos, yPos;
-        glfwGetCursorPos(window, &xPos, &yPos);
-        return std::make_pair((float)xPos, (float)yPos);
-    }
-
-    float PlatInput::m_getMouseXImpl() {
-        auto[x, y] = m_getMouseCoordImpl();
-        return x;
-    }
-
-    float PlatInput::m_getMouseYImpl() {
-        auto[x, y] = m_getMouseCoordImpl();
-        return y;
-    }
+        SKELLY_ASSERT(false, "Input::create: unknown behavior.");
+    }    
 
     
 

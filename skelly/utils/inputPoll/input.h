@@ -1,27 +1,47 @@
-#pragma once
 
-/**
- * Input and Platform Agnostic Input Interface
+/****************************************************************************************
  * 
- * Input class defines the methods to poll whether input events are triggered or not;
- * PlatInput is an interface that defines the polling functions based on platform, 
- * making Input class platform agnostic;
-*/
+ * Lacrimal
+ * Input Polling Module
+ * 
+ ****************************************************************************************
+ * 
+ * Changelog:
+ * 
+ * - 0.1.0: Initial implementation; Key and Mouse polling. Agnostic interface and OpenGL.
+ * 
+ **************************************************************************************** 
+ * 
+ * Description:
+ * 
+ * Input module allows polling whether input events are triggered or not;
+ * Currently events supported are keyboard and mouse input events
+ * 
+ ***************************************************************************************/
+
+#pragma once
 
 #include <window.h>
 #include <application.h>
-#include <GLFW/glfw3.h>
+
+#ifndef PCH_ENABLED
+    #include <defs.h>
+#endif
 
 namespace skelly {
 
     class SKELLY_API Input {
         public:
-            inline static bool isKeyPressed(int keycode) { return _s_instance->m_isKeyPressedImpl(keycode); }
-            inline static bool isMouseButtonPressed(int button) { return _s_instance->m_isMouseButtonPressedImpl(button); }
-            inline static float getMouseX() { return _s_instance->m_getMouseXImpl(); }
-            inline static float getMouseY() { return _s_instance->m_getMouseYImpl(); }
-            inline static std::pair<float, float> getMouseCoord() { return _s_instance->m_getMouseCoordImpl(); }
+            static bool isKeyPressed(int keycode) { return _s_instance->m_isKeyPressedImpl(keycode); }
+            static bool isMouseButtonPressed(int button) { return _s_instance->m_isMouseButtonPressedImpl(button); }
+            static float getMouseX() { return _s_instance->m_getMouseXImpl(); }
+            static float getMouseY() { return _s_instance->m_getMouseYImpl(); }
+            static std::pair<float, float> getMouseCoord() { return _s_instance->m_getMouseCoordImpl(); }
 
+            static APITarget getTargetAPI() { return _s_targetAPI; }
+
+            // agnostic creator
+            static Input* create();
         protected:
             virtual bool m_isKeyPressedImpl(int keycode) = 0;
             virtual bool m_isMouseButtonPressedImpl(int button) = 0;
@@ -31,18 +51,6 @@ namespace skelly {
 
         private:
             static Input* _s_instance;
+            static APITarget _s_targetAPI;
     };
-
-    class PlatInput : public Input {
-        protected:
-            bool m_isKeyPressedImpl(int keycode) override;
-            bool m_isMouseButtonPressedImpl(int button) override;
-            float m_getMouseXImpl() override;
-            float m_getMouseYImpl() override;
-            std::pair<float, float> m_getMouseCoordImpl() override;
-    } ;
-
 }
-
-#ifdef PLATFORM_LINUX
-#endif

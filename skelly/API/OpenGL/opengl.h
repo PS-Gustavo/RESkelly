@@ -4,6 +4,7 @@
 #include <vertexArray.h>
 #include <shader.h>
 
+#include <input.h>
 #include <window.h>
 #include <graphicContext.h>
 
@@ -91,6 +92,15 @@ namespace skelly {
         private:
             float _m_time = 0.0f;
             Window* _m_window = nullptr;
+    };
+
+    class OpenGLInput : public Input {
+        protected:
+            bool m_isKeyPressedImpl(int keycode) override;
+            bool m_isMouseButtonPressedImpl(int button) override;
+            float m_getMouseXImpl() override;
+            float m_getMouseYImpl() override;
+            std::pair<float, float> m_getMouseCoordImpl() override;
     };
 
     class OpenGLVertexArray : public VertexArray {

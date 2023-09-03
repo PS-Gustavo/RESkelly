@@ -45,6 +45,7 @@ target_link_libraries(skelly_render PUBLIC
     skelly_logger skelly_api
     imgui
 )
+target_link_libraries(skelly_input PUBLIC skelly_api)
 target_link_libraries(skelly_window PUBLIC skelly_api)
 target_link_libraries(skelly_layer PUBLIC skelly_window skelly_api)
 # target_compile_definitions(skelly_core PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)

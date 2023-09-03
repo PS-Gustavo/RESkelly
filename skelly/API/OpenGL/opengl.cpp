@@ -347,6 +347,37 @@ namespace skelly {
         
     }
 
+    // Input
+
+    bool OpenGLInput::m_isKeyPressedImpl(int keycode) {
+        auto window = static_cast<GLFWwindow*>(Application::getApplication().getWindow().getNativeWindow());
+        auto state = glfwGetKey(window, keycode);
+        return ((state == GLFW_PRESS) || (state == GLFW_REPEAT));
+    }
+
+    bool OpenGLInput::m_isMouseButtonPressedImpl(int button) {
+        auto window = static_cast<GLFWwindow*>(Application::getApplication().getWindow().getNativeWindow());
+        auto state = glfwGetMouseButton(window, button);
+        return (state == GLFW_PRESS);
+    }
+
+    std::pair<float, float> OpenGLInput::m_getMouseCoordImpl() {
+        auto window = static_cast<GLFWwindow*>(Application::getApplication().getWindow().getNativeWindow());
+        double xPos, yPos;
+        glfwGetCursorPos(window, &xPos, &yPos);
+        return std::make_pair((float)xPos, (float)yPos);
+    }
+
+    float OpenGLInput::m_getMouseXImpl() {
+        auto[x, y] = m_getMouseCoordImpl();
+        return x;
+    }
+
+    float OpenGLInput::m_getMouseYImpl() {
+        auto[x, y] = m_getMouseCoordImpl();
+        return y;
+    }
+
     // VertexArray
 
     OpenGLVertexArray::OpenGLVertexArray() {
