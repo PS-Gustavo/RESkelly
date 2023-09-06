@@ -18,22 +18,22 @@ include(${ROOT_PATH}/cmake/config.cmake)
 include($ENV{PWD}/cmake/vars.cmake)
 
 ## vendor project options
-# glfw
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
-add_subdirectory(${VENDOR_PATH}/glfw/)
-# glm
-add_subdirectory(${VENDOR_PATH}/glm/)
-
-
 # OpenGL suite
-if (${USING_OPENGL})
-    message(STATUS "Using OpenGL as rendering API.")
+if (${TARGET_OPENGL})
+    message(STATUS "Using OpenGL as rendering API.")    
+    # glfw
+    set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    set(GLFW_INSTALL OFF CACHE BOOL "" FORCE)
+    add_subdirectory(${VENDOR_PATH}/glfw/)
+    # glm
+    add_subdirectory(${VENDOR_PATH}/glm/)
+    # glad
     add_subdirectory(${VENDOR_PATH}/glad/)
+    # OpenGL
     find_package(OpenGL REQUIRED)
-    add_compile_definitions(USING_OPENGL)
+    add_compile_definitions(TARGET_OPENGL)
 endif()
 
 ## set global compiler options

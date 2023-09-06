@@ -42,6 +42,7 @@ namespace skelly {
 
     };
 
+    // WIP: KeyPressed event is not being properly registered at this time
     class SKELLY_API KeyPressedEvent : public KeyEvent {
         public:
             KeyPressedEvent(int key_code, int repeat_count)
