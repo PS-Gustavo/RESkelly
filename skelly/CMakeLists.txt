@@ -38,7 +38,7 @@ endif()
 ## WIP: conditionals should go here
 target_link_libraries(skelly_api PUBLIC 
     skelly_logger
-    imgui glad glfw glm
+    imgui glm glad glfw
 )
 ##
 target_link_libraries(skelly_render PUBLIC
@@ -48,11 +48,13 @@ target_link_libraries(skelly_render PUBLIC
 target_link_libraries(skelly_input PUBLIC skelly_api)
 target_link_libraries(skelly_window PUBLIC skelly_api)
 target_link_libraries(skelly_layer PUBLIC skelly_window skelly_api)
-# target_compile_definitions(skelly_core PRIVATE IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
 target_link_libraries(skelly_core PUBLIC
     skelly_window skelly_render skelly_layer
     imgui
 )
+if(${TEST_ENABLED}) 
+    target_link_libraries(skelly_test PUBLIC skelly_core)
+endif()
 
 foreach(lib IN LISTS skelly_libs)
     target_include_directories(${lib} PUBLIC ${${lib}_includes})
@@ -70,6 +72,9 @@ target_include_directories(skelly_dyn PUBLIC
     ${SKELLY_PATH}/utils/application/
 )
 target_link_libraries(skelly_dyn PUBLIC skelly_core)
+if(${TEST_ENABLED})
+    target_link_libraries(skelly_dyn PUBLIC skelly_test)
+endif()
 set_property(
     TARGET skelly_dyn
     PROPERTY POSITION_INDEPENDENT_CODE ON

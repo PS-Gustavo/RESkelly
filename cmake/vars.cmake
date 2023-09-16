@@ -12,6 +12,7 @@ endif()
 set(CONFIG_PATH ${ROOT_PATH}/config)
 set(VENDOR_PATH ${ROOT_PATH}/vendors)
 set(SKELLY_PATH ${ROOT_PATH}/skelly)
+set(TEST_PATH ${SKELLY_PATH}/test)
 set(OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR})
 # pch pathing file
 set(PCH_FILE ${SKELLY_PATH}/pch.cpp)
@@ -93,6 +94,16 @@ set(skelly_core_includes
     ${SKELLY_PATH}/utils/inputBindings/
 )
 
+if(${TEST_ENABLED})
+    set(skelly_libs ${skelly_libs} skelly_test)
+    set(skelly_test_path
+        ${TEST_PATH}/helloTriangle/helloTriangle.cpp
+    )
+    set(skelly_test_includes
+        ${TEST_PATH}/
+        ${TEST_PATH}/helloTriangle/
+    )
+endif()
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
     set(skelly_api_includes ${skelly_api_includes} ${SKELLY_PATH}/)

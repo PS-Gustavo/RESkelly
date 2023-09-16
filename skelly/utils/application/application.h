@@ -63,6 +63,9 @@ namespace skelly {
 
             // Application handlers
             static Application& getApplication() { return *_s_instance; }
+            // Rendering handlers
+            static std::shared_ptr<VertexArray>& getVertexArray() { return _m_vertexArray; }
+            static std::shared_ptr<Shader>& getShader() { return _m_shader; }
 
             // Window handlers
             Window& getWindow() { return *_m_window; }
@@ -72,9 +75,6 @@ namespace skelly {
             
             // Application loop
             virtual void run();
-
-            // Mock
-            void mockTriangle();
         private:
             // Event handler for window close action
             bool _m_onWindowClose(WindowCloseEvent& e);
@@ -90,9 +90,8 @@ namespace skelly {
             // Flags
             bool _m_running = true;
 
-            // Mock
-            // WIP: Move to Examples
-            std::shared_ptr<VertexArray> _m_vertexArray;
-            std::shared_ptr<Shader> _m_shader;
+            // Rendering structures
+            static std::shared_ptr<VertexArray> _m_vertexArray;
+            static std::shared_ptr<Shader> _m_shader;
     };
 }
