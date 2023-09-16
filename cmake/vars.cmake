@@ -93,10 +93,11 @@ set(skelly_core_includes
     ${SKELLY_PATH}/utils/inputPoll/
     ${SKELLY_PATH}/utils/inputBindings/
 )
-
+# Functional tests
 if(${TEST_ENABLED})
     set(skelly_libs ${skelly_libs} skelly_test)
     set(skelly_test_path
+        ${TEST_PATH}/functionalTest.cpp
         ${TEST_PATH}/helloTriangle/helloTriangle.cpp
     )
     set(skelly_test_includes
@@ -104,6 +105,7 @@ if(${TEST_ENABLED})
         ${TEST_PATH}/helloTriangle/
     )
 endif()
+##
 if(NOT ${PCH_ENABLED})
     set(skelly_logger_includes ${skelly_logger_includes} ${SKELLY_PATH}/ ${VENDOR_PATH}/spdlog/include/)
     set(skelly_api_includes ${skelly_api_includes} ${SKELLY_PATH}/)

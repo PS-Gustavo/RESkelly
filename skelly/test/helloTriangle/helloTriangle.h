@@ -4,7 +4,7 @@ namespace test {
 
     class HelloTriangle {
         public:
-            void helloTriangle(skelly::Application& app);
+            void setup(skelly::Application& app);
     };
 
 }

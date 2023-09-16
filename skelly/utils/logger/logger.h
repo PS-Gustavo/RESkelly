@@ -34,7 +34,7 @@ namespace skelly {
 
     class SKELLY_API Logger {
         public:
-            static void init();
+            static void init(std::string appName);
 
             inline static std::shared_ptr<spdlog::logger>& getSkellyLogger() { return _m_skellyLogger; }
             inline static std::shared_ptr<spdlog::logger>& getBodyLogger() { return _m_bodyLogger; }

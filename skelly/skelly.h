@@ -6,7 +6,8 @@ namespace skelly {
 
     class SKELLY_API Skelly : public Application {
         public:
-            Skelly() {}
+            Skelly(std::string appName) : Application(appName) {}
+            ~Skelly() {}
     };
 
 }

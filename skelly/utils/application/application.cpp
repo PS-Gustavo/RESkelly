@@ -33,11 +33,11 @@ namespace skelly {
     // Lifetime handlers
     // If you modify the constructor behavior, be careful! You need to create the window 
     // context before creating the layers and overlays.
-    Application::Application() {
+    Application::Application(std::string appName) {
         _s_instance = this;
         _m_window = nullptr;
         
-        Logger::init();
+        Logger::init(appName);
         _m_window = std::unique_ptr<Window>(Window::create());
         _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
 
