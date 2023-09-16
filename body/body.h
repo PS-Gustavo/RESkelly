@@ -2,9 +2,6 @@
 
 #include <skelly.h>
 
-// use if running any example
-#include <helloTriangle.h>
-
 #ifndef PCH_ENABLED
     #include <iostream>
 #endif
@@ -27,7 +24,7 @@ namespace body {
 
     class Body : public skelly::Skelly {
         public:
-            Body() {
+            Body(std::string appName) : Skelly(appName) {
                 pushLayer(new BodyLayer());
             }
             ~Body() {}

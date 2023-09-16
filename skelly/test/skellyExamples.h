@@ -1,1 +1,0 @@
-#include <helloTriangle/helloTriangle.h>

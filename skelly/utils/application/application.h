@@ -52,7 +52,7 @@ namespace skelly {
     class SKELLY_API Application {
         public:
             // Lifetime handlers
-            Application();
+            Application(std::string appName);
             virtual ~Application();
 
             // Layer handlers

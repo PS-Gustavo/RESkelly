@@ -2,9 +2,8 @@
 
 namespace test {
     // triangle drawing example
-    void HelloTriangle::helloTriangle(skelly::Application& app) {
+    void HelloTriangle::setup(skelly::Application& app) {
     
-        // local scope initialization
         app.getVertexArray().reset(skelly::VertexArray::create());
 
         float vertices[6*7] = {
