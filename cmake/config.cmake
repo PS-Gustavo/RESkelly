@@ -13,6 +13,11 @@ set(TARGET_OPENGL ON)
 #  Runs all build steps using the --verbose flag
 set(CMAKE_VERBOSE_MAKEFILE OFF)
 
+## Func Testing mode
+#  Enables general access to the functional tests
+#  Incurs additional compiling and linking runtime
+set(TEST_ENABLED ON)
+
 ## Debug mode
 #  Activates a set of configurations geared towards code debugging.
 #  Warning: Performance may slow down considerably with debug mode active.

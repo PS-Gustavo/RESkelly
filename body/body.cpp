@@ -1,36 +1,11 @@
 #include <body.h>
 
-namespace body {
-
-    class BodyLayer : public skelly::Layer {
-        public:
-            BodyLayer() : Layer("Example") {}
-
-            void onUpdate() override {}
-
-            void onEvent(skelly::Event& event) override {
-                BODY_LOG_TRACE("{0}", event);
-            }
-
-            void onAttach() override {}
-            void onDetach() override {}
-    };
-
-    class Body : public skelly::Skelly {
-        public:
-            Body() {
-                pushLayer(new BodyLayer());
-            }
-
-            ~Body() {}
-    };
-}
-
 int main() {
     try {           
-        body::Body App;
-        App.mockTriangle();       
-        App.run();
+        body::Body app;
+        test::HelloTriangle example;
+        example.helloTriangle(app.getApplication());
+        app.run();
     }
     catch(const std::exception& e) {
         std::clog << e.what() << '\n';

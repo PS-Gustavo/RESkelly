@@ -47,6 +47,8 @@ namespace skelly {
             KeyPressedEvent(int key_code) : KeyEvent(key_code) {} 
 
             int getRepeatCount() const { return _m_repeatCount; }
+            // WIP: These do not account for multiple keys being repeatedly pressed, akin to how
+            // OS treats repeated events.
             void setRepeatCount(int repeatCount) { _m_repeatCount = repeatCount; }
             void increaseRepeatCount() { _m_repeatCount++; }
 
