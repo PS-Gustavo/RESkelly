@@ -42,13 +42,13 @@ namespace skelly {
 
     };
 
-    // WIP: KeyPressed event is not being properly registered at this time
     class SKELLY_API KeyPressedEvent : public KeyEvent {
         public:
-            KeyPressedEvent(int key_code, int repeat_count)
-                : KeyEvent(key_code), _m_repeatCount(repeat_count) {} 
+            KeyPressedEvent(int key_code) : KeyEvent(key_code) {} 
 
-            inline int GetRepeatCount() const { return _m_repeatCount; }
+            int getRepeatCount() const { return _m_repeatCount; }
+            void setRepeatCount(int repeatCount) { _m_repeatCount = repeatCount; }
+            void increaseRepeatCount() { _m_repeatCount++; }
 
             std::string toString() const override {
                 std::stringstream ss;
@@ -59,7 +59,7 @@ namespace skelly {
             EVENT_CLASS_TYPE(KeyPressed)
 
         private:
-            int _m_repeatCount;
+            static int _m_repeatCount;
     };
 
     class SKELLY_API KeyReleasedEvent : public KeyEvent {
@@ -81,7 +81,7 @@ namespace skelly {
 
             std::string toString() const override {
                 std::stringstream ss;
-                ss << "KeyReleasedEvent: " << m_keyCode;
+                ss << "KeyTypedEvent: " << m_keyCode;
                 return ss.str();
             }
 
