@@ -10,6 +10,8 @@
 
 namespace skelly {
 
+    int KeyPressedEvent::_m_repeatCount = 0;
+
     // Utils
 
     static GLenum getElementType(ShaderDataType type) {
@@ -125,10 +127,8 @@ namespace skelly {
             data.eventCallback(event);
         });
 
-        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key, int action, [[maybe_unused]] int scancode, [[maybe_unused]] int mods){
+        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key,  [[maybe_unused]] int scancode, int action, [[maybe_unused]] int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-            // WIP: Change action mapping from glfw specific to Skelly specific (framework agnostic)
             switch(action) {
                 case GLFW_RELEASE: {
                     KeyReleasedEvent event(key);
@@ -136,12 +136,14 @@ namespace skelly {
                     break;
                 }
                 case GLFW_PRESS: {
-                    KeyPressedEvent event(key, 0);
+                    KeyPressedEvent event(key);
+                    event.setRepeatCount(0);
                     data.eventCallback(event);
                     break;
                 }
                 case GLFW_REPEAT: {
-                    KeyPressedEvent event(key, 1);
+                    KeyPressedEvent event(key);
+                    event.increaseRepeatCount();
                     data.eventCallback(event);
                     break;
                 }
