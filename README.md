@@ -9,7 +9,7 @@ RESkelly has reached the 0.1 release!
 In this release, basic rendering, windowing and handlers are available.
 You can directly access the Shader and Buffers to create graphics, but at this time creating complex applications can prove too costly.
 
-Please check the release notes for further information.
+Please check the [Release Notes](https://github.com/PS-Gustavo/RESkelly/releases/tag/v0.1.0) for further information.
 
 ## Introduction
 
