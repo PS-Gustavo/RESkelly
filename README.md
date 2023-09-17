@@ -1,10 +1,19 @@
 # RESkelly
 
-Rendering Engine Skelly - A barebones and modular graphics engine solution for diverse applications.
+Rendering Engine Skelly - A barebones and modular graphics engine solution for applications.
+
+## Headline
+
+RESkelly has reached the 0.1 release!
+
+In this release, basic rendering, windowing and handlers are available.
+You can directly access the Shader and Buffers to create graphics, but at this time creating complex applications can prove too costly.
+
+Please check the release notes for further information.
 
 ## Introduction
 
-RESkelly, or Skelly for short, uses mainly C++ and C to provide a very basic solution for rendering panels, objects and other features into applications, called the bodies.
+RESkelly, or Skelly for short, uses C++ to provide a very simple solution for rendering panels, objects and other features into applications, called Body projects.
 
 Each body is able to call upon different plugins of Skelly to implement different functionalities to the application.
 
@@ -21,7 +30,7 @@ sudo apt install Makefile
 sudo apt install cmake
 ```
 
-At this time, this project also requires OpenGL and auxiliary headers associated with rendering to function properly. The following packages should be confirmed to be available:
+At this time, this project also requires OpenGL and auxiliary headers associated with rendering to function properly. The following packages should be available:
 
 ```sh
 sudo apt install libglu1-mesa-dev freeglut3-dev mesa-common-dev libxinerama-dev libxcursor-dev libxi-dev
@@ -51,10 +60,9 @@ make project NAME=<YOUR_PROJECT_NAME>
 
 ## Development
 
-The project is currently at its early stages, and thus several functionalities are undergoing planning, development and integration:
+The project is currently in its early stages, and thus several functionalities are undergoing planning, development and integration:
 
  - Logging and Debugging
- - Initial entry state
  - Basic project configurations for GUI and system
  - Initial Plugins and Components
 
@@ -62,11 +70,8 @@ The project is currently at its early stages, and thus several functionalities a
 
 Besides the project main features, some issues need to be addressed. These have been introduced during main feature implementation, and require considerable time to be addressed. They are as follows:
 
-- Internal logging solution: Logging should not be vendor-based, and should have individual behavior depending on features being logged:
-  - Logging should have colors, preferably unmangled functions, timestamp and generally return messages.
-- CMake parametrized projects: CMake creates subdirectories based on the number of projects the user wishes to work with, but needs to use the central Skelly application.
-  - Currently, it is not possible to run Make from within each project output dir and have CMake automatically populate the necessary files on the Skelly application.
-  - 2 Features are necessary: One to allow the user to generate only Skelly files in the top output folder, and other to automatically check for those necessary top folder files when generating from the output project folders from below.
+- Avoid third-party applications: ImGui is too complete a solution to be swapped in mid to long terms, but spdlog should eventually be changed to an internal tool;
+- CMake parametrized projects: CMake architecture is duplicating files and does not allow for individualized runs. It should compile/link Skelly as a central hub and all projects should have their own structures, linked directly to it;
 
 ## Style Guide
 
@@ -84,9 +89,13 @@ As of version 0.x, naming conventions are as follows:
 - Definitions in uppercase;
 - Type definitions in t_camelCase;
 
+Coding conventions are as follows:
+- 4 space tabulation;
+- Avoid redundant keywords such as inline within classes;
+- Do not use raw pointers unless absolutely necessary;
 ### Infrastructure
 
-This project uses CMake to generate all strucure required for building.
+This project uses CMake to generate all structures required for building.
 
 There will be a `CMakeLists.txt` file in the top layer of the project and in each major structure: The Skelly engine and the Body projects.
 - TopCM creates environment variables and calls subdirectory building recipes;
@@ -99,4 +108,6 @@ All CMake system build files should use the absolute pathing stemming from TopCM
 
 Project configurations are included from `./config/project.config` into TopCM.
 
-This project can use Pre-compiled headers(PCH), and as such all new libraries that can be considered ubiquitous througout both Skelly and Bodies should be considered to be added to the `pch.h` header. If it is such, `pch.h` should be updated and impacted headers should include the new libraries within the `#ifndef PCH_ENABLED` clause.
+This project can use Pre-compiled headers(PCH), and as such all new libraries that can be considered frequently used everywhere by both Skelly and Bodies should be considered to be added to the `pch.h` header. If it is such, `pch.h` should be updated and impacted headers should include the new libraries within the `#ifndef PCH_ENABLED` clause.
+
+PCH is currently not being focused, and will be worked on when compile times are a bigger concern in this project.
