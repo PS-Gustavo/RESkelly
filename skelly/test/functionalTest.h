@@ -1,4 +1,5 @@
 #include <helloTriangle/helloTriangle.h>
+#include <testCamera/testCamera.h>
 #include <skelly.h>
 
 namespace test {

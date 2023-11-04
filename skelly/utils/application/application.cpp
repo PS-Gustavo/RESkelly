@@ -92,33 +92,44 @@ namespace skelly {
 
     // main application loop
     void Application::run() {
-        while(_m_running) {            
-
-            // standard clear operation
-            RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
-            RenderCommands::clear();
-
-            // draw if there are contents in the vertexArray
-            if (_m_shader.use_count()) {
-                _m_shader->bind();
-                Renderer::submit(_m_vertexArray);
-            }
-            
-            // sweep and update layers
-            for (Layer* layer : _m_layerStack) {
-                layer->onUpdate();
-            }
-            if (_m_imguiLayer != nullptr) {
-                _m_imguiLayer->begin();
-                // WIP: Add support for custom ImGui layers
-                // for (Layer* layer : _m_layerStack) {
-                //     layer->onImguiRender();
-                // }
-                _m_imguiLayer->onImguiRender();
-                _m_imguiLayer->end();
-            }
-
-            if (_m_window != nullptr) _m_window->onUpdate();
+        while(_m_running) {   
+            runBody();
         }
+    }
+
+    // test application loop
+    void Application::testRun() {
+        for (int i = 0; i < 500; i++) {
+            runBody();
+        }
+    }
+
+    void Application::runBody() {
+                 
+        // standard clear operation
+        RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
+        RenderCommands::clear();
+
+        // draw if there are contents in the vertexArray
+        if (_m_shader.use_count()) {
+            _m_shader->bind();
+            Renderer::submit(_m_vertexArray);
+        }
+        
+        // sweep and update layers
+        for (Layer* layer : _m_layerStack) {
+            layer->onUpdate();
+        }
+        if (_m_imguiLayer != nullptr) {
+            _m_imguiLayer->begin();
+            // WIP: Add support for custom ImGui layers
+            // for (Layer* layer : _m_layerStack) {
+            //     layer->onImguiRender();
+            // }
+            _m_imguiLayer->onImguiRender();
+            _m_imguiLayer->end();
+        }
+
+        if (_m_window != nullptr) _m_window->onUpdate();
     }
 }

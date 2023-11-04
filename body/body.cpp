@@ -8,7 +8,7 @@ int main() {
     try {           
         /**
          * Functional test regression suit.
-         * This may be removed if you will implement your own Body project.
+         * This can be removed if no regression is necessary for your project.
         */        
         #ifdef TEST_ENABLED
             std::pair<bool, std::string> testOutput;
