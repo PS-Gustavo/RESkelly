@@ -75,6 +75,8 @@ namespace skelly {
             
             // Application loop
             virtual void run();
+            virtual void testRun();
+            virtual void runBody();
         private:
             // Event handler for window close action
             bool _m_onWindowClose(WindowCloseEvent& e);

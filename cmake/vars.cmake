@@ -99,10 +99,12 @@ if(${TEST_ENABLED})
     set(skelly_test_path
         ${TEST_PATH}/functionalTest.cpp
         ${TEST_PATH}/helloTriangle/helloTriangle.cpp
+        ${TEST_PATH}/testCamera/testCamera.cpp
     )
     set(skelly_test_includes
         ${TEST_PATH}/
         ${TEST_PATH}/helloTriangle/
+        ${TEST_PATH}/testCamera/
     )
 endif()
 ##

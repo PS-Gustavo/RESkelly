@@ -19,15 +19,33 @@ namespace test {
  * This is considered the basic Sanity test.
 */
         try {
-            Test app("helloTriangle");
-            test::HelloTriangle test;
-            test.setup(app.getApplication());
-            app.run();
+            Test appHelloTriangle("helloTriangle");
+            test::HelloTriangle testHelloTriangle;
+            testHelloTriangle.setup(appHelloTriangle.getApplication());
+            appHelloTriangle.testRun();
+
         }
         catch(const std::exception& e) {
             addFault(regressionResult, e);
         }
         
+
+/**
+ * Test 2 - Camera Test
+ * 
+ * Creates a camera matrix and modifies the HelloTriangle shape.
+ * 
+*/
+        try {
+            Test appTestCamera("testCamera");
+            test::TestCamera testCamera;
+            testCamera.setup(appTestCamera.getApplication());
+            appTestCamera.testRun();
+        }
+        catch(const std::exception& e) {
+            addFault(regressionResult, e);
+        }
+
         return regressionResult;
     }
 
