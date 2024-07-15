@@ -407,7 +407,6 @@ namespace skelly {
         uint32_t index = 0;
         const auto& layout = vertexBuffer->getLayout();
         for (const auto& element : layout) {
-            glEnableVertexAttribArray(index);
             glVertexAttribPointer(
                 index, 
                 element.getComponentCount(),
@@ -416,6 +415,7 @@ namespace skelly {
                 layout.getStride(),
                 (const void*)(intptr_t) element.offset
             );
+            glEnableVertexAttribArray(index);
             index++;
         }
         
@@ -478,7 +478,20 @@ namespace skelly {
 
     // Shader
 
-    OpenGLShader::OpenGLShader(std::string& vertexSrc, std::string& fragmentSrc) {
+    
+
+    OpenGLShader::OpenGLShader(uint8_t createMode, std::string& vertexSrc, std::string& fragmentSrc) {
+        
+        switch (createMode) {
+            case 0:
+                break;
+            case 1:
+                break;
+            default:
+                SKELLY_ASSERT(false, "OpenGLShader: Incorrect Shader load mode");
+                return;
+        }
+
 
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
@@ -562,6 +575,12 @@ namespace skelly {
 
     OpenGLShader::~OpenGLShader() {
         glDeleteProgram(_m_rendererId);
+    }
+
+    int OpenGLShader::getMaxVertexAttributes() const {
+        int nrAttributes;
+        glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+        return nrAttributes;
     }
 
     void OpenGLShader::bind() const {

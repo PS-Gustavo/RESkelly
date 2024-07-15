@@ -154,11 +154,16 @@ namespace skelly {
 
     class OpenGLShader : public Shader {
         public:
-            OpenGLShader(std::string& vertexSrc, std::string& fragmentSrc);
+            OpenGLShader(uint8_t createMode, std::string& vertexSrc, std::string& fragmentSrc);
+
             virtual ~OpenGLShader();
 
-            virtual void bind() const override;
-            virtual void unbind() const override;
+            // virtual void load(std::string& vertexSrc, std::string& fragmentSrc) const override;
+
+            int getMaxVertexAttributes() const override;
+
+            void bind() const override;
+            void unbind() const override;
 
         private:
             uint32_t _m_rendererId;

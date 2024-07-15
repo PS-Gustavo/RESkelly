@@ -99,13 +99,18 @@ namespace skelly {
 
     // test application loop
     void Application::testRun() {
-        for (int i = 0; i < 500; i++) {
+        int runCount = 0;
+        std::cout << "Hardware allows for " << _m_shader->getMaxVertexAttributes() << " vertex attributes.\n";
+        while ((runCount < 200) && (_m_running)) {
             runBody();
+            runCount++;
         }
     }
 
     void Application::runBody() {
-                 
+        
+        
+        
         // standard clear operation
         RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
         RenderCommands::clear();
