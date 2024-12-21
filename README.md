@@ -33,10 +33,17 @@ sudo apt install cmake
 At this time, this project also requires OpenGL and auxiliary headers associated with rendering to function properly. The following packages should be available:
 
 ```sh
-sudo apt install libglu1-mesa-dev freeglut3-dev mesa-common-dev libxinerama-dev libxcursor-dev libxi-dev
+sudo apt install libglu1-mesa-dev freeglut3-dev mesa-common-dev libxinerama-dev libxcursor-dev libxi-dev libglfw3-dev 
 ```
 
-After installing the necessary packages, clone the repository and use the commands below to generate CMake outputs and run the project files within the `output/` folder:
+After installing the necessary packages, clone the repository and populate the submodules used in the vendor folder:
+
+```
+git submodule update --init --recursive --remote
+git submodule update
+```
+
+Use the commands below to generate CMake outputs and run the project files within the `output/` folder:
 
 ```sh
 # From project root, this creates the cmake structure for all projects
@@ -45,7 +52,6 @@ make
 cd output/; make
 # Run the linked executable
 ./body/body_exec
-
 ```
 
 ---
