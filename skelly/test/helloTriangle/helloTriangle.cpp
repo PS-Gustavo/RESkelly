@@ -7,8 +7,8 @@ namespace test {
         app.getVertexArray().reset(skelly::VertexArray::create());
 
         float vertices[6*7] = {
-            -0.5f, -0.5f, 0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
-            0.5f,  -0.5f, 0.0f, 1.0f, 1.0f, 0.4f, 1.0f,
+            -0.5f, -0.2f, 0.0f, 0.4f, 0.1f, 0.4f, 1.0f,
+            0.5f,  -0.5f, 0.0f, 1.0f, 0.8f, 0.4f, 1.0f,
             0.0f,  0.8f,  0.0f, 0.4f, 0.1f, 0.6f, 1.0f,
         };
 

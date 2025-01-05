@@ -34,6 +34,8 @@
 #include <mouseEvent.h>
 #include <keyEvent.h>
 
+//#include <camera.h>
+
 // being scrutinized
 // #include <input.h>
 // #include <keyBindings.h>
@@ -62,13 +64,13 @@ namespace skelly {
             void popOverlay(Layer* overlay);
 
             // Application handlers
-            static Application& getApplication() { return *_s_instance; }
+            static Application& getApplication() { return *instance_; }
             // Rendering handlers
-            static std::shared_ptr<VertexArray>& getVertexArray() { return _m_vertexArray; }
-            static std::shared_ptr<Shader>& getShader() { return _m_shader; }
+            static std::shared_ptr<VertexArray>& getVertexArray() { return vertexArray_; }
+            static std::shared_ptr<Shader>& getShader() { return shader_; }
 
             // Window handlers
-            Window& getWindow() { return *_m_window; }
+            Window& getWindow() { return *window_; }
 
             // Event handler
             void onEvent(Event& e);
@@ -76,24 +78,27 @@ namespace skelly {
             // Application loop
             virtual void run();
             virtual void testRun();
-            virtual void runBody();
+            virtual void mainLoop();
         private:
             // Event handler for window close action
-            bool _m_onWindowClose(WindowCloseEvent& e);
+            bool onWindowClose_(WindowCloseEvent& e);
 
             // Instances
-            static Application* _s_instance;
-            std::unique_ptr<Window> _m_window;
-            std::unique_ptr<ImguiLayer> _m_imguiLayer;
+            static Application* instance_;
+            std::unique_ptr<Window> window_;
+            std::unique_ptr<ImguiLayer> imguiLayer_;
 
             // Stacks
-            LayerStack _m_layerStack;
+            LayerStack layerStack_;
             
             // Flags
-            bool _m_running = true;
+            bool is_running_ = true;
 
             // Rendering structures
-            static std::shared_ptr<VertexArray> _m_vertexArray;
-            static std::shared_ptr<Shader> _m_shader;
+            static std::shared_ptr<VertexArray> vertexArray_;
+            static std::shared_ptr<Shader> shader_;
+
+            // Object arrays
+            //std::vector<Camera> cameras_;
     };
 }
