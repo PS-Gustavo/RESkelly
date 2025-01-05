@@ -10,7 +10,7 @@ namespace test {
 
             void onUpdate() override {}
             void onEvent([[maybe_unused]] skelly::Event& event) override {
-                BODY_LOG_TRACE("{0}", event);
+//                BODY_LOG_TRACE("{0}", event);
             }
             void onAttach() override {}
             void onDetach() override {}
