@@ -24,90 +24,90 @@
 #include <render.h>
 
 namespace skelly {
-    Application* Application::_s_instance;
+    Application* Application::instance_;
     // DN: Since the App is supposed to be unique, are single static shared pointers for
     // vertexArray and shader enough in the long term?
-    std::shared_ptr<VertexArray> Application::_m_vertexArray;
-    std::shared_ptr<Shader> Application::_m_shader;
+    std::shared_ptr<VertexArray> Application::vertexArray_;
+    std::shared_ptr<Shader> Application::shader_;
 
     // Lifetime handlers
     // If you modify the constructor behavior, be careful! You need to create the window 
     // context before creating the layers and overlays.
     Application::Application(std::string appName) {
-        _s_instance = this;
-        _m_window = nullptr;
+        instance_ = this;
+        window_ = nullptr;
         
         Logger::init(appName);
-        _m_window = std::unique_ptr<Window>(Window::create());
-        _m_window->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+        window_ = std::unique_ptr<Window>(Window::create());
+        window_->setEventCallback(BIND_EVENT_FN(Application::onEvent));
 
         // debug layer
         // WIP: pop/push layers needs to support ImguiLayer w/o raw pointer translation
-        _m_imguiLayer = std::unique_ptr<ImguiLayer>(ImguiLayer::create("ImGui Overlay"));
-        pushOverlay(_m_imguiLayer.get());
+        imguiLayer_ = std::unique_ptr<ImguiLayer>(ImguiLayer::create("ImGui Overlay"));
+        pushOverlay(imguiLayer_.get());
     }
 
     Application::~Application() {
         // Remove from stack before destroying uq pointer;
-        popOverlay(_m_imguiLayer.get());
+        popOverlay(imguiLayer_.get());
     }
     
     // layer stack handlers
     void Application::pushLayer(Layer* layer) {
         SKELLY_LOG_TRACE("Creating new layer: {0}", layer->getName());
-        _m_layerStack.pushLayer(layer);
+        layerStack_.pushLayer(layer);
         layer->onAttach();
     }
     void Application::popLayer(Layer* layer) {
         SKELLY_LOG_TRACE("Destroying layer: {0}", layer->getName());
-        _m_layerStack.popLayer(layer);
+        layerStack_.popLayer(layer);
         layer->onDetach();
     }
     void Application::pushOverlay(Layer* overlay) {
         SKELLY_LOG_TRACE("Creating new overlay: {0}", overlay->getName());
-        _m_layerStack.pushOverlay(overlay);
+        layerStack_.pushOverlay(overlay);
         overlay->onAttach();
     }
     void Application::popOverlay(Layer* overlay) {
         SKELLY_LOG_TRACE("Destroying overlay: {0}", overlay->getName());
-        _m_layerStack.popOverlay(overlay);
+        layerStack_.popOverlay(overlay);
         overlay->onDetach();
     }
 
     // event handlers
     void Application::onEvent(Event& e) {
         EventDispatcher dispatcher(e);
-        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::_m_onWindowClose));
+        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose_));
  
-        for (auto it = _m_layerStack.end(); it != _m_layerStack.begin();) {
+        for (auto it = layerStack_.end(); it != layerStack_.begin();) {
             (*--it)->onEvent(e);
             if (e.isHandled()) break;
         }
     }
 
-    bool Application::_m_onWindowClose([[maybe_unused]] WindowCloseEvent& e) {
-        _m_running = false;
-        return _m_running;
+    bool Application::onWindowClose_([[maybe_unused]] WindowCloseEvent& e) {
+        is_running_ = false;
+        return is_running_;
     }    
 
     // main application loop
     void Application::run() {
-        while(_m_running) {   
-            runBody();
+        while(is_running_) {   
+            mainLoop();
         }
     }
 
     // test application loop
     void Application::testRun() {
         int runCount = 0;
-        std::cout << "Hardware allows for " << _m_shader->getMaxVertexAttributes() << " vertex attributes.\n";
-        while ((runCount < 200) && (_m_running)) {
-            runBody();
+        std::cout << "Hardware allows for " << shader_->getMaxVertexAttributes() << " vertex attributes.\n";
+        while ((runCount < 200) && (is_running_)) {
+            mainLoop();
             runCount++;
         }
     }
 
-    void Application::runBody() {
+    void Application::mainLoop() {
         
         
         
@@ -116,25 +116,26 @@ namespace skelly {
         RenderCommands::clear();
 
         // draw if there are contents in the vertexArray
-        if (_m_shader.use_count()) {
-            _m_shader->bind();
-            Renderer::submit(_m_vertexArray);
+        if (shader_.use_count()) {
+            //camera[0].UpdateView(shader_);
+            shader_->bind();
+            Renderer::submit(vertexArray_);
         }
         
         // sweep and update layers
-        for (Layer* layer : _m_layerStack) {
+        for (Layer* layer : layerStack_) {
             layer->onUpdate();
         }
-        if (_m_imguiLayer != nullptr) {
-            _m_imguiLayer->begin();
+        if (imguiLayer_ != nullptr) {
+            imguiLayer_->begin();
             // WIP: Add support for custom ImGui layers
             // for (Layer* layer : _m_layerStack) {
             //     layer->onImguiRender();
             // }
-            _m_imguiLayer->onImguiRender();
-            _m_imguiLayer->end();
+            imguiLayer_->onImguiRender();
+            imguiLayer_->end();
         }
 
-        if (_m_window != nullptr) _m_window->onUpdate();
+        if (window_ != nullptr) window_->onUpdate();
     }
 }

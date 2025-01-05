@@ -30,9 +30,32 @@
     #include <spdlog/sinks/stdout_color_sinks.h>
 #endif
 
+#define SKELLY_LOG_FATAL(...) ::skelly::Logger::getSkellyLogger()->critical(__VA_ARGS__)
+#define SKELLY_LOG_TRACE(...) ::skelly::Logger::getSkellyLogger()->trace(__VA_ARGS__)
+#define SKELLY_LOG_ERROR(...) ::skelly::Logger::getSkellyLogger()->error(__VA_ARGS__)
+#define SKELLY_LOG_WARN(...)  ::skelly::Logger::getSkellyLogger()->warn(__VA_ARGS__)
+#define SKELLY_LOG_INFO(...)  ::skelly::Logger::getSkellyLogger()->info(__VA_ARGS__)
+
+#define BODY_LOG_FATAL(...)   ::skelly::Logger::getBodyLogger()->critical(__VA_ARGS__)
+#define BODY_LOG_TRACE(...)   ::skelly::Logger::getBodyLogger()->trace(__VA_ARGS__)
+#define BODY_LOG_ERROR(...)   ::skelly::Logger::getBodyLogger()->error(__VA_ARGS__)
+#define BODY_LOG_WARN(...)    ::skelly::Logger::getBodyLogger()->warn(__VA_ARGS__)
+#define BODY_LOG_INFO(...)    ::skelly::Logger::getBodyLogger()->info(__VA_ARGS__)
+
 namespace skelly {
 
-    class SKELLY_API Logger {
+  /*namespace fmt {
+    template <>
+    struct formatter<skelly::Event> : formatter<std::string> {
+      template <typename FormatContext>
+      auto format(const skelly::Event& e, FormatContext& ctx) {
+        return formatter<std::string>::format(e.toString(), ctx);
+      }
+    };
+  }*/
+
+
+  class SKELLY_API Logger {
         public:
             static void init(std::string appName);
 
@@ -45,15 +68,3 @@ namespace skelly {
     };
 
 }
-
-#define SKELLY_LOG_FATAL(...) ::skelly::Logger::getSkellyLogger()->critical(__VA_ARGS__)
-#define SKELLY_LOG_TRACE(...) ::skelly::Logger::getSkellyLogger()->trace(__VA_ARGS__)
-#define SKELLY_LOG_ERROR(...) ::skelly::Logger::getSkellyLogger()->error(__VA_ARGS__)
-#define SKELLY_LOG_WARN(...)  ::skelly::Logger::getSkellyLogger()->warn(__VA_ARGS__)
-#define SKELLY_LOG_INFO(...)  ::skelly::Logger::getSkellyLogger()->info(__VA_ARGS__)
-
-#define BODY_LOG_FATAL(...)   ::skelly::Logger::getBodyLogger()->critical(__VA_ARGS__)
-#define BODY_LOG_TRACE(...)   ::skelly::Logger::getBodyLogger()->trace(__VA_ARGS__)
-#define BODY_LOG_ERROR(...)   ::skelly::Logger::getBodyLogger()->error(__VA_ARGS__)
-#define BODY_LOG_WARN(...)    ::skelly::Logger::getBodyLogger()->warn(__VA_ARGS__)
-#define BODY_LOG_INFO(...)    ::skelly::Logger::getBodyLogger()->info(__VA_ARGS__)
