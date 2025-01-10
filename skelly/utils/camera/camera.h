@@ -31,13 +31,19 @@ namespace skelly {
         };
 
       
-      void updateView(Shader& shader);
       void updatePos(glm::vec3 position) {position_ = position; updateDir();};
       void updateTarget(glm::vec3 target) {target_ = target; updateDir();};
       void updateDir() {direction_ = glm::normalize(position_ - target_);};
-      void updateView() {
+      glm::mat4 updateView() {
         view_ = glm::lookAt(position_, target_, up_);
+        return view_;
       };
+      glm::mat4 updateView(glm::vec3 position, glm::vec3 target, glm::vec3 up) {
+        updatePos(position);
+        updateTarget(target);
+        up_ = up;
+        return updateView();
+      }
     private:
       glm::vec3 position_;
       glm::vec3 target_;

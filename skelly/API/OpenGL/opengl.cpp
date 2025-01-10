@@ -383,15 +383,15 @@ namespace skelly {
     // VertexArray
 
     OpenGLVertexArray::OpenGLVertexArray() {
-        glCreateVertexArrays(1, &_m_rendererId);
+        glCreateVertexArrays(1, &rendererId_);
     }
 
     OpenGLVertexArray::~OpenGLVertexArray() {
-        glDeleteVertexArrays(1, &_m_rendererId);
+        glDeleteVertexArrays(1, &rendererId_);
     }
 
     void OpenGLVertexArray::bind() const {
-        glBindVertexArray(_m_rendererId);
+        glBindVertexArray(rendererId_);
     }
 
     void OpenGLVertexArray::unbind() const {
@@ -402,7 +402,7 @@ namespace skelly {
         
         SKELLY_ASSERT(vertexBuffer->getLayout().getElements().size(), "OpenGLVertexArray::addVertexBuffer: No layout has been created for the VertexBuffer");
 
-        glBindVertexArray(_m_rendererId);
+        glBindVertexArray(rendererId_);
         vertexBuffer->bind();
         uint32_t index = 0;
         const auto& layout = vertexBuffer->getLayout();
@@ -412,7 +412,7 @@ namespace skelly {
                 element.getComponentCount(),
                 getElementType(element.type),
                 element.isNormalized ? GL_TRUE : GL_FALSE,
-                layout.getStride(),
+                element.size,
                 (const void*)(intptr_t) element.offset
             );
             glEnableVertexAttribArray(index);
@@ -424,7 +424,7 @@ namespace skelly {
     }
 
     void OpenGLVertexArray::addIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
-        glBindVertexArray(_m_rendererId);
+        glBindVertexArray(rendererId_);
         indexBuffer->bind();
         _m_indexBuffers.push_back(indexBuffer);
     }
@@ -439,17 +439,17 @@ namespace skelly {
     // VertexBuffer
 
     OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) {
-        glCreateBuffers(1, &_m_rendererId);
-        glBindBuffer(GL_ARRAY_BUFFER, _m_rendererId);
+        glCreateBuffers(1, &rendererId_);
+        glBindBuffer(GL_ARRAY_BUFFER, rendererId_);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
     }
 
     OpenGLVertexBuffer::~OpenGLVertexBuffer() {
-        glDeleteBuffers(1, &_m_rendererId);
+        glDeleteBuffers(1, &rendererId_);
     }
 
     void OpenGLVertexBuffer::bind() const {
-        glBindBuffer(GL_ARRAY_BUFFER, _m_rendererId);
+        glBindBuffer(GL_ARRAY_BUFFER, rendererId_);
     }
 
     void OpenGLVertexBuffer::unbind() const {
@@ -459,17 +459,17 @@ namespace skelly {
     // IndexBuffer
 
     OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : _m_count(count) {
-        glCreateBuffers(1, &_m_rendererId);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _m_rendererId);
+        glCreateBuffers(1, &rendererId_);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId_);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count* sizeof(uint32_t), indices, GL_STATIC_DRAW);
     }
 
     OpenGLIndexBuffer::~OpenGLIndexBuffer() {
-        glDeleteBuffers(1, &_m_rendererId);
+        glDeleteBuffers(1, &rendererId_);
     }
 
     void OpenGLIndexBuffer::bind() const {
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _m_rendererId);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId_);
     }
 
     void OpenGLIndexBuffer::unbind() const {
@@ -541,8 +541,8 @@ namespace skelly {
             return;
         }
 
-        _m_rendererId = glCreateProgram();
-        GLuint program = _m_rendererId;
+        rendererId_ = glCreateProgram();
+        GLuint program = rendererId_;
 
         glAttachShader(program, vertexShader);
         glAttachShader(program, fragmentShader);
@@ -574,7 +574,7 @@ namespace skelly {
     }
 
     OpenGLShader::~OpenGLShader() {
-        glDeleteProgram(_m_rendererId);
+        glDeleteProgram(rendererId_);
     }
 
     int OpenGLShader::getMaxVertexAttributes() const {
@@ -584,7 +584,7 @@ namespace skelly {
     }
 
     void OpenGLShader::bind() const {
-        glUseProgram(_m_rendererId);
+        glUseProgram(rendererId_);
     }
 
     void OpenGLShader::unbind() const {

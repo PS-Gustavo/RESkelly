@@ -2,9 +2,4 @@
 
 namespace skelly {
 
-  void Camera::updateView(Shader& shader) {
-    shader.bind();
-    return;
-  }
-
 }
