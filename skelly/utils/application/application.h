@@ -34,7 +34,7 @@
 #include <mouseEvent.h>
 #include <keyEvent.h>
 
-//#include <camera.h>
+#include "utils/camera/camera.h"
 
 // being scrutinized
 // #include <input.h>
@@ -99,6 +99,7 @@ namespace skelly {
             static std::shared_ptr<Shader> shader_;
 
             // Object arrays
-            //std::vector<Camera> cameras_;
+            std::vector<Camera> cameras_;
+            int activeCamera_ = 0;
     };
 }

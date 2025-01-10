@@ -22,6 +22,9 @@
 
 #include <application.h>
 #include <render.h>
+#include <chrono>
+#include "glm/glm.hpp"
+#include <cmath>
 
 namespace skelly {
     Application* Application::instance_;
@@ -40,6 +43,8 @@ namespace skelly {
         Logger::init(appName);
         window_ = std::unique_ptr<Window>(Window::create());
         window_->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+        Camera initial_camera;
+        cameras_.push_back(initial_camera);
 
         // debug layer
         // WIP: pop/push layers needs to support ImguiLayer w/o raw pointer translation
@@ -117,7 +122,6 @@ namespace skelly {
 
         // draw if there are contents in the vertexArray
         if (shader_.use_count()) {
-            //camera[0].UpdateView(shader_);
             shader_->bind();
             Renderer::submit(vertexArray_);
         }

@@ -50,7 +50,7 @@ target_link_libraries(skelly_window PUBLIC skelly_api)
 target_link_libraries(skelly_layer PUBLIC skelly_window skelly_api)
 target_link_libraries(skelly_camera PUBLIC skelly_render)
 target_link_libraries(skelly_core PUBLIC
-    skelly_window skelly_render skelly_layer
+    skelly_window skelly_camera skelly_layer
     imgui
 )
 if(${TEST_ENABLED}) 
