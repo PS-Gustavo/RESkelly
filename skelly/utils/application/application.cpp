@@ -43,7 +43,7 @@ namespace skelly {
         Logger::init(appName);
         window_ = std::unique_ptr<Window>(Window::create());
         window_->setEventCallback(BIND_EVENT_FN(Application::onEvent));
-        Camera initial_camera;
+        Camera* initial_camera = new Camera();
         cameras_.push_back(initial_camera);
 
         // debug layer
@@ -103,10 +103,10 @@ namespace skelly {
     }
 
     // test application loop
-    void Application::testRun() {
+    void Application::testRun(int duration) {
         int runCount = 0;
         std::cout << "Hardware allows for " << shader_->getMaxVertexAttributes() << " vertex attributes.\n";
-        while ((runCount < 200) && (is_running_)) {
+        while ((runCount < duration) && (is_running_)) {
             mainLoop();
             runCount++;
         }
@@ -124,6 +124,8 @@ namespace skelly {
         if (shader_.use_count()) {
             shader_->bind();
             Renderer::submit(vertexArray_);
+            if (cameras_[activeCamera_]->hasRoutine()) cameras_[activeCamera_]->run();
+            if (objects_.size()) renderObjects();
         }
         
         // sweep and update layers

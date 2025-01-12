@@ -35,6 +35,7 @@
 #include <keyEvent.h>
 
 #include "utils/camera/camera.h"
+#include "utils/object/object.h"
 
 // being scrutinized
 // #include <input.h>
@@ -75,9 +76,32 @@ namespace skelly {
             // Event handler
             void onEvent(Event& e);
             
+            // Object utils
+            void addObject(Object object) {
+              objects_.push_back(object);
+              if (object.hasLabel()) {
+                object_labels_.push_back(object.getLabel());
+                return;
+              }
+              std::string label = "object";
+              label.append(std::to_string(objects_.size()-1));
+              object_labels_.push_back(label);
+            };
+            void debugListObjects() {
+              for (size_t i = 0; i < objects_.size(); i++) {
+                std::cout << object_labels_[i] << "\n";
+              }
+            }
+            void renderObjects() {
+              for (size_t i = 0; i < objects_.size(); i++) {
+                shader_->setMat4("model", objects_[i].getModel());
+                Renderer::submit(vertexArray_);
+              }
+            };
+            Camera* getActiveCamera() {return cameras_[activeCamera_];}
             // Application loop
             virtual void run();
-            virtual void testRun();
+            virtual void testRun(int duration);
             virtual void mainLoop();
         private:
             // Event handler for window close action
@@ -99,7 +123,9 @@ namespace skelly {
             static std::shared_ptr<Shader> shader_;
 
             // Object arrays
-            std::vector<Camera> cameras_;
+            std::vector<Object> objects_;
+            std::vector<std::string> object_labels_;
+            std::vector<Camera*> cameras_;
             int activeCamera_ = 0;
     };
 }
