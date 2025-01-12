@@ -22,7 +22,7 @@ namespace test {
             Test appHelloTriangle("helloTriangle");
             test::HelloTriangle testHelloTriangle;
             testHelloTriangle.setup(appHelloTriangle.getApplication());
-            appHelloTriangle.testRun();
+            appHelloTriangle.testRun(200);
 
         }
         catch(const std::exception& e) {
@@ -31,16 +31,16 @@ namespace test {
         
 
 /**
- * Test 2 - Camera Test
+ * Test 2 - Camera Tests
  * 
- * Creates a camera matrix and modifies the HelloTriangle shape.
+ * Creates cameras and observes cubes
  * 
 */
         try {
             Test appTestCamera("testCamera");
             test::TestCamera testCamera;
             testCamera.setup(appTestCamera.getApplication());
-            appTestCamera.testRun();
+            appTestCamera.testRun(1200);
         }
         catch(const std::exception& e) {
             addFault(regressionResult, e);
