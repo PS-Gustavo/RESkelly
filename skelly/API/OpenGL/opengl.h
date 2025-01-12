@@ -39,7 +39,7 @@ namespace skelly {
       virtual void init() override;
       virtual void swapBuffers() override;
     private:
-      GLFWwindow* _m_windowHandle;
+      GLFWwindow* windowHandle_;
   };
 
   class OpenGLWindow : public Window {
@@ -49,23 +49,23 @@ namespace skelly {
 
       void onUpdate() override;
 
-      unsigned int getWidth() const override { return _m_data.width; }
-      void setWidth(unsigned int width) override { _m_data.width = width; }
-      unsigned int getHeight() const override { return _m_data.height; }
-      void setHeight(unsigned int height) override { _m_data.height = height; }
-
+      unsigned int getWidth() const override { return data_.width; }
+      void setWidth(unsigned int width) override { data_.width = width; }
+      unsigned int getHeight() const override { return data_.height; }
+      void setHeight(unsigned int height) override { data_.height = height; }
+      double getTime();
       void setEventCallback(const EventCallbackFn& callback) 
-        override { _m_data.eventCallback = callback; }
+        override { data_.eventCallback = callback; }
       void setVSync(bool enabled) override;
       bool isVSync() const override;
 
-      virtual void* getNativeWindow() const { return _m_window; }
+      virtual void* getNativeWindow() const { return window_; }
     private:
       virtual void init(const WindowProps& props);
       virtual void shutdown();
 
-      GLFWwindow* _m_window;
-      GraphicContext* _m_context;
+      GLFWwindow* window_;
+      GraphicContext* context_;
 
       struct WindowData {
         std::string title;
@@ -75,7 +75,7 @@ namespace skelly {
         EventCallbackFn eventCallback;
       };
 
-      WindowData _m_data;
+      WindowData data_;
   };
 
   class OpenGLImgui : public ImguiLayer {
@@ -91,11 +91,11 @@ namespace skelly {
       void begin();
       void end();
 
-      inline void setWindow(Window* window) { _m_window = window; }
-      inline Window* getWindow() { return _m_window; }
+      inline void setWindow(Window* window) { window_ = window; }
+      inline Window* getWindow() { return window_; }
     private:
-      float _m_time = 0.0f;
-      Window* _m_window = nullptr;
+      float time_ = 0.0f;
+      Window* window_ = nullptr;
   };
 
   class OpenGLInput : public Input {
@@ -122,8 +122,8 @@ namespace skelly {
       virtual const std::vector<std::shared_ptr<IndexBuffer>>& getIndexBuffers() const override;
     private:
       uint32_t rendererId_;
-      std::vector<std::shared_ptr<VertexBuffer>> _m_vertexBuffers;
-      std::vector<std::shared_ptr<IndexBuffer>> _m_indexBuffers;
+      std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers_;
+      std::vector<std::shared_ptr<IndexBuffer>> indexBuffers_;
   };
 
   class OpenGLVertexBuffer : public VertexBuffer {
@@ -134,11 +134,11 @@ namespace skelly {
       virtual void bind() const override;
       virtual void unbind() const override;
 
-      virtual const BufferLayout& getLayout() const override { return _m_layout; }
-      virtual void setLayout(const BufferLayout& layout) override { _m_layout = layout; }
+      virtual const BufferLayout& getLayout() const override { return layout_; }
+      virtual void setLayout(const BufferLayout& layout) override { layout_ = layout; }
     private:
       uint32_t rendererId_;
-      BufferLayout _m_layout;
+      BufferLayout layout_;
   };
 
   class OpenGLIndexBuffer : public IndexBuffer {
@@ -149,11 +149,11 @@ namespace skelly {
       virtual void bind() const override;
       virtual void unbind() const override;
 
-      virtual inline uint32_t getCount() const { return _m_count; };
+      virtual inline uint32_t getCount() const { return count_; };
 
     private:
       uint32_t rendererId_;
-      uint32_t _m_count;
+      uint32_t count_;
   };
 
   class OpenGLShader : public Shader {

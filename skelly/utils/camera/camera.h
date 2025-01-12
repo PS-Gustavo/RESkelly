@@ -4,6 +4,9 @@
 #include "glm/ext/matrix_transform.hpp"
 #include "utils/render/shader/shader.h"
 
+#include <functional>
+#include <iostream>
+
 namespace skelly {
 
   class Camera {
@@ -44,6 +47,14 @@ namespace skelly {
         up_ = up;
         return updateView();
       }
+      void setRoutine(std::function<void()> routine) {
+        render_routine_ = routine;
+        has_routine_ = true;
+      }
+      bool hasRoutine() {return has_routine_;}
+
+      void run() {render_routine_();}
+
     private:
       glm::vec3 position_;
       glm::vec3 target_;
@@ -51,5 +62,7 @@ namespace skelly {
       glm::vec3 up_;
       glm::vec3 right_;
       glm::mat4 view_;
+      std::function<void()> render_routine_;
+      bool has_routine_ = false;
   };
 }

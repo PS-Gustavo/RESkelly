@@ -63,6 +63,8 @@ namespace skelly {
             virtual unsigned int getHeight() const = 0;
             virtual void setHeight(unsigned int height) = 0;
 
+            virtual double getTime() = 0;
+
             // agnostic instantiator
             static Window* create(const WindowProps& props = WindowProps());
         private:

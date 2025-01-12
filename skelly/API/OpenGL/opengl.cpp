@@ -53,12 +53,12 @@ namespace skelly {
 
     // RenderContext
 
-    OpenGLRenderContext::OpenGLRenderContext(GLFWwindow* windowHandle) : _m_windowHandle(windowHandle) {
+    OpenGLRenderContext::OpenGLRenderContext(GLFWwindow* windowHandle) : windowHandle_(windowHandle) {
         SKELLY_ASSERT(windowHandle, "OpenGLRenderContext: Window handle is null.")
     }
 
     void OpenGLRenderContext::init() {
-        glfwMakeContextCurrent(_m_windowHandle);
+        glfwMakeContextCurrent(windowHandle_);
         int status = gladLoadGL(glfwGetProcAddress);
         SKELLY_ASSERT(status, "OpenGLRenderContext::init: Failed to initialize Glad.")
         
@@ -69,7 +69,7 @@ namespace skelly {
     }
 
     void OpenGLRenderContext::swapBuffers() {        
-        glfwSwapBuffers(_m_windowHandle);
+        glfwSwapBuffers(windowHandle_);
     }
 
     // Window
@@ -88,10 +88,14 @@ namespace skelly {
         shutdown();
     };
 
+    double OpenGLWindow::getTime() {
+      return glfwGetTime();
+    }
+
     void OpenGLWindow::init(const WindowProps& props) {
-        _m_data.title = props.title;
-        _m_data.width = props.width;
-        _m_data.height = props.height;
+        data_.title = props.title;
+        data_.width = props.width;
+        data_.height = props.height;
 
         SKELLY_LOG_INFO("Creating window {0} ({1}, {2})", props.title, props.width, props.height);
         if(!s_GLFWInitialized) {
@@ -101,16 +105,16 @@ namespace skelly {
             s_GLFWInitialized = true;
         }
 
-        _m_window = glfwCreateWindow((int)props.width, (int)props.height, _m_data.title.c_str(), nullptr, nullptr);
+        window_ = glfwCreateWindow((int)props.width, (int)props.height, data_.title.c_str(), nullptr, nullptr);
 
-        _m_context = new OpenGLRenderContext(_m_window);  
-        _m_context->init();
+        context_ = new OpenGLRenderContext(window_);  
+        context_->init();
 
-        glfwSetWindowUserPointer(_m_window, &_m_data);
+        glfwSetWindowUserPointer(window_, &data_);
         setVSync(true);
 
         // GLFW callbacks
-        glfwSetWindowSizeCallback(_m_window, [](GLFWwindow* window, int width, int height){
+        glfwSetWindowSizeCallback(window_, [](GLFWwindow* window, int width, int height){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             data.width = width;
@@ -120,14 +124,14 @@ namespace skelly {
             data.eventCallback(event);
         });
 
-        glfwSetWindowCloseCallback(_m_window, [](GLFWwindow* window){
+        glfwSetWindowCloseCallback(window_, [](GLFWwindow* window){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             WindowCloseEvent event;
             data.eventCallback(event);
         });
 
-        glfwSetKeyCallback(_m_window, [](GLFWwindow* window, int key,  [[maybe_unused]] int scancode, int action, [[maybe_unused]] int mods){
+        glfwSetKeyCallback(window_, [](GLFWwindow* window, int key,  [[maybe_unused]] int scancode, int action, [[maybe_unused]] int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
             switch(action) {
                 case GLFW_RELEASE: {
@@ -153,14 +157,14 @@ namespace skelly {
             }
         });
 
-        glfwSetCharCallback(_m_window, [](GLFWwindow* window, unsigned int keycode){
+        glfwSetCharCallback(window_, [](GLFWwindow* window, unsigned int keycode){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             KeyTypedEvent event(keycode);
             data.eventCallback(event);
         });
 
-        glfwSetMouseButtonCallback(_m_window, [](GLFWwindow* window, int button, int action, [[maybe_unused]] int mods){
+        glfwSetMouseButtonCallback(window_, [](GLFWwindow* window, int button, int action, [[maybe_unused]] int mods){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             switch(action) {
@@ -180,14 +184,14 @@ namespace skelly {
             }
         });
 
-        glfwSetScrollCallback(_m_window, [](GLFWwindow* window, double xOffset, double yOffset){
+        glfwSetScrollCallback(window_, [](GLFWwindow* window, double xOffset, double yOffset){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             MouseScrolledEvent event((float)xOffset, (float)yOffset);
             data.eventCallback(event);
         });
 
-        glfwSetCursorPosCallback(_m_window, [](GLFWwindow* window, double xPos, double yPos){
+        glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double xPos, double yPos){
             WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
             MouseMovedEvent event((float)xPos, (float)yPos);
@@ -196,21 +200,21 @@ namespace skelly {
     }
 
     void OpenGLWindow::shutdown() {
-        glfwDestroyWindow(_m_window);
+        glfwDestroyWindow(window_);
     }
 
     void OpenGLWindow::onUpdate() {
         glfwPollEvents();
-        _m_context->swapBuffers();
+        context_->swapBuffers();
     }
 
     void OpenGLWindow::setVSync(bool enabled) {
         (enabled) ? glfwSwapInterval(1) : glfwSwapInterval(0);
-        _m_data.vSync = enabled;
+        data_.vSync = enabled;
     }
 
     bool OpenGLWindow::isVSync() const {
-        return _m_data.vSync;
+        return data_.vSync;
     }
 
     // ImGui
@@ -407,33 +411,40 @@ namespace skelly {
         uint32_t index = 0;
         const auto& layout = vertexBuffer->getLayout();
         for (const auto& element : layout) {
+            SKELLY_LOG_INFO("Element: {0}, {1}, {2}, {3}, {4}, {5}",
+                index,
+                element.getComponentCount(),
+                getElementType(element.type),
+                element.isNormalized,
+                layout.getStride(),
+                element.offset);
             glVertexAttribPointer(
                 index, 
                 element.getComponentCount(),
                 getElementType(element.type),
                 element.isNormalized ? GL_TRUE : GL_FALSE,
-                element.size,
+                layout.getStride(),
                 (const void*)(intptr_t) element.offset
             );
             glEnableVertexAttribArray(index);
             index++;
         }
         
-        _m_vertexBuffers.push_back(vertexBuffer);
+        vertexBuffers_.push_back(vertexBuffer);
          
     }
 
     void OpenGLVertexArray::addIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
         glBindVertexArray(rendererId_);
         indexBuffer->bind();
-        _m_indexBuffers.push_back(indexBuffer);
+        indexBuffers_.push_back(indexBuffer);
     }
 
     const std::vector<std::shared_ptr<VertexBuffer>>& OpenGLVertexArray::getVertexBuffers() const {
-        return _m_vertexBuffers;
+        return vertexBuffers_;
     }
     const std::vector<std::shared_ptr<IndexBuffer>>& OpenGLVertexArray::getIndexBuffers() const {
-        return _m_indexBuffers;
+        return indexBuffers_;
     }
 
     // VertexBuffer
@@ -458,7 +469,7 @@ namespace skelly {
 
     // IndexBuffer
 
-    OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : _m_count(count) {
+    OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count) : count_(count) {
         glCreateBuffers(1, &rendererId_);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererId_);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, count* sizeof(uint32_t), indices, GL_STATIC_DRAW);
