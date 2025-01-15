@@ -66,6 +66,8 @@ namespace skelly {
         SKELLY_LOG_INFO("Vendor: {0}", (const char*) glGetString(GL_VENDOR));
         SKELLY_LOG_INFO("Renderer Hardware: {0}", (const char*) glGetString(GL_RENDERER));
         SKELLY_LOG_INFO("Version: {0}", (const char*) glGetString(GL_VERSION));
+
+        glEnable(GL_DEPTH_TEST);
     }
 
     void OpenGLRenderContext::swapBuffers() {        
