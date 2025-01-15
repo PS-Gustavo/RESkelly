@@ -108,11 +108,10 @@ if(${TEST_ENABLED})
     ${TEST_PATH}/functionalTest.cpp
     ${TEST_PATH}/helloTriangle/helloTriangle.cpp
     ${TEST_PATH}/testCamera/testCamera.cpp
+    ${TEST_PATH}/testCamera/cameraWalker.cpp
   )
   set(skelly_test_includes
     ${TEST_PATH}/
-    ${TEST_PATH}/helloTriangle/
-    ${TEST_PATH}/testCamera/
   )
 endif()
 ##

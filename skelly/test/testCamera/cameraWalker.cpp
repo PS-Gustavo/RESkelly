@@ -1,10 +1,10 @@
-#include "testCamera.h"
+#include "cameraWalker.h"
 #include "glm/vec3.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
 namespace test {
   // triangle drawing example
-  void TestCamera::setup(skelly::Application& app) {
+  void CameraWalker::setup(skelly::Application& app) {
   
     app.getVertexArray().reset(skelly::VertexArray::create());
 

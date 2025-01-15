@@ -46,6 +46,16 @@ namespace test {
             addFault(regressionResult, e);
         }
 
+        try {
+            Test appCameraWalker("cameraWalker");
+            test::CameraWalker cameraWalker;
+            cameraWalker.setup(appCameraWalker.getApplication());
+            appCameraWalker.run();
+        }
+        catch(const std::exception& e) {
+            addFault(regressionResult, e);
+        }
+
         return regressionResult;
     }
 

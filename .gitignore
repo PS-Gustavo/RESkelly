@@ -38,5 +38,5 @@ bin-int/
 .vs/
 .vscode/
 output/
-
+build/
 todo

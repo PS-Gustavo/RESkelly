@@ -1,5 +1,6 @@
-#include <helloTriangle/helloTriangle.h>
-#include <testCamera/testCamera.h>
+#include "helloTriangle/helloTriangle.h"
+#include "testCamera/testCamera.h"
+#include "testCamera/cameraWalker.h"
 #include <skelly.h>
 
 namespace test {
