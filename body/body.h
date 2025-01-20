@@ -15,7 +15,7 @@ namespace body {
       void onUpdate() override {}
 
       void onEvent(skelly::Event& event) override {
-              
+        // BODY_LOG_TRACE("{0}", event);
         std::cout << event.toString() << "\n";
       }
 

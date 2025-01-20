@@ -8,7 +8,6 @@ project($ENV{PROJECT_NAME}
             DESCRIPTION "Template Body Application using RES - Rendering Engine Skelly."
             LANGUAGES CXX
 )
-
 ## body_exec
 add_executable($ENV{PROJECT_NAME}_exec ${PROJECT_PATH}/body.cpp)
 set (body_exec_libs ${PROJECT_PATH}/)

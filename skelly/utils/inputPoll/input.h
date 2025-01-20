@@ -22,35 +22,34 @@
 #pragma once
 
 #include <window.h>
-#include <application.h>
 
 #ifndef PCH_ENABLED
-    #include <defs.h>
+  #include <defs.h>
 #endif
 
 namespace skelly {
 
-    class SKELLY_API Input {
-        public:
-            static bool isKeyPressed(int keycode) { return _s_instance->m_isKeyPressedImpl(keycode); }
-            static bool isMouseButtonPressed(int button) { return _s_instance->m_isMouseButtonPressedImpl(button); }
-            static float getMouseX() { return _s_instance->m_getMouseXImpl(); }
-            static float getMouseY() { return _s_instance->m_getMouseYImpl(); }
-            static std::pair<float, float> getMouseCoord() { return _s_instance->m_getMouseCoordImpl(); }
+  class SKELLY_API Input {
+    public:
+      static bool isKeyPressed(int keycode) { return _s_instance->m_isKeyPressedImpl(keycode); }
+      static bool isMouseButtonPressed(int button) { return _s_instance->m_isMouseButtonPressedImpl(button); }
+      static float getMouseX() { return _s_instance->m_getMouseXImpl(); }
+      static float getMouseY() { return _s_instance->m_getMouseYImpl(); }
+      static std::pair<float, float> getMouseCoord() { return _s_instance->m_getMouseCoordImpl(); }
 
-            static APITarget getTargetAPI() { return _s_targetAPI; }
+      static APITarget getTargetAPI() { return _s_targetAPI; }
 
             // agnostic creator
-            static Input* create();
-        protected:
-            virtual bool m_isKeyPressedImpl(int keycode) = 0;
-            virtual bool m_isMouseButtonPressedImpl(int button) = 0;
-            virtual float m_getMouseXImpl() = 0;
-            virtual float m_getMouseYImpl() = 0;
-            virtual std::pair<float, float> m_getMouseCoordImpl() = 0;
+      static Input* create();
+    protected:
+      virtual bool m_isKeyPressedImpl(int keycode) = 0;
+      virtual bool m_isMouseButtonPressedImpl(int button) = 0;
+      virtual float m_getMouseXImpl() = 0;
+      virtual float m_getMouseYImpl() = 0;
+      virtual std::pair<float, float> m_getMouseCoordImpl() = 0;
 
-        private:
-            static Input* _s_instance;
-            static APITarget _s_targetAPI;
-    };
+    private:
+      static Input* _s_instance;
+      static APITarget _s_targetAPI;
+  };
 }

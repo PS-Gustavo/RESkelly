@@ -39,10 +39,12 @@ namespace skelly {
     Application::Application(std::string appName) {
         instance_ = this;
         window_ = nullptr;
-        
+        input_ = nullptr;
+        setEventcb([](Event& e){std::cout << "Event happened! " << e << "\n";});
         Logger::init(appName);
         window_ = std::unique_ptr<Window>(Window::create());
         window_->setEventCallback(BIND_EVENT_FN(Application::onEvent));
+        input_ = std::unique_ptr<Input>(Input::create());
         Camera* initial_camera = new Camera();
         cameras_.push_back(initial_camera);
 
@@ -83,7 +85,7 @@ namespace skelly {
     void Application::onEvent(Event& e) {
         EventDispatcher dispatcher(e);
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::onWindowClose_));
- 
+        eventCb_(e);
         for (auto it = layerStack_.end(); it != layerStack_.begin();) {
             (*--it)->onEvent(e);
             if (e.isHandled()) break;
@@ -97,51 +99,53 @@ namespace skelly {
 
     // main application loop
     void Application::run() {
-        while(is_running_) {   
-            mainLoop();
-        }
+      while(is_running_) {   
+          mainLoop();
+      }
     }
 
     // test application loop
     void Application::testRun(int duration) {
-        int runCount = 0;
-        std::cout << "Hardware allows for " << shader_->getMaxVertexAttributes() << " vertex attributes.\n";
-        while ((runCount < duration) && (is_running_)) {
-            mainLoop();
-            runCount++;
-        }
+      int runCount = 0;
+      std::cout << "Hardware allows for " << shader_->getMaxVertexAttributes() << " vertex attributes.\n";
+      while ((runCount < duration) && (is_running_)) {
+          mainLoop();
+          runCount++;
+      }
     }
 
     void Application::mainLoop() {
         
-        
-        
-        // standard clear operation
-        RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
-        RenderCommands::clear();
+      getFrameTime();
+      setDelta();
+      updateFrameTime();
+      
+      // standard clear operation
+      RenderCommands::setClearColor({0.1f, 0.1f, 0.1f, 1});
+      RenderCommands::clear();
 
-        // draw if there are contents in the vertexArray
-        if (shader_.use_count()) {
-            shader_->bind();
-            Renderer::submit(vertexArray_);
-            if (cameras_[activeCamera_]->hasRoutine()) cameras_[activeCamera_]->run();
-            if (objects_.size()) renderObjects();
-        }
-        
-        // sweep and update layers
-        for (Layer* layer : layerStack_) {
-            layer->onUpdate();
-        }
-        if (imguiLayer_ != nullptr) {
-            imguiLayer_->begin();
-            // WIP: Add support for custom ImGui layers
-            // for (Layer* layer : _m_layerStack) {
-            //     layer->onImguiRender();
-            // }
-            imguiLayer_->onImguiRender();
-            imguiLayer_->end();
-        }
+      // draw if there are contents in the vertexArray
+      if (shader_.use_count()) {
+          shader_->bind();
+          Renderer::submit(vertexArray_);
+          if (cameras_[activeCamera_]->hasRoutine()) cameras_[activeCamera_]->run();
+          if (objects_.size()) renderObjects();
+      }
+      
+      // sweep and update layers
+      for (Layer* layer : layerStack_) {
+          layer->onUpdate();
+      }
+      if (imguiLayer_ != nullptr) {
+          imguiLayer_->begin();
+          // WIP: Add support for custom ImGui layers
+          // for (Layer* layer : _m_layerStack) {
+          //     layer->onImguiRender();
+          // }
+          imguiLayer_->onImguiRender();
+          imguiLayer_->end();
+      }
 
-        if (window_ != nullptr) window_->onUpdate();
+      if (window_ != nullptr) window_->onUpdate();
     }
 }

@@ -121,14 +121,23 @@ namespace test {
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)app.getWindow().getWidth() / (float)app.getWindow().getHeight(), 0.1f, 100.0f);
     app.getShader()->setMat4("projection", projection); 
 
+    // event cb
+    app.setEventcb([&app]([[maybe_unused]]skelly::Event& e){
+      // std::cout << "delta: " << app.getDelta() << " -- event: " << e << "\n";
+      auto camera = app.getActiveCamera();
+      float camera_speed = app.getActiveCamera()->getSpeed() * app.getDelta();
+      if (app.getInput().isKeyPressed(SKELLY_KEY_Q)) camera->moveUp(camera_speed);
+      if (app.getInput().isKeyPressed(SKELLY_KEY_E)) camera->moveDown(camera_speed);
+      if (app.getInput().isKeyPressed(SKELLY_KEY_W)) camera->moveForward(camera_speed);
+      if (app.getInput().isKeyPressed(SKELLY_KEY_S)) camera->moveBackward(camera_speed);
+      if (app.getInput().isKeyPressed(SKELLY_KEY_A)) camera->moveLeft(camera_speed);
+      if (app.getInput().isKeyPressed(SKELLY_KEY_D)) camera->moveRight(camera_speed);
+    });
+
     // camera/view transformation routine
     auto routine = [&app](){
-      glm::mat4 view = glm::mat4(1.0f); // make sure to initialize matrix to identity matrix first
-      float radius = 10.0f;
-      auto ts = app.getWindow().getTime();
-      float camX = static_cast<float>(sin(ts) * radius);
-      float camZ = static_cast<float>(cos(ts) * radius);
-      view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+      auto camera = app.getActiveCamera();
+      auto view = glm::lookAt(camera->getPos(), camera->getPos()+camera->getDirection(), camera->getUp());
       app.getShader()->setMat4("view", view);
     };
     app.getActiveCamera()->setRoutine(routine);

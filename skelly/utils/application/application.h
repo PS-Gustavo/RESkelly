@@ -38,9 +38,9 @@
 #include "utils/object/object.h"
 
 // being scrutinized
-// #include <input.h>
-// #include <keyBindings.h>
-// #include <mouseBindings.h>
+#include "utils/inputPoll/input.h"
+#include "utils/inputBindings/keyBindings.h"
+#include "utils/inputBindings/mouseBindings.h"
 
 #ifndef PCH_ENABLED
     #include <logger.h>
@@ -75,7 +75,19 @@ namespace skelly {
 
             // Event handler
             void onEvent(Event& e);
+            void setEventcb(std::function<void(Event&)> eventCb) {eventCb_ = eventCb;};
             
+            Input& getInput() {return *input_;}
+
+            void getFrameTime() {
+              delta_frames_[0] = static_cast<float>(getWindow().getTime());
+            }
+            void updateFrameTime() {delta_frames_[1] = delta_frames_[0];}
+            void setDelta() {
+              delta_time_ = delta_frames_[0] - delta_frames_[1];
+            };
+            float getDelta() {return delta_time_;}
+
             // Object utils
             void addObject(Object object) {
               objects_.push_back(object);
@@ -104,8 +116,14 @@ namespace skelly {
             virtual void testRun(int duration);
             virtual void mainLoop();
         private:
-            // Event handler for window close action
+            // Event handlers and callbacks
             bool onWindowClose_(WindowCloseEvent& e);
+            std::function<void(Event&)> eventCb_;
+            std::unique_ptr<Input> input_;
+
+            // Time handler
+            float delta_time_;
+            float delta_frames_[2] = {0.0f, 0.0f};
 
             // Instances
             static Application* instance_;

@@ -41,18 +41,12 @@ target_link_libraries(skelly_api PUBLIC
     imgui glm glad glfw
 )
 ##
-target_link_libraries(skelly_render PUBLIC
-    skelly_logger skelly_api
-    imgui
-)
+target_link_libraries(skelly_render PUBLIC skelly_api)
 target_link_libraries(skelly_input PUBLIC skelly_api)
 target_link_libraries(skelly_window PUBLIC skelly_api)
-target_link_libraries(skelly_layer PUBLIC skelly_window skelly_api)
+target_link_libraries(skelly_layer PUBLIC skelly_window)
 target_link_libraries(skelly_camera PUBLIC skelly_render)
-target_link_libraries(skelly_core PUBLIC
-    skelly_window skelly_camera skelly_layer
-    imgui
-)
+target_link_libraries(skelly_core PUBLIC skelly_camera skelly_layer skelly_input)
 if(${TEST_ENABLED}) 
     target_link_libraries(skelly_test PUBLIC skelly_core)
 endif()

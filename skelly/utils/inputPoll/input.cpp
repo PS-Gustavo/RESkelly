@@ -24,20 +24,20 @@
 
 namespace skelly {
 
-    APITarget Input::_s_targetAPI = APITarget::OpenGL;
+  Input* Input::_s_instance;
+  APITarget Input::_s_targetAPI = APITarget::OpenGL;
 
-    Input* Input::create() {
-        switch (Input::getTargetAPI()) {
-            case APITarget::OpenGL:
-                return new OpenGLInput();
-            default:
-                SKELLY_ASSERT(false, "Input::create: No Rendering API Found!");
-                return nullptr;
-        }
+  Input* Input::create() {
+    switch (Input::getTargetAPI()) {
+      case APITarget::OpenGL:
+        _s_instance = new OpenGLInput();
+        return _s_instance;
+      default:
+        SKELLY_ASSERT(false, "Input::create: No Rendering API Found!");
+        return nullptr;
+    }
 
-        SKELLY_ASSERT(false, "Input::create: unknown behavior.");
-    }    
-
-    
+    SKELLY_ASSERT(false, "Input::create: unknown behavior.");
+  }    
 
 }

@@ -24,25 +24,25 @@
 
 namespace skelly {
 
-    // Two pointers are initialized to separate logger messages between what is intrinsic to
-    // the engine and what is developed by the end user in a body project. skellyLogger should
-    // not be used in the body project.
-    std::shared_ptr<spdlog::logger> Logger::_m_skellyLogger;
-    std::shared_ptr<spdlog::logger> Logger::_m_bodyLogger;
-    
-    void Logger::init(std::string appName) {
-    
-        spdlog::set_pattern("%^[%T] %n: %v%$");
-        
-        std::string skellyLoggerName = appName+"_Skelly_Logger";
-        std::string bodyLoggerName = appName+"_Logger";
+  // Two pointers are initialized to separate logger messages between what is intrinsic to
+  // the engine and what is developed by the end user in a body project. skellyLogger should
+  // not be used in the body project.
+  std::shared_ptr<spdlog::logger> Logger::_m_skellyLogger;
+  std::shared_ptr<spdlog::logger> Logger::_m_bodyLogger;
+  
+  void Logger::init(std::string appName) {
+  
+    spdlog::set_pattern("%^[%T] %n: %v%$");
 
-        _m_skellyLogger = spdlog::stdout_color_mt(skellyLoggerName);
-        _m_skellyLogger->set_level(spdlog::level::trace); 
-        
-        _m_bodyLogger = spdlog::stdout_color_mt(bodyLoggerName);
-        _m_bodyLogger->set_level(spdlog::level::trace); 
-        
-    }
+    std::string skellyLoggerName = appName+"_Skelly_Logger";
+    std::string bodyLoggerName = appName+"_Logger";
+
+    _m_skellyLogger = spdlog::stdout_color_mt(skellyLoggerName);
+    _m_skellyLogger->set_level(spdlog::level::trace); 
+    
+    _m_bodyLogger = spdlog::stdout_color_mt(bodyLoggerName);
+    _m_bodyLogger->set_level(spdlog::level::trace); 
+    
+  }
 
 }

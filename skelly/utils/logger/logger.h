@@ -44,27 +44,16 @@
 
 namespace skelly {
 
-  /*namespace fmt {
-    template <>
-    struct formatter<skelly::Event> : formatter<std::string> {
-      template <typename FormatContext>
-      auto format(const skelly::Event& e, FormatContext& ctx) {
-        return formatter<std::string>::format(e.toString(), ctx);
-      }
-    };
-  }*/
-
-
   class SKELLY_API Logger {
-        public:
-            static void init(std::string appName);
+    public:
+      static void init(std::string appName);
 
-            inline static std::shared_ptr<spdlog::logger>& getSkellyLogger() { return _m_skellyLogger; }
-            inline static std::shared_ptr<spdlog::logger>& getBodyLogger() { return _m_bodyLogger; }
+      inline static std::shared_ptr<spdlog::logger>& getSkellyLogger() { return _m_skellyLogger; }
+      inline static std::shared_ptr<spdlog::logger>& getBodyLogger() { return _m_bodyLogger; }
 
-        private:
-            static std::shared_ptr<spdlog::logger> _m_skellyLogger;
-            static std::shared_ptr<spdlog::logger> _m_bodyLogger;
-    };
+    private:
+      static std::shared_ptr<spdlog::logger> _m_skellyLogger;
+      static std::shared_ptr<spdlog::logger> _m_bodyLogger;
+  };
 
 }
